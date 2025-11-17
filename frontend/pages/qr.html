@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>UPI Payment QR Code</title>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
+</head>
+<body>
+
+<h2>Pay to Rahul Bhandge (UPI: rahulbhandge@ybl)</h2>
+<div id="qrcode"></div>
+
+<script>
+    // UPI Payment Link
+    let upiLink = "upi://pay?pa=rahulbhandge@ybl&pn=Rahul+Bhandge&cu=INR";
+
+    // Generate QR Code
+    new QRCode(document.getElementById("qrcode"), {
+        text: upiLink,
+        width: 250,
+        height: 250
+    });
+</script>
+
+</body>
+</html>

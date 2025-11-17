@@ -1,0 +1,705 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>YouTube Videos Management - SaiKrupa Paithani</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #f8fafc 0%, #f1f5f9 100%);
+        }
+        .glass-effect {
+            background: rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+        }
+        .stat-card {
+            transition: all 0.3s ease;
+            background: linear-gradient(135deg, #ffffff 0%, #f8fafc 100%);
+            border: 1px solid #e2e8f0;
+            border-radius: 16px;
+            overflow: hidden;
+        }
+        .stat-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 15px 30px rgba(0, 0, 0, 0.1);
+        }
+        .stat-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 4px;
+            background: linear-gradient(90deg, #800000, #b30000);
+        }
+        .video-card {
+            transition: all 0.3s ease;
+            border-radius: 16px;
+            overflow: hidden;
+        }
+        .video-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 15px 30px rgba(0, 0, 0, 0.15);
+        }
+        .modal {
+            transition: all 0.3s ease;
+            backdrop-filter: blur(8px);
+        }
+        .modal-content {
+            transition: all 0.3s ease;
+            border-radius: 20px;
+            box-shadow: 0 25px 50px rgba(0, 0, 0, 0.25);
+        }
+        .status-badge {
+            padding: 6px 12px;
+            border-radius: 20px;
+            font-size: 12px;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+    </style>
+</head>
+<body class="bg-gray-50 min-h-screen">
+    <!-- Navigation Header -->
+    <nav class="bg-white shadow-sm border-b border-gray-200">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex justify-between items-center h-16">
+                <div class="flex items-center">
+                    <a href="admin.html" class="flex items-center">
+                        <div class="w-10 h-10 bg-gradient-to-br from-red-800 to-red-600 rounded-xl flex items-center justify-center text-white mr-3">
+                            <i class="fas fa-arrow-left"></i>
+                        </div>
+                        <div>
+                            <h1 class="text-xl font-bold text-gray-800">SaiKrupa Paithani</h1>
+                            <p class="text-xs text-gray-500">Admin Panel</p>
+                        </div>
+                    </a>
+                </div>
+                <div class="flex items-center space-x-4">
+                    <div class="text-right">
+                        <p class="text-sm font-semibold text-gray-800">Admin User</p>
+                        <p class="text-xs text-gray-500">YouTube Manager</p>
+                    </div>
+                    <img src="https://ui-avatars.com/api/?name=Admin+User&background=800000&color=fff&size=128" 
+                         alt="Admin" class="w-10 h-10 rounded-xl border-2 border-red-600">
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Main Content -->
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+        <!-- Header Section -->
+        <div class="mb-8">
+            <div class="flex justify-between items-center">
+                <div>
+                    <h1 class="text-3xl font-bold text-gray-800 mb-2">
+                        YouTube Videos Management
+                    </h1>
+                    <p class="text-gray-600 text-lg">
+                        Manage YouTube videos displayed on the homepage
+                    </p>
+                </div>
+                <button
+                    id="addVideoBtn"
+                    class="bg-gradient-to-r from-red-800 to-red-600 hover:from-red-700 hover:to-red-500 text-white px-6 py-3 rounded-xl font-semibold flex items-center shadow-lg hover:shadow-xl transition-all duration-300"
+                >
+                    <i class="fab fa-youtube mr-2"></i> Add New Video
+                </button>
+            </div>
+        </div>
+
+        <!-- Stats Overview -->
+        <div class="grid grid-cols-1 md:grid-cols-4 gap-6 mb-8">
+            <div class="stat-card p-6 relative">
+                <div class="flex items-center">
+                    <div class="p-3 bg-red-100 rounded-xl mr-4">
+                        <i class="fab fa-youtube text-red-600 text-2xl"></i>
+                    </div>
+                    <div>
+                        <p class="text-sm text-gray-600 font-medium">Total Videos</p>
+                        <h3 class="text-2xl font-bold text-gray-800" id="totalVideosCount">0</h3>
+                    </div>
+                </div>
+            </div>
+
+            <div class="stat-card p-6 relative">
+                <div class="flex items-center">
+                    <div class="p-3 bg-green-100 rounded-xl mr-4">
+                        <i class="fas fa-play-circle text-green-600 text-2xl"></i>
+                    </div>
+                    <div>
+                        <p class="text-sm text-gray-600 font-medium">Active Videos</p>
+                        <h3 class="text-2xl font-bold text-gray-800" id="activeVideosCount">0</h3>
+                    </div>
+                </div>
+            </div>
+
+            <div class="stat-card p-6 relative">
+                <div class="flex items-center">
+                    <div class="p-3 bg-blue-100 rounded-xl mr-4">
+                        <i class="fas fa-eye text-blue-600 text-2xl"></i>
+                    </div>
+                    <div>
+                        <p class="text-sm text-gray-600 font-medium">Featured on Homepage</p>
+                        <h3 class="text-2xl font-bold text-gray-800" id="homepageVideosCount">0</h3>
+                    </div>
+                </div>
+            </div>
+
+            <div class="stat-card p-6 relative">
+                <div class="flex items-center">
+                    <div class="p-3 bg-purple-100 rounded-xl mr-4">
+                        <i class="fas fa-sort-numeric-down text-purple-600 text-2xl"></i>
+                    </div>
+                    <div>
+                        <p class="text-sm text-gray-600 font-medium">Display Order Used</p>
+                        <h3 class="text-2xl font-bold text-gray-800" id="maxOrderCount">0</h3>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Videos Grid -->
+        <div class="bg-white rounded-2xl shadow-sm border border-gray-200 overflow-hidden">
+            <div class="p-6 border-b border-gray-200">
+                <div class="flex flex-col lg:flex-row justify-between items-start lg:items-center space-y-4 lg:space-y-0">
+                    <div class="flex flex-wrap gap-2">
+                        <button class="px-4 py-2 bg-red-600 text-white rounded-xl text-sm font-semibold shadow-md active-filter" data-filter="all">
+                            All Videos
+                        </button>
+                        <button class="px-4 py-2 bg-gray-100 text-gray-700 rounded-xl text-sm font-medium hover:bg-gray-200 transition-colors" data-filter="active">
+                            Active Only
+                        </button>
+                        <button class="px-4 py-2 bg-gray-100 text-gray-700 rounded-xl text-sm font-medium hover:bg-gray-200 transition-colors" data-filter="inactive">
+                            Inactive
+                        </button>
+                    </div>
+                    <div class="flex items-center space-x-4">
+                        <div class="relative">
+                            <input
+                                type="text"
+                                placeholder="Search videos..."
+                                class="pl-10 pr-4 py-2 border border-gray-300 rounded-xl focus:outline-none focus:ring-2 focus:ring-red-500 focus:border-transparent text-sm w-64"
+                                id="searchVideos"
+                            />
+                            <i class="fas fa-search absolute left-3 top-3 text-gray-400"></i>
+                        </div>
+                        <select class="border border-gray-300 rounded-xl px-4 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-red-500" id="sortVideos">
+                            <option value="newest">Newest First</option>
+                            <option value="oldest">Oldest First</option>
+                            <option value="order">Display Order</option>
+                            <option value="title">Title A-Z</option>
+                        </select>
+                    </div>
+                </div>
+            </div>
+
+            <div class="p-6">
+                <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6" id="youtubeVideosGrid">
+                    <!-- Videos will be loaded here dynamically -->
+                    <div class="col-span-full text-center py-12">
+                        <div class="animate-spin rounded-full h-12 w-12 border-b-2 border-red-600 mx-auto mb-4"></div>
+                        <p class="text-gray-500">Loading videos...</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Add/Edit Video Modal -->
+    <div id="videoModal" class="modal fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center hidden z-50 p-4">
+        <div class="modal-content bg-white rounded-2xl shadow-2xl w-full max-w-2xl max-h-[90vh] overflow-y-auto">
+            <div class="p-6 border-b border-gray-200">
+                <h3 class="text-2xl font-bold text-gray-800" id="modalTitle">Add YouTube Video</h3>
+                <p class="text-gray-600 mt-1" id="modalSubtitle">Add a new video to display on the homepage</p>
+            </div>
+            
+            <div class="p-6">
+                <form id="videoForm">
+                    <input type="hidden" id="editVideoId">
+                    
+                    <div class="space-y-6">
+                        <!-- Video Title -->
+                        <div>
+                            <label class="block text-sm font-semibold text-gray-700 mb-2">
+                                Video Title <span class="text-red-500">*</span>
+                            </label>
+                            <input
+                                type="text"
+                                id="videoTitle"
+                                class="w-full px-4 py-3 border border-gray-300 rounded-xl focus:outline-none focus:ring-2 focus:ring-red-500 focus:border-transparent transition-all duration-300"
+                                placeholder="Enter video title"
+                                required
+                            />
+                        </div>
+
+                        <!-- YouTube URL/ID -->
+                        <div>
+                            <label class="block text-sm font-semibold text-gray-700 mb-2">
+                                YouTube URL or Video ID <span class="text-red-500">*</span>
+                            </label>
+                            <input
+                                type="text"
+                                id="videoUrl"
+                                class="w-full px-4 py-3 border border-gray-300 rounded-xl focus:outline-none focus:ring-2 focus:ring-red-500 focus:border-transparent transition-all duration-300"
+                                placeholder="https://youtube.com/watch?v=... or Video ID"
+                                required
+                            />
+                            <p class="text-xs text-gray-500 mt-2">
+                                You can paste the full YouTube URL or just the video ID (11 characters)
+                            </p>
+                        </div>
+
+                        <!-- Video Preview -->
+                        <div id="videoPreview" class="hidden">
+                            <label class="block text-sm font-semibold text-gray-700 mb-2">Preview</label>
+                            <div class="border-2 border-dashed border-gray-300 rounded-xl p-4 bg-gray-50">
+                                <div class="flex items-center space-x-4">
+                                    <img id="previewThumbnail" src="" alt="Video thumbnail" class="w-24 h-16 object-cover rounded-lg">
+                                    <div>
+                                        <p id="previewTitle" class="font-semibold text-gray-800 text-sm"></p>
+                                        <p id="previewId" class="text-gray-600 text-xs mt-1"></p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Description -->
+                        <div>
+                            <label class="block text-sm font-semibold text-gray-700 mb-2">Description</label>
+                            <textarea
+                                id="videoDescription"
+                                rows="3"
+                                class="w-full px-4 py-3 border border-gray-300 rounded-xl focus:outline-none focus:ring-2 focus:ring-red-500 focus:border-transparent transition-all duration-300"
+                                placeholder="Enter video description (optional)"
+                            ></textarea>
+                        </div>
+
+                        <!-- Settings -->
+                        <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                            <div>
+                                <label class="block text-sm font-semibold text-gray-700 mb-2">Display Order</label>
+                                <input
+                                    type="number"
+                                    id="displayOrder"
+                                    class="w-full px-4 py-3 border border-gray-300 rounded-xl focus:outline-none focus:ring-2 focus:ring-red-500 focus:border-transparent transition-all duration-300"
+                                    value="0"
+                                    min="0"
+                                />
+                                <p class="text-xs text-gray-500 mt-2">Lower numbers appear first</p>
+                            </div>
+                            
+                            <div>
+                                <label class="block text-sm font-semibold text-gray-700 mb-2">Status</label>
+                                <select
+                                    id="videoStatus"
+                                    class="w-full px-4 py-3 border border-gray-300 rounded-xl focus:outline-none focus:ring-2 focus:ring-red-500 focus:border-transparent transition-all duration-300"
+                                >
+                                    <option value="true">Active (Show on homepage)</option>
+                                    <option value="false">Inactive (Hidden)</option>
+                                </select>
+                            </div>
+                        </div>
+                    </div>
+                </form>
+            </div>
+
+            <div class="p-6 border-t border-gray-200 flex justify-end space-x-4">
+                <button
+                    type="button"
+                    id="cancelVideoBtn"
+                    class="px-6 py-3 border border-gray-300 text-gray-700 rounded-xl font-semibold hover:bg-gray-50 transition-all duration-300"
+                >
+                    Cancel
+                </button>
+                <button
+                    type="submit"
+                    form="videoForm"
+                    id="saveVideoBtn"
+                    class="px-6 py-3 bg-red-600 text-white rounded-xl font-semibold shadow-lg hover:shadow-xl transition-all duration-300"
+                >
+                    <i class="fas fa-save mr-2"></i>
+                    <span id="saveButtonText">Save Video</span>
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Success Notification -->
+    <div id="successNotification" class="fixed top-4 right-4 bg-green-500 text-white px-6 py-4 rounded-xl shadow-lg z-50 transform translate-x-full transition-transform duration-300">
+        <div class="flex items-center">
+            <i class="fas fa-check-circle mr-3 text-lg"></i>
+            <span class="font-semibold" id="notificationMessage">Operation completed successfully!</span>
+        </div>
+    </div>
+
+    <script>
+        // API Base URL
+        const API_BASE = 'http://localhost:5000/api/youtube-videos';
+
+        // DOM Elements
+        let videos = [];
+
+        // Initialize the page
+        document.addEventListener('DOMContentLoaded', function() {
+            loadVideos();
+            setupEventListeners();
+        });
+
+        // Event Listeners
+        function setupEventListeners() {
+            // Add Video Button
+            document.getElementById('addVideoBtn').addEventListener('click', showAddModal);
+            
+            // Cancel Button
+            document.getElementById('cancelVideoBtn').addEventListener('click', hideModal);
+            
+            // Save Video Form
+            document.getElementById('videoForm').addEventListener('submit', saveVideo);
+            
+            // Video URL Preview
+            document.getElementById('videoUrl').addEventListener('input', updateVideoPreview);
+            
+            // Search and Filter
+            document.getElementById('searchVideos').addEventListener('input', filterVideos);
+            document.getElementById('sortVideos').addEventListener('change', sortVideos);
+            
+            // Filter Buttons
+            document.querySelectorAll('[data-filter]').forEach(btn => {
+                btn.addEventListener('click', (e) => {
+                    document.querySelectorAll('[data-filter]').forEach(b => b.classList.remove('bg-red-600', 'text-white'));
+                    e.target.classList.add('bg-red-600', 'text-white');
+                    filterVideos();
+                });
+            });
+            
+            // Modal close on backdrop click
+            document.getElementById('videoModal').addEventListener('click', (e) => {
+                if (e.target.id === 'videoModal') hideModal();
+            });
+        }
+
+        // Load Videos from API
+        async function loadVideos() {
+            try {
+                const response = await fetch(`${API_BASE}/admin/all`);
+                const data = await response.json();
+                
+                if (data.success) {
+                    videos = data.videos;
+                    displayVideos();
+                    updateStats();
+                } else {
+                    throw new Error(data.error);
+                }
+            } catch (error) {
+                console.error('Error loading videos:', error);
+                showNotification('Error loading videos: ' + error.message, 'error');
+            }
+        }
+
+        // Display Videos in Grid
+        function displayVideos(filteredVideos = videos) {
+            const grid = document.getElementById('youtubeVideosGrid');
+            
+            if (filteredVideos.length === 0) {
+                grid.innerHTML = `
+                    <div class="col-span-full text-center py-12">
+                        <i class="fab fa-youtube text-6xl text-gray-300 mb-4"></i>
+                        <p class="text-gray-500 text-lg">No videos found.</p>
+                        <p class="text-gray-400">Click "Add New Video" to get started.</p>
+                    </div>
+                `;
+                return;
+            }
+            
+            grid.innerHTML = filteredVideos.map(video => `
+                <div class="video-card bg-white rounded-xl border border-gray-200 overflow-hidden hover:shadow-lg transition-all duration-300">
+                    <div class="relative">
+                        <img 
+                            src="${video.thumbnail}" 
+                            alt="${video.title}"
+                            class="w-full h-48 object-cover"
+                            onerror="this.src='https://via.placeholder.com/400x225?text=Video+Thumbnail'"
+                        >
+                        <div class="absolute top-3 right-3 flex space-x-2">
+                            <span class="status-badge ${video.isActive ? 'bg-green-100 text-green-800' : 'bg-red-100 text-red-800'}">
+                                ${video.isActive ? 'Active' : 'Inactive'}
+                            </span>
+                            <span class="status-badge bg-blue-100 text-blue-800">
+                                Order: ${video.displayOrder}
+                            </span>
+                        </div>
+                        <div class="absolute bottom-3 left-3">
+                            <span class="bg-black bg-opacity-70 text-white px-2 py-1 rounded text-xs font-semibold">
+                                <i class="fab fa-youtube mr-1"></i>YouTube
+                            </span>
+                        </div>
+                    </div>
+                    
+                    <div class="p-4">
+                        <h3 class="font-semibold text-gray-800 mb-2 line-clamp-2" title="${video.title}">${video.title}</h3>
+                        
+                        ${video.description ? `
+                            <p class="text-gray-600 text-sm mb-3 line-clamp-2" title="${video.description}">${video.description}</p>
+                        ` : ''}
+                        
+                        <div class="flex justify-between items-center text-xs text-gray-500 mb-3">
+                            <span>ID: ${video.videoId}</span>
+                            <span>${new Date(video.createdAt).toLocaleDateString()}</span>
+                        </div>
+                        
+                        <div class="flex space-x-2">
+                            <button 
+                                class="flex-1 bg-red-600 text-white py-2 rounded-lg text-sm font-semibold hover:bg-red-700 transition-colors edit-video"
+                                data-id="${video._id}"
+                            >
+                                <i class="fas fa-edit mr-1"></i>Edit
+                            </button>
+                            <button 
+                                class="flex-1 bg-gray-600 text-white py-2 rounded-lg text-sm font-semibold hover:bg-gray-700 transition-colors delete-video"
+                                data-id="${video._id}"
+                            >
+                                <i class="fas fa-trash mr-1"></i>Delete
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            `).join('');
+            
+            // Add event listeners to action buttons
+            document.querySelectorAll('.edit-video').forEach(btn => {
+                btn.addEventListener('click', () => editVideo(btn.dataset.id));
+            });
+            
+            document.querySelectorAll('.delete-video').forEach(btn => {
+                btn.addEventListener('click', () => deleteVideo(btn.dataset.id));
+            });
+        }
+
+        // Update Statistics
+        function updateStats() {
+            const totalVideos = videos.length;
+            const activeVideos = videos.filter(v => v.isActive).length;
+            const homepageVideos = activeVideos; // Since active videos show on homepage
+            const maxOrder = Math.max(...videos.map(v => v.displayOrder), 0);
+            
+            document.getElementById('totalVideosCount').textContent = totalVideos;
+            document.getElementById('activeVideosCount').textContent = activeVideos;
+            document.getElementById('homepageVideosCount').textContent = homepageVideos;
+            document.getElementById('maxOrderCount').textContent = maxOrder;
+        }
+
+        // Show Add Modal
+        function showAddModal() {
+            document.getElementById('modalTitle').textContent = 'Add YouTube Video';
+            document.getElementById('modalSubtitle').textContent = 'Add a new video to display on the homepage';
+            document.getElementById('saveButtonText').textContent = 'Save Video';
+            document.getElementById('videoForm').reset();
+            document.getElementById('editVideoId').value = '';
+            document.getElementById('videoPreview').classList.add('hidden');
+            document.getElementById('videoModal').classList.remove('hidden');
+        }
+
+        // Show Edit Modal
+        function editVideo(videoId) {
+            const video = videos.find(v => v._id === videoId);
+            if (!video) return;
+            
+            document.getElementById('modalTitle').textContent = 'Edit YouTube Video';
+            document.getElementById('modalSubtitle').textContent = 'Update video details';
+            document.getElementById('saveButtonText').textContent = 'Update Video';
+            
+            document.getElementById('editVideoId').value = video._id;
+            document.getElementById('videoTitle').value = video.title;
+            document.getElementById('videoUrl').value = video.videoId;
+            document.getElementById('videoDescription').value = video.description || '';
+            document.getElementById('displayOrder').value = video.displayOrder;
+            document.getElementById('videoStatus').value = video.isActive.toString();
+            
+            // Show preview
+            document.getElementById('previewThumbnail').src = video.thumbnail;
+            document.getElementById('previewTitle').textContent = video.title;
+            document.getElementById('previewId').textContent = `Video ID: ${video.videoId}`;
+            document.getElementById('videoPreview').classList.remove('hidden');
+            
+            document.getElementById('videoModal').classList.remove('hidden');
+        }
+
+        // Hide Modal
+        function hideModal() {
+            document.getElementById('videoModal').classList.add('hidden');
+        }
+
+        // Update Video Preview
+        function updateVideoPreview() {
+            const url = document.getElementById('videoUrl').value.trim();
+            if (!url) {
+                document.getElementById('videoPreview').classList.add('hidden');
+                return;
+            }
+            
+            const videoId = extractYouTubeId(url);
+            if (videoId && videoId.length === 11) {
+                const thumbnail = `https://img.youtube.com/vi/${videoId}/hqdefault.jpg`;
+                document.getElementById('previewThumbnail').src = thumbnail;
+                document.getElementById('previewId').textContent = `Video ID: ${videoId}`;
+                document.getElementById('videoPreview').classList.remove('hidden');
+            } else {
+                document.getElementById('videoPreview').classList.add('hidden');
+            }
+        }
+
+        // Save Video (Add or Update)
+        async function saveVideo(e) {
+            e.preventDefault();
+            
+            const videoData = {
+                title: document.getElementById('videoTitle').value.trim(),
+                videoId: document.getElementById('videoUrl').value.trim(),
+                description: document.getElementById('videoDescription').value.trim(),
+                displayOrder: parseInt(document.getElementById('displayOrder').value) || 0,
+                isActive: document.getElementById('videoStatus').value === 'true'
+            };
+            
+            // Validate required fields
+            if (!videoData.title || !videoData.videoId) {
+                showNotification('Please fill in all required fields', 'error');
+                return;
+            }
+            
+            const videoId = document.getElementById('editVideoId').value;
+            const isEdit = !!videoId;
+            
+            const url = isEdit ? `${API_BASE}/admin/update/${videoId}` : `${API_BASE}/admin/add`;
+            const method = isEdit ? 'PUT' : 'POST';
+            
+            try {
+                const response = await fetch(url, {
+                    method: method,
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify(videoData)
+                });
+                
+                const result = await response.json();
+                
+                if (result.success) {
+                    showNotification(isEdit ? 'Video updated successfully!' : 'Video added successfully!');
+                    hideModal();
+                    await loadVideos(); // Reload videos
+                } else {
+                    throw new Error(result.error);
+                }
+            } catch (error) {
+                console.error('Error saving video:', error);
+                showNotification('Error saving video: ' + error.message, 'error');
+            }
+        }
+
+        // Delete Video
+        async function deleteVideo(videoId) {
+            if (!confirm('Are you sure you want to delete this video? This action cannot be undone.')) {
+                return;
+            }
+            
+            try {
+                const response = await fetch(`${API_BASE}/admin/delete/${videoId}`, {
+                    method: 'DELETE'
+                });
+                
+                const result = await response.json();
+                
+                if (result.success) {
+                    showNotification('Video deleted successfully!');
+                    await loadVideos(); // Reload videos
+                } else {
+                    throw new Error(result.error);
+                }
+            } catch (error) {
+                console.error('Error deleting video:', error);
+                showNotification('Error deleting video: ' + error.message, 'error');
+            }
+        }
+
+        // Filter Videos
+        function filterVideos() {
+            const searchTerm = document.getElementById('searchVideos').value.toLowerCase();
+            const activeFilter = document.querySelector('[data-filter].bg-red-600').dataset.filter;
+            
+            let filtered = videos.filter(video => {
+                const matchesSearch = video.title.toLowerCase().includes(searchTerm) || 
+                                   video.description.toLowerCase().includes(searchTerm) ||
+                                   video.videoId.toLowerCase().includes(searchTerm);
+                
+                const matchesFilter = activeFilter === 'all' || 
+                                   (activeFilter === 'active' && video.isActive) ||
+                                   (activeFilter === 'inactive' && !video.isActive);
+                
+                return matchesSearch && matchesFilter;
+            });
+            
+            displayVideos(filtered);
+        }
+
+        // Sort Videos
+        function sortVideos() {
+            const sortBy = document.getElementById('sortVideos').value;
+            
+            let sortedVideos = [...videos];
+            
+            switch (sortBy) {
+                case 'newest':
+                    sortedVideos.sort((a, b) => new Date(b.createdAt) - new Date(a.createdAt));
+                    break;
+                case 'oldest':
+                    sortedVideos.sort((a, b) => new Date(a.createdAt) - new Date(b.createdAt));
+                    break;
+                case 'order':
+                    sortedVideos.sort((a, b) => a.displayOrder - b.displayOrder);
+                    break;
+                case 'title':
+                    sortedVideos.sort((a, b) => a.title.localeCompare(b.title));
+                    break;
+            }
+            
+            displayVideos(sortedVideos);
+        }
+
+        // Show Notification
+        function showNotification(message, type = 'success') {
+            const notification = document.getElementById('successNotification');
+            const messageElement = document.getElementById('notificationMessage');
+            
+            // Update styles based on type
+            if (type === 'error') {
+                notification.className = notification.className.replace('bg-green-500', 'bg-red-500');
+            } else {
+                notification.className = notification.className.replace('bg-red-500', 'bg-green-500');
+            }
+            
+            messageElement.textContent = message;
+            notification.classList.remove('translate-x-full');
+            
+            // Auto hide after 5 seconds
+            setTimeout(() => {
+                notification.classList.add('translate-x-full');
+            }, 5000);
+        }
+
+        // Helper function to extract YouTube ID
+        function extractYouTubeId(url) {
+            const regex = /(?:youtube\.com\/(?:[^\/]+\/.+\/|(?:v|e(?:mbed)?)\/|.*[?&]v=)|youtu\.be\/)([^"&?\/\s]{11})/;
+            const match = url.match(regex);
+            return match ? match[1] : url;
+        }
+    </script>
+</body>
+</html>

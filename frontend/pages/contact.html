@@ -1,0 +1,330 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Contact Us - Paithani Store</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css">
+
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;500;600;700&display=swap');
+
+    :root {
+      --primary-color: #800000;
+      --primary-light: #b30000;
+      --gold: #D4AF37;
+      --light-gold: #F2E8C9;
+      --cream: #F8F4E3;
+      --dark-red: #680000;
+      --gray: #777;
+      --light-gray: #f5f5f5;
+      --white: #ffffff;
+      --black: #333333;
+    }
+
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+      font-family: 'Montserrat', sans-serif;
+    }
+
+    body {
+      background: url('images/paithani-bg.jpg') center center/cover no-repeat fixed;
+      backdrop-filter: blur(4px);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      height: 100vh;
+    }
+
+    .container {
+      background-color: var(--white);
+      border-radius: 25px;
+      box-shadow: 0 5px 25px rgba(0, 0, 0, 0.25);
+      position: relative;
+      overflow: hidden;
+      width: 900px;
+      max-width: 100%;
+      min-height: 500px;
+    }
+
+    h1 {
+      color: var(--primary-color);
+      font-weight: 700;
+    }
+
+    p {
+      font-size: 15px;
+      line-height: 22px;
+      letter-spacing: 0.4px;
+      margin: 15px 0;
+      color: var(--black);
+      text-align: center;
+    }
+
+    button {
+      background-color: var(--primary-color);
+      color: var(--white);
+      font-size: 13px;
+      padding: 12px 45px;
+      border: none;
+      border-radius: 25px;
+      font-weight: 600;
+      letter-spacing: 0.5px;
+      text-transform: uppercase;
+      cursor: pointer;
+      transition: all 0.3s ease;
+      margin-top: 10px;
+    }
+
+    button:hover {
+      background-color: var(--primary-light);
+    }
+
+    button.hidden {
+      background-color: transparent;
+      border: 2px solid var(--white);
+    }
+
+    .form-container {
+      position: absolute;
+      top: 0;
+      height: 100%;
+      transition: all 0.6s ease-in-out;
+    }
+
+    /* Contact Info Panel */
+    .contact-info {
+      left: 0;
+      width: 50%;
+      z-index: 2;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-direction: column;
+      padding: 0 40px;
+      text-align: center;
+      transition: opacity 0.6s;
+      opacity: 1;
+    }
+
+    /* Hide contact info when active */
+    .container.active .contact-info {
+      opacity: 0;
+      pointer-events: none;
+    }
+
+    /* Message Form Panel (right side) */
+    .message-form {
+      right: 0;
+      width: 50%;          /* Take right half */
+      opacity: 0;
+      z-index: 5;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-direction: column;
+      padding: 0 40px;
+      background: var(--white);
+      transition: all 0.6s ease-in-out, opacity 0.3s;
+      height: 100%;
+      position: absolute;
+      box-sizing: border-box;
+      pointer-events: none;
+      transform: translateX(100%); /* start offscreen right */
+    }
+
+    .container.active .message-form {
+      transform: translateX(0);
+      opacity: 1;
+      z-index: 10;
+      animation: fadeIn 0.6s;
+      pointer-events: auto;
+    }
+
+    @keyframes fadeIn {
+      0% {
+        opacity: 0;
+      }
+
+      100% {
+        opacity: 1;
+      }
+    }
+
+    .message-form input,
+    .message-form textarea {
+      background-color: var(--light-gray);
+      border: 1px solid var(--gold);
+      margin: 8px 0;
+      padding: 10px 15px;
+      font-size: 14px;
+      border-radius: 8px;
+      width: 100%;
+      outline: none;
+      color: var(--black);
+    }
+
+    .message-form textarea {
+      height: 80px;
+      resize: none;
+    }
+
+    .toggle-container {
+      position: absolute;
+      top: 0;
+      left: 50%;
+      width: 50%;
+      height: 100%;
+      overflow: hidden;
+      transition: all 0.6s ease-in-out;
+      border-radius: 150px 0 0 100px;
+      z-index: 100;
+    }
+
+    .container.active .toggle-container {
+      transform: translateX(-100%);
+      border-radius: 0 150px 100px 0;
+    }
+
+    .toggle {
+      background: linear-gradient(to right, var(--dark-red), var(--primary-color));
+      height: 100%;
+      color: var(--white);
+      position: relative;
+      left: -100%;
+      width: 200%;
+      transform: translateX(0);
+      transition: all 0.6s ease-in-out;
+    }
+
+    .container.active .toggle {
+      transform: translateX(50%);
+    }
+
+    .toggle-panel {
+      position: absolute;
+      width: 50%;
+      height: 100%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-direction: column;
+      padding: 0 30px;
+      text-align: center;
+      top: 0;
+      transition: all 0.6s ease-in-out;
+    }
+
+    .toggle-panel h1 {
+      color: var(--white);
+    }
+
+    .toggle-panel p {
+      color: var(--light-gold);
+    }
+
+    .toggle-left {
+      transform: translateX(-200%);
+    }
+
+    .container.active .toggle-left {
+      transform: translateX(0);
+    }
+
+    .toggle-right {
+      right: 0;
+      transform: translateX(0);
+    }
+
+    .container.active .toggle-right {
+      transform: translateX(200%);
+    }
+
+    .info-list {
+      text-align: left;
+      margin-top: 15px;
+    }
+
+    .info-list div {
+      margin: 8px 0;
+      display: flex;
+      align-items: center;
+      color: var(--primary-color);
+    }
+
+    .info-list i {
+      background: var(--gold);
+      color: var(--white);
+      padding: 8px;
+      border-radius: 50%;
+      margin-right: 12px;
+      font-size: 14px;
+    }
+  </style>
+</head>
+
+<body>
+  <div class="container" id="container">
+
+    <!-- Contact Info Section -->
+    <div class="form-container contact-info">
+      <h1>Contact Us</h1>
+      <p>We’d love to hear from you! Reach out for queries about Paithani sarees or custom designs.</p>
+      <div class="info-list">
+        <div><i class="fas fa-map-marker-alt"></i> 4671 Sugar Camp Road, Owatonna, MN</div>
+        <div><i class="fas fa-phone"></i> +91 98765 43210</div>
+        <div><i class="fas fa-envelope"></i> support@paithanistore.com</div>
+      </div>
+      <button id="openMessage">Send Message</button>
+      <button id="viewMap">View on Map</button>
+    </div>
+
+    <!-- Message Form Section -->
+    <div class="form-container message-form">
+      <h1>Send Your Message</h1>
+      <input type="text" placeholder="Your Name" value="Pratiksha Sonawane">
+      <input type="email" placeholder="Your Email" value="pratiksha@gmail.com">
+      <textarea placeholder="Type your message here..."></textarea>
+      <button id="back">Back</button>
+    </div>
+
+    <!-- Toggle Background Animation -->
+    <div class="toggle-container">
+      <div class="toggle">
+        <div class="toggle-panel toggle-left">
+          <h1>Thank You!</h1>
+          <p>We’ll respond to your query shortly.</p>
+        </div>
+        <div class="toggle-panel toggle-right">
+          <h1>Welcome!</h1>
+          <p>Click “Send Message” to get in touch with us instantly.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    const container = document.getElementById('container');
+    const openMessageBtn = document.getElementById('openMessage');
+    const backBtn = document.getElementById('back');
+    const viewMapBtn = document.getElementById('viewMap');
+
+    openMessageBtn.addEventListener('click', () => {
+      container.classList.add("active");
+    });
+
+    backBtn.addEventListener('click', () => {
+      container.classList.remove("active");
+    });
+
+    viewMapBtn.addEventListener('click', () => {
+      const mapUrl = "https://www.google.com/maps?q=4671+Sugar+Camp+Road,+Owatonna,+MN";
+      window.open(mapUrl, "_blank"); // opens map in new tab
+    });
+  </script>
+</body>
+
+</html>

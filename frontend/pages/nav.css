@@ -1,0 +1,29 @@
+
+  
+  .logo-text-image {
+      height: 80px;
+      /* Adjust based on your logo aspect ratio */
+      width: auto;
+      border-radius: 30px;
+      transition: all 0.3s ease;
+      object-fit: contain;
+  }
+
+  nav.scrolled .logo-text-image {
+      height: 60px;
+      /* Smaller when scrolled */
+  }
+
+
+  @media (max-width: 900px) {
+      .logo-text-image {
+          height: 60px;
+          /* Smaller on mobile */
+
+      }
+
+      /* Keep the logo image visible on mobile */
+      .logo-text-image {
+          display: block;
+      }
+  }

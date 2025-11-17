@@ -1,0 +1,878 @@
+
+
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Shopping Cart - SaiKrupa Paithani</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"
+    />
+    <link rel="stylesheet" href="nav.css">
+    <script>
+      tailwind.config = {
+        theme: {
+          extend: {
+            colors: {
+              primary: "#800000",
+              primaryLight: "#b30000",
+              gold: "#D4AF37",
+              lightGold: "#F2E8C9",
+              cream: "#F8F4E3",
+              darkRed: "#680000",
+              gray: "#777",
+              lightGray: "#f5f5f5",
+              white: "#ffffff",
+              black: "#333333",
+            },
+          },
+        },
+      };
+    </script>
+    <style>
+      body {
+        font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+        background-color: #f8f4e3;
+      }
+      .cart-item {
+        transition: all 0.3s ease;
+      }
+      .cart-item:hover {
+        transform: translateY(-3px);
+        box-shadow: 0 5px 15px rgba(0, 0, 0, 0.08);
+      }
+      nav {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        padding: 0 40px;
+        background: rgba(255, 255, 255, 0.95);
+        color: #800000;
+        position: sticky;
+        top: 0;
+        z-index: 1000;
+        box-shadow: 0 2px 15px rgba(128, 0, 0, 0.1);
+        height: 80px;
+      }
+      nav ul {
+        display: flex;
+        list-style: none;
+      }
+      nav ul li {
+        position: relative;
+        margin: 0 15px;
+      }
+      nav ul li a {
+        color: #800000;
+        text-decoration: none;
+        font-weight: 500;
+        font-size: 1.1rem;
+        padding: 10px 5px;
+        display: block;
+        position: relative;
+      }
+      nav ul li a:after {
+        content: "";
+        position: absolute;
+        width: 0;
+        height: 2px;
+        background: #800000;
+        left: 0;
+        bottom: 0;
+        transition: width 0.3s ease;
+      }
+      nav ul li a:hover:after {
+        width: 100%;
+      }
+      .nav-icons {
+        display: flex;
+        align-items: center;
+      }
+      .nav-icon {
+        color: #800000;
+        font-size: 1.3rem;
+        margin-left: 20px;
+        position: relative;
+        cursor: pointer;
+      }
+      .cart-count {
+        position: absolute;
+        top: -8px;
+        right: -8px;
+        background: #800000;
+        color: white;
+        font-size: 0.7rem;
+        width: 18px;
+        height: 18px;
+        border-radius: 50%;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+      }
+      .hamburger {
+        display: none;
+        font-size: 1.8rem;
+        cursor: pointer;
+        margin-left: 20px;
+        color: #800000;
+      }
+      .empty-cart {
+        text-align: center;
+        padding: 60px 20px;
+      }
+      .empty-cart-icon {
+        font-size: 80px;
+        color: #d4af37;
+        margin-bottom: 20px;
+      }
+      .quantity-btn {
+        width: 30px;
+        height: 30px;
+        border-radius: 50%;
+        background: #f0f0f0;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        cursor: pointer;
+        transition: all 0.2s;
+      }
+      .quantity-btn:hover {
+        background: #e0e0e0;
+      }
+      .progress-bar {
+        height: 6px;
+        background: #e0e0e0;
+        border-radius: 3px;
+        overflow: hidden;
+        margin: 15px 0;
+      }
+      .progress-fill {
+        height: 100%;
+        background: #d4af37;
+        transition: width 0.5s ease;
+      }
+      .discount-badge {
+        background: #800000;
+        color: white;
+        font-size: 0.7rem;
+        padding: 3px 8px;
+        border-radius: 12px;
+        margin-left: 8px;
+      }
+
+      @media (max-width: 900px) {
+        nav ul {
+          display: none;
+          position: absolute;
+          top: 100%;
+          left: 0;
+          width: 100%;
+          background: rgba(255, 255, 255, 0.98);
+          flex-direction: column;
+          padding: 20px;
+        }
+        nav ul.show {
+          display: flex;
+        }
+        nav ul li {
+          margin: 10px 0;
+          width: 100%;
+          text-align: center;
+        }
+        .hamburger {
+          display: block;
+        }
+      }
+      
+    </style>
+  </head>
+  <body class="bg-cream">
+    <!-- NAVBAR -->
+    <nav>
+      <a href="home.html" class="logo flex items-center font-bold text-darkRed">
+        <img
+          src="images/logo3.png"
+          alt="Paithani Logo"
+          class="logo-img h-20 w-20 rounded-full mr-3"
+        />
+        <div class="logo-text text-2xl font-extrabold">
+         <img src="saikrupa_logo.jpg" alt="SaiKrupa Paithani" class="logo-text-image" />
+        </div>
+      </a>
+      <ul>
+          <li><a href="dashboard.html">Home</a></li>
+        <li><a href="product.html">Collections</a></li>
+        
+        <li><a href="#testimonials">Testimonials</a></li>
+        <li><a href="contact.html">Contact</a></li>
+      </ul>
+      <div class="nav-icons">
+        <a href="history.html"><div class="nav-icon"><i class="fas fa-shipping-fast mr-2"></i></div></a>
+       
+        <div class="nav-icon">
+          <a href="cart.html"
+            ><i class="fas fa-shopping-cart"></i
+            ><span class="cart-count" id="headerCartCount">0</span></a
+          >
+        </div>
+        <div class="hamburger">&#9776;</div>
+      </div>
+    </nav>
+
+    <!-- BREADCRUMB -->
+    <div class="container mx-auto px-6 py-4 text-gray">
+      <a href="dashboard.html"
+        ><span class="hover:text-primary cursor-pointer">Home</span> /
+      </a>
+      <a href="product.html"
+        ><span class="hover:text-primary cursor-pointer">Sarees</span> /
+      </a>
+      <span class="text-primary">Shopping Cart</span>
+    </div>
+
+    <!-- MAIN CART CONTENT -->
+    <div class="container mx-auto px-6 py-8">
+      <h1 class="text-3xl font-bold text-primary mb-2">Your Shopping Cart</h1>
+      <p class="text-gray mb-8">Review your items and proceed to checkout</p>
+
+      <div class="flex flex-col lg:flex-row gap-8">
+        <!-- CART ITEMS -->
+        <div class="lg:w-2/3">
+          <div class="bg-white rounded-lg shadow-md p-6 mb-6">
+            <div class="flex justify-between items-center mb-6">
+              <h2 class="text-xl font-semibold text-primary" id="cartTitle">
+                Cart Items (<span id="itemCount">0</span>)
+              </h2>
+              <button
+                id="clearCartBtn"
+                class="text-primary hover:text-darkRed flex items-center"
+              >
+                <i class="fas fa-trash-alt mr-2"></i> Clear Cart
+              </button>
+            </div>
+            <div id="cartItems"></div>
+          </div>
+
+          <!-- SHOP WITH CONFIDENCE -->
+          <div class="bg-white rounded-lg shadow-md p-6">
+            <h3 class="text-lg font-semibold text-primary mb-4">
+              Shop With Confidence
+            </h3>
+            <div class="grid grid-cols-2 md:grid-cols-4 gap-4 text-center">
+              <div class="p-4">
+                <i class="fas fa-shield-alt text-2xl text-primary mb-2"></i>
+                <p class="text-sm font-medium">Secure Payment</p>
+              </div>
+              <div class="p-4">
+                <i class="fas fa-truck text-2xl text-primary mb-2"></i>
+                <p class="text-sm font-medium">Free Shipping</p>
+              </div>
+              <div class="p-4">
+                <i class="fas fa-undo text-2xl text-primary mb-2"></i>
+                <p class="text-sm font-medium">Easy Returns</p>
+              </div>
+              <div class="p-4">
+                <i class="fas fa-certificate text-2xl text-primary mb-2"></i>
+                <p class="text-sm font-medium">Authenticity Guarantee</p>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- ORDER SUMMARY & SUPPORT -->
+        <div class="lg:w-1/3">
+          <div class="bg-white rounded-lg shadow-md p-6 sticky top-24">
+            <h2 class="text-xl font-semibold text-primary mb-4">
+              Order Summary
+            </h2>
+            <div class="space-y-3 mb-6" id="orderSummary">
+              <div class="flex justify-between">
+                <span class="text-gray"
+                  >Subtotal (<span id="summaryItemCount">0</span> items)</span
+                ><span class="font-medium" id="subtotalAmount">₹0</span>
+              </div>
+              <div class="flex justify-between">
+                <span class="text-gray">Shipping</span
+                ><span class="font-medium" id="shippingAmount">₹0</span>
+              </div>
+              <div class="flex justify-between">
+                <span class="text-gray">Tax</span
+                ><span class="font-medium" id="taxAmount">₹0</span>
+              </div>
+              <div
+                class="flex justify-between text-green-600"
+                id="discountSection"
+                style="display: none"
+              >
+                <span>Discount</span><span id="discountAmount">-₹0</span>
+              </div>
+              <div class="border-t pt-3 flex justify-between text-lg font-bold">
+                <span>Total</span
+                ><span class="text-primary" id="totalAmount">₹0</span>
+              </div>
+            </div>
+            <div class="mb-6">
+              <div class="flex items-center mb-2">
+                <i class="fas fa-tag text-primary mr-2"></i
+                ><span class="font-medium">Apply Promo Code</span>
+              </div>
+              <div class="flex">
+                <input
+                  type="text"
+                  placeholder="Enter code"
+                  class="flex-1 border border-gray-300 rounded-l-lg px-4 py-2 focus:outline-none focus:ring-2 focus:ring-primary"
+                />
+                <button
+                  class="bg-primary hover:bg-darkRed text-white px-4 py-2 rounded-r-lg font-semibold"
+                >
+                  Apply
+                </button>
+              </div>
+            </div>
+            <button
+              id="checkoutBtn"
+              class="w-full bg-primary hover:bg-darkRed text-white py-3 rounded-lg font-semibold text-lg mb-4 flex items-center justify-center"
+            >
+              <i class="fas fa-lock mr-2"></i> Proceed to Checkout
+            </button>
+            <div class="text-center">
+              <a
+                href="product.html"
+                class="text-primary hover:text-darkRed font-medium flex items-center justify-center"
+                ><i class="fas fa-arrow-left mr-2"></i> Continue Shopping</a
+              >
+            </div>
+            <div class="mt-6 pt-6 border-t border-gray-200">
+              <div class="flex items-center justify-center mb-3">
+                <i class="fas fa-shield-alt text-primary mr-2"></i
+                ><span class="text-sm font-medium">100% Secure Checkout</span>
+              </div>
+              <div class="flex justify-center space-x-4">
+                <i class="fab fa-cc-visa text-2xl text-gray-500"></i>
+                <i class="fab fa-cc-mastercard text-2xl text-gray-500"></i>
+                <i class="fab fa-cc-amex text-2xl text-gray-500"></i>
+                <i class="fab fa-cc-paypal text-2xl text-gray-500"></i>
+              </div>
+            </div>
+          </div>
+
+          <div class="bg-white rounded-lg shadow-md p-6 mt-6">
+            <h3 class="text-lg font-semibold text-primary mb-4">Need Help?</h3>
+            <div class="space-y-3">
+              <div class="flex items-center">
+                <i class="fas fa-phone text-primary mr-3"></i>
+                <div>
+                  <p class="font-medium">Call Us</p>
+                  <p class="text-sm text-gray">+91 98765 43210</p>
+                </div>
+              </div>
+              <div class="flex items-center">
+                <i class="fas fa-comments text-primary mr-3"></i>
+                <div>
+                  <p class="font-medium">Chat with Us</p>
+                  <p class="text-sm text-gray">Available 24/7</p>
+                </div>
+              </div>
+              <div class="flex items-center">
+                <i class="fas fa-envelope text-primary mr-3"></i>
+                <div>
+                  <p class="font-medium">Email Us</p>
+                  <p class="text-sm text-gray">support@saikrupa.com</p>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <!-- FOOTER -->
+    <footer class="bg-primary text-white mt-12 py-12">
+      <div class="container mx-auto px-6">
+        <div class="grid grid-cols-1 md:grid-cols-4 gap-8">
+          <div>
+            <h3 class="text-xl font-bold mb-4">SaiKrupa Paithani</h3>
+            <p class="text-lightGold">
+              Bringing traditional Maharashtrian elegance to your doorstep with
+              authentic handwoven Paithani sarees.
+            </p>
+          </div>
+          <div>
+            <h4 class="font-semibold mb-4">Quick Links</h4>
+            <ul class="space-y-2">
+              <li>
+                <a href="#" class="text-lightGold hover:text-gold">About Us</a>
+              </li>
+              <li>
+                <a href="#" class="text-lightGold hover:text-gold"
+                  >Collections</a
+                >
+              </li>
+              <li>
+                <a href="#" class="text-lightGold hover:text-gold"
+                  >Shipping Policy</a
+                >
+              </li>
+              <li>
+                <a href="#" class="text-lightGold hover:text-gold"
+                  >Return Policy</a
+                >
+              </li>
+            </ul>
+          </div>
+          <div>
+            <h4 class="font-semibold mb-4">Customer Service</h4>
+            <ul class="space-y-2">
+              <li>
+                <a href="#" class="text-lightGold hover:text-gold"
+                  >Contact Us</a
+                >
+              </li>
+              <li>
+                <a href="#" class="text-lightGold hover:text-gold">FAQs</a>
+              </li>
+              <li>
+                <a href="#" class="text-lightGold hover:text-gold"
+                  >Track Order</a
+                >
+              </li>
+              <li>
+                <a href="#" class="text-lightGold hover:text-gold"
+                  >Privacy Policy</a
+                >
+              </li>
+            </ul>
+          </div>
+          <div>
+            <h4 class="font-semibold mb-4">Newsletter</h4>
+            <p class="text-lightGold mb-4">
+              Subscribe to get special offers and once-in-a-lifetime deals.
+            </p>
+            <div class="flex">
+              <input
+                type="email"
+                placeholder="Your email"
+                class="px-4 py-2 rounded-l-lg w-full text-black"
+              />
+              <button
+                class="bg-gold text-black px-4 py-2 rounded-r-lg font-semibold"
+              >
+                Subscribe
+              </button>
+            </div>
+          </div>
+        </div>
+        <div class="border-t border-primaryLight mt-8 pt-8 text-center">
+          <p>© 2025 SaiKrupa Paithani. All rights reserved.</p>
+        </div>
+      </div>
+    </footer>
+
+    <!-- CART SCRIPT -->
+    <script>
+  // Cart array
+  let cartItems = [];
+
+  // Get auth token
+  function getAuthToken() {
+    return localStorage.getItem("authToken") || localStorage.getItem("token");
+  }
+
+  // Check if user is logged in
+  function checkAuth() {
+    const token = getAuthToken();
+    if (!token) {
+      alert("Please login to view your cart");
+      window.location.href = "signup_login.html";
+      return false;
+    }
+    return true;
+  }
+
+  // Fetch cart from backend
+  async function fetchCart() {
+    try {
+      if (!checkAuth()) return;
+
+      const token = getAuthToken();
+      console.log("Fetching cart...");
+
+      const res = await fetch("http://localhost:5000/api/cart", {
+        headers: {
+          Authorization: `Bearer ${token}`,
+          "Content-Type": "application/json",
+        },
+      });
+
+      if (!res.ok) {
+        if (res.status === 401) {
+          localStorage.removeItem("authToken");
+          localStorage.removeItem("token");
+          window.location.href = "signup_login.html";
+          return;
+        }
+        throw new Error(`HTTP error! status: ${res.status}`);
+      }
+
+      const result = await res.json();
+      console.log("Cart API response:", result);
+
+      if (result.success && result.cart) {
+        // Process cart items
+        cartItems = result.cart.items.map((item) => {
+          const product = item.productId;
+          return {
+            productId: product._id,
+            name: product.name || "Product",
+            image: product.images?.[0] || "images/default.jpg",
+            price: item.price || product.price || 0,
+            quantity: item.quantity || 1,
+          };
+        });
+
+        console.log("Processed cart items:", cartItems);
+        renderCartItems();
+        updateOrderSummary();
+        updateCartCount();
+      } else {
+        throw new Error(result.message || "Failed to fetch cart");
+      }
+    } catch (err) {
+      console.error("Fetch cart error:", err);
+      alert("Failed to load cart items: " + err.message);
+    }
+  }
+
+  // Render cart items
+  function renderCartItems() {
+    const cartContainer = document.getElementById("cartItems");
+    const itemCount = cartItems.reduce((sum, item) => sum + item.quantity, 0);
+    document.getElementById("itemCount").textContent = itemCount;
+
+    if (!cartItems.length) {
+      cartContainer.innerHTML = `
+        <div class="empty-cart">
+          <div class="empty-cart-icon">
+            <i class="fas fa-shopping-cart"></i>
+          </div>
+          <h3 class="text-xl font-semibold text-primary mb-2">Your cart is empty</h3>
+          <p class="text-gray mb-6">Browse our collections and add some beautiful Paithani sarees to your cart.</p>
+          <a href="product.html" class="bg-primary hover:bg-darkRed text-white py-3 px-6 rounded-lg font-semibold inline-block">
+            Start Shopping
+          </a>
+        </div>`;
+      return;
+    }
+
+    cartContainer.innerHTML = cartItems
+      .map((item) => {
+        const itemTotal = item.price * item.quantity;
+        return `
+        <div class="cart-item bg-white border border-gray-200 rounded-lg p-4 mb-4" data-product-id="${item.productId}">
+          <div class="flex flex-col md:flex-row">
+            <div class="md:w-1/4 mb-4 md:mb-0">
+              <img src="${item.image}" alt="${item.name}" class="w-full h-48 object-cover rounded-lg">
+            </div>
+            <div class="md:w-3/4 md:pl-6">
+              <div class="flex justify-between">
+                <h3 class="text-lg font-semibold text-primary">${item.name}</h3>
+                <button class="text-gray hover:text-primary delete-item" data-product-id="${item.productId}">
+                  <i class="fas fa-times"></i>
+                </button>
+              </div>
+              <div class="flex flex-col md:flex-row md:items-center md:justify-between mt-4">
+                <div class="flex items-center mb-4 md:mb-0">
+                  <span class="text-gray mr-3">Quantity:</span>
+                  <div class="flex items-center">
+                    <button class="quantity-btn decrease-quantity" data-product-id="${item.productId}">
+                      <i class="fas fa-minus text-xs"></i>
+                    </button>
+                    <span class="mx-3 font-medium w-8 text-center">${item.quantity}</span>
+                    <button class="quantity-btn increase-quantity" data-product-id="${item.productId}">
+                      <i class="fas fa-plus text-xs"></i>
+                    </button>
+                  </div>
+                </div>
+                <div class="flex items-center">
+                  <div class="text-right">
+                    <div class="flex items-center">
+                      <span class="text-xl font-bold text-primary">₹${itemTotal.toLocaleString()}</span>
+                    </div>
+                    <div class="text-gray text-sm">₹${item.price.toLocaleString()} each</div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>`;
+      })
+      .join("");
+  }
+
+  // Update order summary
+  function updateOrderSummary() {
+    const subtotal = cartItems.reduce((sum, item) => sum + item.price * item.quantity, 0);
+    const itemCount = cartItems.reduce((sum, item) => sum + item.quantity, 0);
+    const shipping = subtotal > 10000 ? 0 : 200;
+    const tax = Math.round(subtotal * 0.02);
+    const discount = subtotal > 5000 ? Math.round(subtotal * 0.1) : 0;
+    const total = subtotal + shipping + tax - discount;
+
+    document.getElementById("summaryItemCount").textContent = itemCount;
+    document.getElementById("subtotalAmount").textContent = `₹${subtotal.toLocaleString()}`;
+    document.getElementById("shippingAmount").textContent = shipping === 0 ? "FREE" : `₹${shipping}`;
+    document.getElementById("taxAmount").textContent = `₹${tax.toLocaleString()}`;
+    document.getElementById("totalAmount").textContent = `₹${total.toLocaleString()}`;
+
+    const discountSection = document.getElementById("discountSection");
+    const discountAmount = document.getElementById("discountAmount");
+    if (discount > 0) {
+      discountSection.style.display = "flex";
+      discountAmount.textContent = `-₹${discount.toLocaleString()}`;
+    } else {
+      discountSection.style.display = "none";
+    }
+  }
+
+  // Update cart count in header
+  function updateCartCount() {
+    const totalItems = cartItems.reduce((sum, item) => sum + item.quantity, 0);
+    document.getElementById("headerCartCount").textContent = totalItems;
+  }
+
+  // Find cart item by product ID
+  function findCartItemByProductId(productId) {
+    return cartItems.find((item) => item.productId === productId);
+  }
+
+  // Update quantity
+  async function updateQuantity(productId, change) {
+    try {
+      console.log("Update quantity - Product ID:", productId, "Change:", change);
+
+      if (!checkAuth()) return;
+
+      const item = findCartItemByProductId(productId);
+      if (!item) {
+        console.error("Item not found for product ID:", productId);
+        alert("Item not found in cart. Please refresh the page.");
+        await fetchCart();
+        return;
+      }
+
+      const newQty = item.quantity + change;
+      console.log("Current quantity:", item.quantity, "New quantity:", newQty);
+
+      if (newQty < 1) {
+        await deleteItem(productId);
+        return;
+      }
+
+      const token = getAuthToken();
+
+      // DEBUG: Log the exact URL being called
+      const url = `http://localhost:5000/api/cart/update/${productId}`;
+      console.log("Calling URL:", url);
+
+      const res = await fetch(url, {
+        method: "PUT",
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${token}`,
+        },
+        body: JSON.stringify({ quantity: newQty }),
+      });
+
+      console.log("Response status:", res.status);
+
+      if (!res.ok) {
+        const errorText = await res.text();
+        console.error("Error response:", errorText);
+        throw new Error(`HTTP error! status: ${res.status}`);
+      }
+
+      const result = await res.json();
+      console.log("Update API response:", result);
+
+      if (result.success) {
+        item.quantity = newQty;
+        renderCartItems();
+        updateOrderSummary();
+        updateCartCount();
+      } else {
+        throw new Error(result.message || "Failed to update quantity");
+      }
+    } catch (err) {
+      console.error("Update quantity error:", err);
+      alert("Failed to update quantity: " + err.message);
+      await fetchCart();
+    }
+  }
+
+  // Delete item
+  async function deleteItem(productId) {
+    try {
+      console.log("Delete item - Product ID:", productId);
+
+      if (!checkAuth()) return;
+
+      const item = findCartItemByProductId(productId);
+      if (!item) {
+        console.error("Item not found for deletion - Product ID:", productId);
+        alert("Item not found in cart. Please refresh the page.");
+        await fetchCart();
+        return;
+      }
+
+      if (!confirm("Are you sure you want to remove this item from your cart?")) {
+        return;
+      }
+
+      const token = getAuthToken();
+
+     
+      const url = `http://localhost:5000/api/cart/remove/${productId}`;
+      console.log("Calling URL:", url);
+
+      const res = await fetch(url, {
+        method: "DELETE",
+        headers: {
+          Authorization: `Bearer ${token}`,
+          "Content-Type": "application/json",
+        },
+      });
+
+      console.log("Response status:", res.status);
+
+      if (!res.ok) {
+        const errorText = await res.text();
+        console.error("Error response:", errorText);
+        throw new Error(`HTTP error! status: ${res.status}`);
+      }
+
+      const result = await res.json();
+      console.log("Delete API response:", result);
+
+      if (result.success) {
+        cartItems = cartItems.filter((item) => item.productId !== productId);
+        renderCartItems();
+        updateOrderSummary();
+        updateCartCount();
+        alert("Item removed from cart");
+      } else {
+        throw new Error(result.message || "Failed to remove item");
+      }
+    } catch (err) {
+      console.error("Delete item error:", err);
+      alert("Failed to remove item: " + err.message);
+      await fetchCart();
+    }
+  }
+
+ 
+  async function clearCart() {
+    try {
+      if (!checkAuth()) return;
+
+      if (!confirm("Are you sure you want to clear your entire cart?")) return;
+
+      const token = getAuthToken();
+      
+      const res = await fetch("http://localhost:5000/api/cart/clear", {
+        method: "DELETE",
+        headers: {
+          Authorization: `Bearer ${token}`,
+          "Content-Type": "application/json",
+        },
+      });
+
+      if (!res.ok) {
+        throw new Error(`HTTP error! status: ${res.status}`);
+      }
+
+      const result = await res.json();
+
+      if (result.success) {
+        cartItems = [];
+        renderCartItems();
+        updateOrderSummary();
+        updateCartCount();
+        alert("Cart cleared successfully");
+      } else {
+        alert("Failed to clear cart: " + (result.message || "Unknown error"));
+      }
+    } catch (err) {
+      console.error("Clear cart error:", err);
+      alert("Failed to clear cart: " + err.message);
+    }
+  }
+
+ 
+  function setupEventListeners() {
+    document.getElementById("clearCartBtn").addEventListener("click", clearCart);
+
+    document.getElementById("checkoutBtn").addEventListener("click", function () {
+      if (cartItems.length === 0) {
+        alert("Your cart is empty");
+        return;
+      }
+      window.location.href = "checkout_page.html";
+    });
+
+    const hamburger = document.querySelector(".hamburger");
+    const navMenu = document.querySelector("nav ul");
+    if (hamburger) {
+      hamburger.addEventListener("click", () => navMenu.classList.toggle("show"));
+    }
+
+   
+    document.addEventListener("click", function (e) {
+      const increaseBtn = e.target.closest(".increase-quantity");
+      if (increaseBtn) {
+        const productId = increaseBtn.dataset.productId;
+        updateQuantity(productId, 1);
+        return;
+      }
+
+      const decreaseBtn = e.target.closest(".decrease-quantity");
+      if (decreaseBtn) {
+        const productId = decreaseBtn.dataset.productId;
+        updateQuantity(productId, -1);
+        return;
+      }
+
+      const deleteBtn = e.target.closest(".delete-item");
+      if (deleteBtn) {
+        const productId = deleteBtn.dataset.productId;
+        deleteItem(productId);
+        return;
+      }
+    });
+  }
+
+ 
+  function checkLoginStatus() {
+    const authToken = getAuthToken();
+    const userIcon = document.querySelector(".fa-user");
+
+    if (authToken && userIcon) {
+      userIcon.classList.remove("fa-user");
+      userIcon.classList.add("fa-user-check");
+      userIcon.style.color = "green";
+    }
+  }
+
+ 
+  document.addEventListener("DOMContentLoaded", function () {
+    console.log("Cart page loaded");
+    checkLoginStatus();
+    if (checkAuth()) {
+      setupEventListeners();
+      fetchCart();
+    }
+  });
+</script>
+  </body>
+</html>
