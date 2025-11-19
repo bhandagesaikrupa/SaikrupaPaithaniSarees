@@ -2005,24 +2005,27 @@
                 return;
               }
 
-            /*  arrivalContainer.innerHTML = newArrivals.map(product => {
-                const imageSrc = product.images?.[0] 
-                //  ? `http://localhost:5000/${product.images[0].replace(/\\/g, "/")}`
-                 ? `https://saikrupapaithanisarees.onrender.com/${product.images[0].replace(/\\/g, "/")}`
-                  : 'https://via.placeholder.com/300x300?text=No+Image';
-                
-                return `
-                  <div class="arrival-card">
-                    <img src="${imageSrc}" alt="${product.name}" />
-                    <h3>${product.name}</h3>
-                    <p>₹${product.price.toLocaleString()}</p>
-                    <a href="description.html?id=${product._id}">
-                     <a href="signup_login.html"><button class="buy-btn">View More</button></a>
-                    </a>
-                  </div>
-                `;
-              }).join('');
-          }*/
+           arrivalContainer.innerHTML = newArrivals.map(product => {
+    const imageSrc = product.images?.[0] 
+        ? `https://saikrupapaithanisarees.onrender.com${
+            product.images[0].replace(/\\/g, "/").startsWith('/') 
+                ? product.images[0].replace(/\\/g, "/") 
+                : '/' + product.images[0].replace(/\\/g, "/")
+        }`
+        : 'https://via.placeholder.com/300x300?text=No+Image';
+    
+    return `
+        <div class="arrival-card">
+            <img src="${imageSrc}" alt="${product.name}" 
+                 onerror="this.src='https://via.placeholder.com/300x300?text=Image+Not+Found'"/>
+            <h3>${product.name}</h3>
+            <p>₹${product.price.toLocaleString()}</p>
+            <a href="description.html?id=${product._id}">
+                <button class="buy-btn">View More</button>
+            </a>
+        </div>
+    `;
+}).join('');
           arrivalContainer.innerHTML = newArrivals.map(product => {
     const imageSrc = product.images?.[0] 
         ? `https://saikrupapaithanisarees.onrender.com${product.images[0].replace(/\\/g, "/")}`
