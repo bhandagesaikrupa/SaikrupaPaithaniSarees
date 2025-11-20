@@ -1974,7 +1974,8 @@
           
           async function fetchNewArrivals() {
               try {
-                const res = await fetch("http://localhost:5000/api/products");
+                //const res = await fetch("http://localhost:5000/api/products");
+                const res = await fetch("https://saikrupapaithanisarees-mdqk.onrender.com/api/products");
                 if (!res.ok) throw new Error("Failed to fetch products");
                 const data = await res.json();
                 displayNewArrivals(data);
@@ -2006,7 +2007,8 @@
 
               arrivalContainer.innerHTML = newArrivals.map(product => {
                 const imageSrc = product.images?.[0] 
-                  ? `http://localhost:5000/${product.images[0].replace(/\\/g, "/")}`
+                 // ? `http://localhost:5000/${product.images[0].replace(/\\/g, "/")}`
+                 ? `https://saikrupapaithanisarees-mdqk.onrender.com/${product.images[0].replace(/\\/g, "/")}`
                   : 'https://via.placeholder.com/300x300?text=No+Image';
                 
                 return `
