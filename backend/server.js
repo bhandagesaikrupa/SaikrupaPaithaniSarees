@@ -135,6 +135,9 @@ app.get("/api/test", (req, res) => {
 app.get("/", (req, res) => {
     res.sendFile(path.join(__dirname, "../frontend/pages/home.html"));
 });
+app.get("/signup", (req, res) => {
+    res.sendFile(path.join(__dirname, "../frontend/pages/signup.html"));
+});
 
 app.get("/admin", (req, res) => {
     res.sendFile(path.join(__dirname, "../frontend/pages/admin.html"));
