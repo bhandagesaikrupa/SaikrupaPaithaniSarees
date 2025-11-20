@@ -138,6 +138,12 @@ app.get("/", (req, res) => {
 app.get("/signup", (req, res) => {
     res.sendFile(path.join(__dirname, "../frontend/pages/signup.html"));
 });
+app.get("/dashboard1", (req, res) => {
+    res.sendFile(path.join(__dirname, "../frontend/pages/dashboard1.html"));
+});
+app.get("/orders1", (req, res) => {
+    res.sendFile(path.join(__dirname, "../frontend/pages/orders1.html"));
+});
 
 app.get("/admin", (req, res) => {
     res.sendFile(path.join(__dirname, "../frontend/pages/admin1.html"));
