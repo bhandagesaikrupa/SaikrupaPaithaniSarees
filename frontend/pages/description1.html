@@ -321,26 +321,26 @@
   </div>
 
   <nav class="flex justify-between items-center p-4 bg-white shadow sticky top-0 z-50">
-    <a href="dashboard.html" class="font-bold text-darkRed flex items-center">
+    <a href="dashboard1.html" class="font-bold text-darkRed flex items-center">
       <img src="images/logo3.png" alt="Paithani Logo" class="h-16 w-16 rounded-full mr-3">
       <img src="saikrupa_logo.jpg" alt="SaiKrupa Paithani" class="logo-text-image" />
     </a>
     <ul class="hidden md:flex space-x-4">
-        <li><a href="dashboard.html">Home</a></li>
-      <li><a href="product.html" class="hover:text-primary">Collections</a></li>
+        <li><a href="dashboard1.html">Home</a></li>
+      <li><a href="product1.html" class="hover:text-primary">Collections</a></li>
       
       <li><a href="#testimonials" class="hover:text-primary">Testimonials</a></li>
       <li><a href="contact.html" class="hover:text-primary">Contact</a></li>
     </ul>
     <div class="flex items-center space-x-4">
       <div class="nav-icon">
-          <a style="color: #920101" href="history.html">
+          <a style="color: #920101" href="history1.html">
             <i class="fas fa-shipping-fast mr-2"></i>
           </a>
         </div>
-      <a href="signup_login.html"><i class="fas fa-user text-primary cursor-pointer"></i></a>
+      <a href="signup.html"><i class="fas fa-user text-primary cursor-pointer"></i></a>
       <div class="relative">
-        <a href="cart.html">
+        <a href="cart1.html">
           <i class="fas fa-shopping-cart text-primary cursor-pointer text-xl"></i>
           <span class="cart-count absolute -top-2 -right-2 bg-primary text-white text-xs w-5 h-5 flex items-center justify-center rounded-full">0</span>
         </a>
@@ -350,8 +350,8 @@
   </nav>
 
   <div class="container mx-auto px-6 py-4 text-gray-700">
-    <a href="dashboard.html" class="hover:text-primary">Home</a> / 
-    <a href="product.html" class="hover:text-primary">Sarees</a> / 
+    <a href="dashboard1.html" class="hover:text-primary">Home</a> / 
+    <a href="product1.html" class="hover:text-primary">Sarees</a> / 
     <span id="breadcrumb-product" class="text-primary">Traditional Paithani Saree</span>
   </div>
 
@@ -498,8 +498,7 @@ function initSlider(products) {
   // Create slider items
   products.forEach(product => {
     const imageSrc = product.images?.[0]
-     ? `http://localhost:5000/${product.images[0].replace(/\\/g, "/")}`
-   // ? `https://saikrupapaithanisarees.onrender.com/${product.images[0].replace(/\\/g, "/")}`
+      ? `https://saikrupapaithanisarees-mdqk.onrender.com/${product.images[0].replace(/\\/g, "/")}`
       : "https://via.placeholder.com/300x300?text=No+Image";
     
     const sliderItem = document.createElement('div');
@@ -622,8 +621,7 @@ async function updateCartCount() {
       return;
     }
 
-    const res = await fetch("http://localhost:5000/api/cart", {
- // const res = await fetch("https://saikrupapaithanisarees.onrender.com", {
+    const res = await fetch("https://saikrupapaithanisarees-mdqk.onrender.com/api/cart", {
       headers: {
         "Authorization": `Bearer ${authToken}`
       }
@@ -683,8 +681,7 @@ function initCharCounter() {
 async function submitReview(reviewData) {
   try {
     console.log('Submitting review:', reviewData);
-    const res = await fetch("http://localhost:5000/api/reviews", {
-  //  const res = await fetch("https://saikrupapaithanisarees.onrender.com/api/reviews", {
+    const res = await fetch("https://saikrupapaithanisarees-mdqk.onrender.com/api/reviews", {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
@@ -710,8 +707,7 @@ async function submitReview(reviewData) {
 async function fetchProductReviews(productId) {
   try {
     console.log('Fetching reviews for product:', productId);
-    const res = await fetch(`http://localhost:5000/api/reviews?productId=${productId}`);
-   //const res = await fetch(`https://saikrupapaithanisarees.onrender.com/api/reviews?productId=${productId}`);
+    const res = await fetch(`https://saikrupapaithanisarees-mdqk.onrender.com/api/reviews?productId=${productId}`);
     
     if (res.ok) {
       const result = await res.json();
@@ -729,8 +725,7 @@ async function fetchProductReviews(productId) {
 
 async function fetchReviewStats(productId) {
   try {
-    const res = await fetch(`http://localhost:5000/api/reviews/product/${productId}/summary`);
- // const res = await fetch(`https://saikrupapaithanisarees.onrender.com/api/reviews/product/${productId}/summary`);
+    const res = await fetch(`https://saikrupapaithanisarees-mdqk.onrender.com/api/reviews/product/${productId}/summary`);
     
     if (res.ok) {
       const result = await res.json();
@@ -911,8 +906,7 @@ async function renderReviews(productId) {
 // Fetch product data
 async function fetchProductData(productId){
   try{
-    const res = await fetch(`http://localhost:5000/api/products/${productId}`);
-  // const res = await fetch(`https://saikrupapaithanisarees.onrender.com/api/products/${productId}`);
+    const res = await fetch(`https://saikrupapaithanisarees-mdqk.onrender.com/api/products/${productId}`);
     const result = await res.json();
     
     if (res.ok) {
@@ -940,12 +934,11 @@ function renderProduct(product){
   document.getElementById("breadcrumb-product").textContent = product.name;
   const stars = "★".repeat(product.popularity || 0) + "☆".repeat(5 - (product.popularity || 0));
   const mainImage = product.images && product.images.length > 0 ? 
-    `http://localhost:5000/${product.images[0].replace(/\\/g, "/")}` : 
-   //`https://saikrupapaithanisarees.onrender.com/${product.images[0].replace(/\\/g, "/")}` : 
+    `https://saikrupapaithanisarees-mdqk.onrender.com/${product.images[0].replace(/\\/g, "/")}` : 
     "https://via.placeholder.com/400x500?text=No+Image";
   
   const thumbnails = product.images ? product.images.map((img, i) => `
-    <img src="http://localhost:5000/${img.replace(/\\/g, "/")}" class="thumbnail ${i === 0 ? "active" : ""}" width="70" height="70">
+    <img src="https://saikrupapaithanisarees-mdqk.onrender.com/${img.replace(/\\/g, "/")}" class="thumbnail ${i === 0 ? "active" : ""}" width="70" height="70">
   `).join("") : "";
  
   
@@ -1078,7 +1071,7 @@ async function addToCartHandler() {
       showMessage("Please login to add items to cart", false);
       setTimeout(() => {
         if (confirm("Redirect to login page?")) {
-          window.location.href = "signup_login.html";
+          window.location.href = "signup.html";
         }
       }, 1000);
       return;
@@ -1088,8 +1081,7 @@ async function addToCartHandler() {
     const newStock = currentProduct.stock - quantity;
     
     // Update product in database using the main update endpoint
-   const updateResponse = await fetch(`http://localhost:5000/api/products/${currentProduct._id}`, {
-//  const updateResponse = await fetch(`https://saikrupapaithanisarees.onrender.com/api/products/${currentProduct._id}`, {
+    const updateResponse = await fetch(`https://saikrupapaithanisarees-mdqk.onrender.com/api/products/${currentProduct._id}`, {
       method: 'PUT',
       headers: {
         'Content-Type': 'application/json',
@@ -1118,8 +1110,7 @@ async function addToCartHandler() {
       quantity: quantity
     };
 
-   const res = await fetch("http://localhost:5000/api/cart/add", {
- // const res = await fetch("https://saikrupapaithanisarees.onrender.com/api/cart/add", {
+    const res = await fetch("https://saikrupapaithanisarees-mdqk.onrender.com/api/cart/add", {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
@@ -1136,7 +1127,7 @@ async function addToCartHandler() {
         hideLoading();
         showMessage("Session expired. Please login again.", false);
         setTimeout(() => {
-          window.location.href = "signup_login.html";
+          window.location.href = "signup.html";
         }, 1500);
         return;
       }
@@ -1180,8 +1171,7 @@ async function addToCartHandler() {
 // Related products
 async function renderRelatedProducts(currentId){
   try{
-    const res = await fetch("http://localhost:5000/api/products");
- // const res = await fetch("https://saikrupapaithanisarees.onrender.com/api/products");
+    const res = await fetch("https://saikrupapaithanisarees-mdqk.onrender.com/api/products");
     const products = await res.json();
     const related = products.filter(p => p._id !== currentId).slice(0, 7);
     
