@@ -211,7 +211,7 @@
   <body class="bg-cream">
     <!-- NAVBAR -->
     <nav>
-      <a href="home.html" class="logo flex items-center font-bold text-darkRed">
+      <a href="home1.html" class="logo flex items-center font-bold text-darkRed">
         <img
           src="images/logo3.png"
           alt="Paithani Logo"
@@ -222,17 +222,17 @@
         </div>
       </a>
       <ul>
-          <li><a href="dashboard.html">Home</a></li>
-        <li><a href="product.html">Collections</a></li>
+          <li><a href="dashboard1.html">Home</a></li>
+        <li><a href="product1.html">Collections</a></li>
         
         <li><a href="#testimonials">Testimonials</a></li>
-        <li><a href="contact.html">Contact</a></li>
+        <li><a href="#">Contact</a></li>
       </ul>
       <div class="nav-icons">
-        <a href="history.html"><div class="nav-icon"><i class="fas fa-shipping-fast mr-2"></i></div></a>
+        <a href="history1.html"><div class="nav-icon"><i class="fas fa-shipping-fast mr-2"></i></div></a>
        
         <div class="nav-icon">
-          <a href="cart.html"
+          <a href="cart1.html"
             ><i class="fas fa-shopping-cart"></i
             ><span class="cart-count" id="headerCartCount">0</span></a
           >
@@ -243,10 +243,10 @@
 
     <!-- BREADCRUMB -->
     <div class="container mx-auto px-6 py-4 text-gray">
-      <a href="dashboard.html"
+      <a href="dashboard1.html"
         ><span class="hover:text-primary cursor-pointer">Home</span> /
       </a>
-      <a href="product.html"
+      <a href="product1.html"
         ><span class="hover:text-primary cursor-pointer">Sarees</span> /
       </a>
       <span class="text-primary">Shopping Cart</span>
@@ -359,7 +359,7 @@
             </button>
             <div class="text-center">
               <a
-                href="product.html"
+                href="product1.html"
                 class="text-primary hover:text-darkRed font-medium flex items-center justify-center"
                 ><i class="fas fa-arrow-left mr-2"></i> Continue Shopping</a
               >
@@ -490,6 +490,7 @@
     </footer>
 
     <!-- CART SCRIPT -->
+       <!-- CART SCRIPT -->
     <script>
   // Cart array
   let cartItems = [];
@@ -518,8 +519,7 @@
       const token = getAuthToken();
       console.log("Fetching cart...");
 
-     const res = await fetch("http://localhost:5000/api/cart", {
-       //  const res = await fetch("https://saikrupapaithanisarees.onrender.com/api/cart", {
+      const res = await fetch("https://saikrupapaithanisarees-mdqk.onrender.com/api/cart", {
         headers: {
           Authorization: `Bearer ${token}`,
           "Content-Type": "application/json",
@@ -693,8 +693,7 @@
       const token = getAuthToken();
 
       // DEBUG: Log the exact URL being called
-    const url = `http://localhost:5000/api/cart/update/${productId}`;
-   // const url = `https://saikrupapaithanisarees.onrender.com/api/cart/update/${productId}`;
+      const url = `https://saikrupapaithanisarees-mdqk.onrender.com/api/cart/update/${productId}`;
       console.log("Calling URL:", url);
 
       const res = await fetch(url, {
@@ -753,9 +752,7 @@
 
       const token = getAuthToken();
 
-     
-      const url = `http://localhost:5000/api/cart/remove/${productId}`;
-   // const url = `https://saikrupapaithanisarees.onrender.com/api/cart/remove/${productId}`;
+      const url = `https://saikrupapaithanisarees-mdqk.onrender.com/api/cart/remove/${productId}`;
       console.log("Calling URL:", url);
 
       const res = await fetch(url, {
@@ -793,7 +790,7 @@
     }
   }
 
- 
+  // Clear cart
   async function clearCart() {
     try {
       if (!checkAuth()) return;
@@ -802,8 +799,7 @@
 
       const token = getAuthToken();
       
-      const res = await fetch("http://localhost:5000/api/cart/clear", {
-  //  const res = await fetch("https://saikrupapaithanisarees.onrender.com/api/cart/clear", {
+      const res = await fetch("https://saikrupapaithanisarees-mdqk.onrender.com/api/cart/clear", {
         method: "DELETE",
         headers: {
           Authorization: `Bearer ${token}`,
@@ -832,7 +828,7 @@
     }
   }
 
- 
+  // Setup event listeners
   function setupEventListeners() {
     document.getElementById("clearCartBtn").addEventListener("click", clearCart);
 
@@ -841,7 +837,7 @@
         alert("Your cart is empty");
         return;
       }
-      window.location.href = "checkout_page.html";
+      window.location.href = "checkout_page1.html";
     });
 
     const hamburger = document.querySelector(".hamburger");
@@ -850,7 +846,7 @@
       hamburger.addEventListener("click", () => navMenu.classList.toggle("show"));
     }
 
-   
+    // Event delegation for dynamic elements
     document.addEventListener("click", function (e) {
       const increaseBtn = e.target.closest(".increase-quantity");
       if (increaseBtn) {
@@ -875,7 +871,7 @@
     });
   }
 
- 
+  // Check login status
   function checkLoginStatus() {
     const authToken = getAuthToken();
     const userIcon = document.querySelector(".fa-user");
@@ -887,7 +883,7 @@
     }
   }
 
- 
+  // Initialize on page load
   document.addEventListener("DOMContentLoaded", function () {
     console.log("Cart page loaded");
     checkLoginStatus();
