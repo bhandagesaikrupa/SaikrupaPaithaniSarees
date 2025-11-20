@@ -975,9 +975,10 @@
     </div>
 
    <script>
+  <script>
   // API Base URL - UPDATED TO RENDER
   const API_BASE_URL = "https://saikrupapaithanisarees-mdqk.onrender.com";
-  console.log("🚀 API Base URL:", API_BASE_URL);
+  console.log("🚀 Using API Base URL:", API_BASE_URL);
 
   // Toggle panels for desktop
   const container = document.getElementById("container");
@@ -1100,24 +1101,7 @@
     });
   });
 
-  // Test API connection first
-  async function testAPI() {
-    try {
-      console.log("🧪 Testing API connection...");
-      const testRes = await fetch(`${API_BASE_URL}/api/test`);
-      const testData = await testRes.json();
-      console.log("✅ API test successful:", testData);
-      return true;
-    } catch (err) {
-      console.error("💥 API test failed:", err);
-      return false;
-    }
-  }
-
-  // Initialize API test
-  testAPI();
-
-  // Send OTP - UPDATED API URL
+  // Send OTP
   sendOtpBtn.addEventListener("click", async () => {
     const email = document.getElementById("resetEmail").value;
 
@@ -1130,7 +1114,7 @@
     showLoading("Sending OTP...");
 
     try {
-      console.log("📧 Sending OTP request for email:", email);
+      console.log("📧 Sending OTP to:", email);
       
       const res = await fetch(`${API_BASE_URL}/api/auth/forgot-password`, {
         method: "POST",
@@ -1138,9 +1122,8 @@
         body: JSON.stringify({ email }),
       });
 
-      console.log("📨 OTP Response status:", res.status);
       const result = await res.json();
-      console.log("📨 OTP Response data:", result);
+      console.log("OTP Response:", result);
 
       if (res.ok) {
         otpSection.style.display = "block";
@@ -1150,7 +1133,7 @@
         showMessage(result.message || "Failed to send OTP", false);
       }
     } catch (err) {
-      console.error("❌ OTP Error:", err);
+      console.error("OTP Error:", err);
       showMessage("Server error. Please try again.", false);
     } finally {
       hideLoading();
@@ -1158,7 +1141,7 @@
     }
   });
 
-  // Reset password - UPDATED API URL
+  // Reset password
   resetPasswordBtn.addEventListener("click", async () => {
     const email = document.getElementById("resetEmail").value;
     const newPassword = document.getElementById("newPassword").value;
@@ -1188,17 +1171,13 @@
     showLoading("Resetting password...");
 
     try {
-      console.log("🔄 Reset password request:", { email, otp });
-      
       const res = await fetch(`${API_BASE_URL}/api/auth/reset-password`, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ email, otp, newPassword }),
       });
 
-      console.log("📨 Reset password response status:", res.status);
       const result = await res.json();
-      console.log("📨 Reset password response data:", result);
 
       if (res.ok) {
         showMessage("Password reset successfully!");
@@ -1208,7 +1187,7 @@
         showMessage(result.message || "Failed to reset password", false);
       }
     } catch (err) {
-      console.error("❌ Reset password error:", err);
+      console.error("Reset password error:", err);
       showMessage("Server error. Please try again.", false);
     } finally {
       hideLoading();
@@ -1216,7 +1195,7 @@
     }
   });
 
-  // Resend OTP - UPDATED API URL
+  // Resend OTP
   resendOtpLink.addEventListener("click", async (e) => {
     e.preventDefault();
     const email = document.getElementById("resetEmail").value;
@@ -1230,17 +1209,13 @@
     showLoading("Resending OTP...");
 
     try {
-      console.log("🔄 Resending OTP for email:", email);
-      
       const res = await fetch(`${API_BASE_URL}/api/auth/resend-otp`, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ email }),
       });
 
-      console.log("📨 Resend OTP response status:", res.status);
       const result = await res.json();
-      console.log("📨 Resend OTP response data:", result);
 
       if (res.ok) {
         showMessage("OTP sent successfully!");
@@ -1249,7 +1224,7 @@
         showMessage(result.message || "Failed to resend OTP", false);
       }
     } catch (err) {
-      console.error("❌ Resend OTP error:", err);
+      console.error("Resend OTP error:", err);
       showMessage("Server error. Please try again.", false);
     } finally {
       hideLoading();
@@ -1259,7 +1234,7 @@
 
   // Timer function
   function startTimer() {
-    let timeLeft = 120; // 2 minutes in seconds
+    let timeLeft = 120;
     const timerInterval = setInterval(() => {
       const minutes = Math.floor(timeLeft / 60);
       const seconds = timeLeft % 60;
@@ -1288,7 +1263,7 @@
     timerElement.textContent = "02:00";
   }
 
-  // Signup form - UPDATED API URL
+  // Signup form
   document.getElementById("signupForm").addEventListener("submit", async (e) => {
     e.preventDefault();
     const submitBtn = e.target.querySelector('button[type="submit"]');
@@ -1303,7 +1278,7 @@
     showLoading("Creating your account...");
 
     try {
-      console.log("👤 Signup request data:", data);
+      console.log("📝 Signup attempt:", data.email);
       
       const res = await fetch(`${API_BASE_URL}/api/auth/register`, {
         method: "POST",
@@ -1311,20 +1286,18 @@
         body: JSON.stringify(data),
       });
 
-      console.log("📨 Signup response status:", res.status);
       const result = await res.json();
-      console.log("📨 Signup response data:", result);
+      console.log("Signup response:", result);
 
       if (res.ok) {
         showMessage("Registration successful! Please login.");
         e.target.reset();
-        // Redirect to login panel after signup
         container.classList.remove("active");
       } else {
         showMessage(result.message || "Registration failed", false);
       }
     } catch (err) {
-      console.error("❌ Signup error:", err);
+      console.error("Signup error:", err);
       showMessage("Server error during registration", false);
     } finally {
       hideLoading();
@@ -1332,7 +1305,7 @@
     }
   });
 
-  // Login form - UPDATED API URL
+  // Login form
   document.getElementById("loginForm").addEventListener("submit", async (e) => {
     e.preventDefault();
     const submitBtn = e.target.querySelector('button[type="submit"]');
@@ -1346,7 +1319,7 @@
         password: e.target.password.value,
       };
 
-      console.log("🔐 Login request data:", { email: data.email, password: "***" });
+      console.log("🔐 Login attempt:", data.email);
       
       const res = await fetch(`${API_BASE_URL}/api/auth/login`, {
         method: "POST",
@@ -1354,18 +1327,15 @@
         body: JSON.stringify(data),
       });
 
-      console.log("📨 Login response status:", res.status);
       const result = await res.json();
-      console.log("📨 Login response data:", result);
+      console.log("Login response:", result);
 
       if (res.ok && result.success) {
-        // Store token in localStorage
         localStorage.setItem("authToken", result.token);
         localStorage.setItem("user", JSON.stringify(result.user));
 
         showMessage("Login successful! Redirecting...");
 
-        // Redirect to home page after login
         setTimeout(() => {
           window.location.href = "dashboard.html";
         }, 1500);
@@ -1373,7 +1343,7 @@
         showMessage(result.message || "Login failed. Please check your credentials.", false);
       }
     } catch (err) {
-      console.error("❌ Login error:", err);
+      console.error("Login error:", err);
       showMessage("Server error during login. Please try again.", false);
     } finally {
       hideLoading();
@@ -1381,7 +1351,7 @@
     }
   });
 
-  console.log("✅ Authentication script loaded successfully");
+  console.log("✅ Authentication system ready");
 </script>
   </body>
 </html>
