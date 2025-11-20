@@ -718,660 +718,687 @@
       </div>
     </div>
 
-    <script>
-      // Global variables
-      let allProducts = [];
-      let currentPage = 1;
-      const productsPerPage = 10;
+   <script>
+  // Global variables
+  let allProducts = [];
+  let currentPage = 1;
+  const productsPerPage = 10;
+  
+  // API Base URL - UPDATED TO RENDER
+  const API_BASE_URL = "https://saikrupapaithanisarees-mdqk.onrender.com";
+  console.log("🚀 Admin Dashboard using API:", API_BASE_URL);
 
-      // DOM Elements
-      const imageDropZone = document.getElementById("imageDropZone");
-      const productImages = document.getElementById("productImages");
-      const imagePreview = document.getElementById("imagePreview");
-      const productForm = document.getElementById("productForm");
+  // DOM Elements
+  const imageDropZone = document.getElementById("imageDropZone");
+  const productImages = document.getElementById("productImages");
+  const imagePreview = document.getElementById("imagePreview");
+  const productForm = document.getElementById("productForm");
 
-      // Image preview for add product
-      imageDropZone.addEventListener("click", () => productImages.click());
-      productImages.addEventListener("change", handleImagePreview);
+  // Image preview for add product
+  imageDropZone.addEventListener("click", () => productImages.click());
+  productImages.addEventListener("change", handleImagePreview);
 
-      function handleImagePreview() {
-        imagePreview.innerHTML = "";
-        Array.from(productImages.files).forEach((file) => {
-          const reader = new FileReader();
-          reader.onload = (e) => {
-            const img = document.createElement("img");
-            img.src = e.target.result;
-            img.classList.add(
-              "w-24",
-              "h-24",
-              "object-cover",
-              "rounded-xl",
-              "border-2",
-              "border-gray-200",
-              "shadow-sm"
-            );
-            imagePreview.appendChild(img);
-          };
-          reader.readAsDataURL(file);
-        });
-      }
+  function handleImagePreview() {
+    imagePreview.innerHTML = "";
+    Array.from(productImages.files).forEach((file) => {
+      const reader = new FileReader();
+      reader.onload = (e) => {
+        const img = document.createElement("img");
+        img.src = e.target.result;
+        img.classList.add(
+          "w-24",
+          "h-24",
+          "object-cover",
+          "rounded-xl",
+          "border-2",
+          "border-gray-200",
+          "shadow-sm"
+        );
+        imagePreview.appendChild(img);
+      };
+      reader.readAsDataURL(file);
+    });
+  }
 
-      // Sidebar & dashboard init
-      document.addEventListener("DOMContentLoaded", function () {
-        initializeSidebar();
-        initializeEventListeners();
-        loadDashboard();
+  // Sidebar & dashboard init
+  document.addEventListener("DOMContentLoaded", function () {
+    console.log("🏁 Admin Dashboard Initializing...");
+    initializeSidebar();
+    initializeEventListeners();
+    loadDashboard();
+  });
+
+  function initializeSidebar() {
+    const sidebarToggle = document.getElementById("sidebarToggle");
+    const sidebar = document.querySelector(".sidebar");
+    const mainContent = document.querySelector(".main-content");
+
+    if (sidebarToggle) {
+      sidebarToggle.addEventListener("click", function () {
+        sidebar.classList.toggle("hidden");
+        mainContent.classList.toggle("lg:ml-0");
       });
+    }
 
-      function initializeSidebar() {
-        const sidebarToggle = document.getElementById("sidebarToggle");
-        const sidebar = document.querySelector(".sidebar");
-        const mainContent = document.querySelector(".main-content");
+    const sidebarItems = document.querySelectorAll(".sidebar-item");
+    const sections = document.querySelectorAll(".section");
+    const pageTitle = document.getElementById("pageTitle");
+    const quickActionBtns = document.querySelectorAll(".quick-action-btn");
 
-        if (sidebarToggle) {
-          sidebarToggle.addEventListener("click", function () {
-            sidebar.classList.toggle("hidden");
-            mainContent.classList.toggle("lg:ml-0");
-          });
-        }
-
-        const sidebarItems = document.querySelectorAll(".sidebar-item");
-        const sections = document.querySelectorAll(".section");
-        const pageTitle = document.getElementById("pageTitle");
-        const quickActionBtns = document.querySelectorAll(".quick-action-btn");
-
-        function switchSection(sectionId) {
-          sidebarItems.forEach((i) => i.classList.remove("active"));
-          const activeItem = document.querySelector(`[data-section="${sectionId}"]`);
-          if (activeItem) activeItem.classList.add("active");
-          
-          sections.forEach((section) => {
-            section.classList.add("hidden");
-            section.classList.remove("active");
-          });
-          
-          const targetSection = document.getElementById(sectionId);
-          if (targetSection) {
-            targetSection.classList.remove("hidden");
-            targetSection.classList.add("active");
-          }
-
-          if (pageTitle && activeItem) {
-            const spanElement = activeItem.querySelector('span');
-            if (spanElement) {
-              pageTitle.textContent = spanElement.textContent;
-            }
-          }
-          
-          if (window.innerWidth < 1024) {
-            sidebar.classList.add("hidden");
-            mainContent.classList.remove("lg:ml-0");
-          }
-        }
-
-        sidebarItems.forEach((item) => {
-          item.addEventListener("click", function (e) {
-            e.preventDefault();
-            const sectionId = this.getAttribute("data-section");
-            switchSection(sectionId);
-          });
-        });
-
-        quickActionBtns.forEach((btn) => {
-          btn.addEventListener("click", function (e) {
-            e.preventDefault();
-            const sectionId = this.getAttribute("data-section");
-            switchSection(sectionId);
-          });
-        });
+    function switchSection(sectionId) {
+      sidebarItems.forEach((i) => i.classList.remove("active"));
+      const activeItem = document.querySelector(`[data-section="${sectionId}"]`);
+      if (activeItem) activeItem.classList.add("active");
+      
+      sections.forEach((section) => {
+        section.classList.add("hidden");
+        section.classList.remove("active");
+      });
+      
+      const targetSection = document.getElementById(sectionId);
+      if (targetSection) {
+        targetSection.classList.remove("hidden");
+        targetSection.classList.add("active");
       }
 
-      function initializeEventListeners() {
-        // Add Product Modal
-        const addProductBtn = document.getElementById("addProductBtn");
-        const addProductModal = document.getElementById("addProductModal");
-        const cancelProductBtn = document.getElementById("cancelProductBtn");
-
-        addProductBtn.addEventListener("click", () => {
-          addProductModal.classList.remove("hidden");
-        });
-
-        cancelProductBtn.addEventListener("click", () => {
-          addProductModal.classList.add("hidden");
-          productForm.reset();
-          imagePreview.innerHTML = "";
-        });
-
-        addProductModal.addEventListener("click", (e) => {
-          if (e.target === addProductModal) {
-            addProductModal.classList.add("hidden");
-            productForm.reset();
-            imagePreview.innerHTML = "";
-          }
-        });
-
-        // Edit Modal
-        document.getElementById("cancelEdit").addEventListener("click", () => {
-          document.getElementById("editModal").classList.add("hidden");
-        });
-
-        document.getElementById("saveEditBtn").addEventListener("click", handleEditProduct);
-
-        // Filter buttons
-        document.getElementById("filterAll").addEventListener("click", () => filterProducts('all'));
-        document.getElementById("filterInStock").addEventListener("click", () => filterProducts('in-stock'));
-        document.getElementById("filterLowStock").addEventListener("click", () => filterProducts('low-stock'));
-        document.getElementById("filterOutOfStock").addEventListener("click", () => filterProducts('out-of-stock'));
-        
-        // Search and category filter
-        document.getElementById("searchInput").addEventListener("input", handleSearch);
-        document.getElementById("categoryFilter").addEventListener("change", handleCategoryFilter);
-      }
-
-      // Dashboard functions
-      async function loadDashboard() {
-        await loadProducts();
-        initSalesChart();
-      }
-
-      // PRODUCTS SECTION - COMPLETELY REWRITTEN
-      async function loadProducts() {
-        try {
-          showLoadingState();
-          
-         const res = await fetch("http://localhost:5000/api/products");
-     //  const res = await fetch("https://saikrupapaithanisarees.onrender.com/api/products");
-          if (!res.ok) throw new Error(`HTTP error! status: ${res.status}`);
-          
-          allProducts = await res.json();
-          renderProductsTable(allProducts);
-          
-        } catch (err) {
-          console.error("Error loading products:", err);
-          showNotification("❌ Error loading products: " + err.message, "error");
-          showErrorState();
+      if (pageTitle && activeItem) {
+        const spanElement = activeItem.querySelector('span');
+        if (spanElement) {
+          pageTitle.textContent = spanElement.textContent;
         }
       }
-
-      function showLoadingState() {
-        const productsTableBody = document.getElementById("productsTableBody");
-        productsTableBody.innerHTML = `
-          <tr>
-            <td colspan="6" class="px-6 py-12 text-center">
-              <i class="fas fa-spinner fa-spin text-3xl text-primary mb-3"></i>
-              <p class="text-gray-600">Loading products...</p>
-            </td>
-          </tr>
-        `;
+      
+      if (window.innerWidth < 1024) {
+        sidebar.classList.add("hidden");
+        mainContent.classList.remove("lg:ml-0");
       }
+    }
 
-      function showErrorState() {
-        const productsTableBody = document.getElementById("productsTableBody");
-        productsTableBody.innerHTML = `
-          <tr>
-            <td colspan="6" class="px-6 py-12 text-center text-gray-500">
-              <i class="fas fa-exclamation-triangle text-3xl text-red-500 mb-3"></i>
-              <p class="text-lg">Failed to load products</p>
-              <p class="text-sm">Please check your connection and try again</p>
-              <button onclick="loadProducts()" class="mt-3 bg-primary text-white px-4 py-2 rounded-lg hover:bg-darkRed transition-colors">
-                <i class="fas fa-redo mr-2"></i>Retry
-              </button>
-            </td>
-          </tr>
-        `;
-      }
-
-      function renderProductsTable(products) {
-        const productsTableBody = document.getElementById("productsTableBody");
-        
-        if (!products || products.length === 0) {
-          productsTableBody.innerHTML = `
-            <tr>
-              <td colspan="6" class="px-6 py-12 text-center text-gray-500">
-                <i class="fas fa-tshirt text-4xl text-gray-300 mb-3"></i>
-                <p class="text-lg">No products found</p>
-                <p class="text-sm">Add your first product to get started</p>
-                <button onclick="document.getElementById('addProductBtn').click()" class="mt-3 bg-primary text-white px-4 py-2 rounded-lg hover:bg-darkRed transition-colors">
-                  <i class="fas fa-plus mr-2"></i>Add Product
-                </button>
-              </td>
-            </tr>
-          `;
-          updatePaginationInfo(0);
-          return;
-        }
-
-        // Calculate pagination
-        const startIndex = (currentPage - 1) * productsPerPage;
-        const endIndex = startIndex + productsPerPage;
-        const paginatedProducts = products.slice(startIndex, endIndex);
-
-        productsTableBody.innerHTML = paginatedProducts.map((product, index) => {
-          const actualIndex = startIndex + index;
-          
-          // Determine stock status
-          let stockClass = "stock-high";
-          let stockStatus = "In Stock";
-          let statusClass = "bg-green-100 text-green-800";
-          
-          if (product.stock === 0) {
-            stockClass = "stock-low";
-            stockStatus = "Out of Stock";
-            statusClass = "bg-red-100 text-red-800";
-          } else if (product.stock <= 10) {
-            stockClass = "stock-medium";
-            stockStatus = "Low Stock";
-            statusClass = "bg-yellow-100 text-yellow-800";
-          }
-
-          return `
-            <tr class="table-row">
-              <td class="px-6 py-4 whitespace-nowrap">
-                <div class="flex items-center">
-                  <div class="w-12 h-12 bg-gradient-to-br from-gray-100 to-gray-200 rounded-xl mr-4 flex items-center justify-center product-image overflow-hidden">
-                    ${product.images && product.images.length > 0 ? 
-                     `<img src="http://localhost:5000/${product.images[0]}" alt="${product.name}" class="w-full h-full object-cover" onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';">
-
-                       <div class="w-full h-full hidden items-center justify-center bg-primary/10">
-                         <i class="fas fa-tshirt text-primary text-lg"></i>
-                       </div>` :
-                      `<div class="w-full h-full flex items-center justify-center bg-primary/10">
-                         <i class="fas fa-tshirt text-primary text-lg"></i>
-                       </div>`
-                    }
-                  </div>
-                  <div>
-                    <div class="text-sm font-semibold text-gray-900">${product.name}</div>
-                    <div class="text-sm text-gray-500">SKU: ${(product.category || '').substring(0, 2).toUpperCase()}-${(product._id || '').slice(-4)}</div>
-                  </div>
-                </div>
-              </td>
-              <td class="px-6 py-4 whitespace-nowrap">
-                <span class="inline-flex items-center px-3 py-1 rounded-full text-xs font-semibold bg-primary/10 text-primary">
-                  ${product.category || 'Uncategorized'}
-                </span>
-              </td>
-              <td class="px-6 py-4 whitespace-nowrap text-sm font-semibold text-gray-900">
-                ₹${(product.price || 0).toLocaleString()}
-              </td>
-              <td class="px-6 py-4 whitespace-nowrap">
-                <span class="status-badge ${stockClass}">
-                  ${product.stock || 0} units
-                </span>
-              </td>
-              <td class="px-6 py-4 whitespace-nowrap">
-                <span class="status-badge ${statusClass}">
-                  ${stockStatus}
-                </span>
-              </td>
-              <td class="px-6 py-4 whitespace-nowrap text-sm font-medium">
-                <button class="text-primary hover:text-primaryLight mr-4 edit-product" data-id="${product._id}" data-index="${actualIndex}">
-                  <i class="fas fa-edit mr-1"></i>Edit
-                </button>
-                <button class="text-red-600 hover:text-red-800 delete-product" data-id="${product._id}">
-                  <i class="fas fa-trash mr-1"></i>Delete
-                </button>
-              </td>
-            </tr>
-          `;
-        }).join("");
-
-        // Add event listeners to action buttons
-        addProductActionListeners();
-        
-        // Update pagination
-        updatePaginationInfo(products.length);
-        renderPagination(products.length);
-      }
-
-      function addProductActionListeners() {
-        // DELETE PRODUCT
-        document.querySelectorAll(".delete-product").forEach((btn) => {
-          btn.addEventListener("click", async function () {
-            const id = this.dataset.id;
-            const productName = this.closest('tr').querySelector('.font-semibold').textContent;
-            
-            if (confirm(`Are you sure you want to delete "${productName}"? This action cannot be undone.`)) {
-              try {
-                const res = await fetch(`http://localhost:5000/api/products/${id}`, { 
-            // const res = await fetch(`https://saikrupapaithanisarees.onrender.com/api/products/${id}`, { 
-                  method: "DELETE" 
-                });
-                
-                if (res.ok) {
-                  showNotification("✅ Product deleted successfully!", "success");
-                  await loadProducts(); // Reload the products
-                } else {
-                  const error = await res.json();
-                  throw new Error(error.message || "Failed to delete product");
-                }
-              } catch (err) {
-                console.error("Delete error:", err);
-                showNotification("❌ Error deleting product: " + err.message, "error");
-              }
-            }
-          });
-        });
-
-        // EDIT PRODUCT
-        document.querySelectorAll(".edit-product").forEach((btn) => {
-          btn.addEventListener("click", function () {
-            const id = this.dataset.id;
-            const index = parseInt(this.dataset.index);
-            const product = allProducts[index];
-            
-            if (product) {
-              openEditModal(product);
-            }
-          });
-        });
-      }
-
-      function openEditModal(product) {
-        document.getElementById("editProductId").value = product._id;
-        document.getElementById("editName").value = product.name || '';
-        document.getElementById("editPrice").value = product.price || '';
-        document.getElementById("editCategory").value = product.category || '';
-        document.getElementById("editStock").value = product.stock || '';
-        document.getElementById("editDescription").value = product.description || '';
-
-        document.getElementById("editModal").classList.remove("hidden");
-      }
-
-      async function handleEditProduct() {
-        const saveBtn = document.getElementById("saveEditBtn");
-        const originalText = saveBtn.innerHTML;
-        
-        try {
-          saveBtn.innerHTML = '<i class="fas fa-spinner fa-spin mr-2"></i>Saving...';
-          saveBtn.disabled = true;
-
-          const id = document.getElementById("editProductId").value;
-          const updateData = {
-            name: document.getElementById("editName").value,
-            price: parseFloat(document.getElementById("editPrice").value),
-            category: document.getElementById("editCategory").value,
-            stock: parseInt(document.getElementById("editStock").value),
-            description: document.getElementById("editDescription").value
-          };
-
-          // Validate data
-          if (!updateData.name || !updateData.category || updateData.price < 0 || updateData.stock < 0) {
-            throw new Error("Please fill all required fields with valid values");
-          }
-
-         const res = await fetch(`http://localhost:5000/api/products/${id}`, {
-    //   const res = await fetch(`https://saikrupapaithanisarees.onrender.com/api/products/${id}`, {
-            method: "PUT",
-            headers: {
-              "Content-Type": "application/json",
-            },
-            body: JSON.stringify(updateData)
-          });
-
-          const result = await res.json();
-
-          if (!res.ok) {
-            throw new Error(result.error || result.message || "Failed to update product");
-          }
-
-          showNotification("✅ Product updated successfully!", "success");
-          document.getElementById("editModal").classList.add("hidden");
-          await loadProducts(); // Reload to show updated data
-          
-        } catch (error) {
-          console.error("Update error:", error);
-          showNotification("❌ Error updating product: " + error.message, "error");
-        } finally {
-          saveBtn.innerHTML = 'Save Changes';
-          saveBtn.disabled = false;
-        }
-      }
-
-      // Add Product Form Submission
-      productForm.addEventListener("submit", async (e) => {
+    sidebarItems.forEach((item) => {
+      item.addEventListener("click", function (e) {
         e.preventDefault();
-
-        const saveBtn = document.getElementById("saveProductBtn");
-        const originalText = saveBtn.innerHTML;
-        
-        try {
-          saveBtn.innerHTML = '<i class="fas fa-spinner fa-spin mr-2"></i>Adding...';
-          saveBtn.disabled = true;
-
-          const formData = new FormData(productForm);
-          
-          // Validate required fields
-          const name = formData.get('name');
-          const category = formData.get('category');
-          const price = formData.get('price');
-          const stock = formData.get('stock');
-          const images = formData.getAll('images');
-
-          if (!name || !category || !price || !stock) {
-            throw new Error("Please fill all required fields");
-          }
-
-          if (images.length === 0) {
-            throw new Error("Please upload at least one product image");
-          }
-
-          const res = await fetch("http://localhost:5000/api/products", {
-       // const res = await fetch("https://saikrupapaithanisarees.onrender.com/api/products", {
-            method: "POST",
-            body: formData,
-          });
-
-          const result = await res.json();
-
-          if (!res.ok) {
-            throw new Error(result.error || result.message || "Failed to add product");
-          }
-
-          showNotification("✅ Product added successfully!", "success");
-          document.getElementById("addProductModal").classList.add("hidden");
-          productForm.reset();
-          imagePreview.innerHTML = "";
-          await loadProducts(); // Reload products to show the new one
-
-        } catch (err) {
-          console.error("Add product error:", err);
-          showNotification("❌ Error: " + err.message, "error");
-        } finally {
-          saveBtn.innerHTML = '<i class="fas fa-plus mr-2"></i> Add Product';
-          saveBtn.disabled = false;
-        }
+        const sectionId = this.getAttribute("data-section");
+        switchSection(sectionId);
       });
+    });
 
-      // Filtering and Search Functions
-      function filterProducts(filterType) {
-        let filteredProducts = [...allProducts];
-        
-        switch (filterType) {
-          case 'in-stock':
-            filteredProducts = allProducts.filter(p => p.stock > 10);
-            break;
-          case 'low-stock':
-            filteredProducts = allProducts.filter(p => p.stock > 0 && p.stock <= 10);
-            break;
-          case 'out-of-stock':
-            filteredProducts = allProducts.filter(p => p.stock === 0);
-            break;
-          case 'all':
-          default:
-            filteredProducts = allProducts;
-            break;
-        }
-        
-        // Apply category filter
-        const categoryFilter = document.getElementById("categoryFilter").value;
-        if (categoryFilter) {
-          filteredProducts = filteredProducts.filter(p => p.category === categoryFilter);
-        }
-        
-        // Apply search filter
-        const searchTerm = document.getElementById("searchInput").value.toLowerCase();
-        if (searchTerm) {
-          filteredProducts = filteredProducts.filter(p => 
-            p.name.toLowerCase().includes(searchTerm) || 
-            (p.category && p.category.toLowerCase().includes(searchTerm))
-          );
-        }
-        
-        currentPage = 1;
-        renderProductsTable(filteredProducts);
+    quickActionBtns.forEach((btn) => {
+      btn.addEventListener("click", function (e) {
+        e.preventDefault();
+        const sectionId = this.getAttribute("data-section");
+        switchSection(sectionId);
+      });
+    });
+  }
+
+  function initializeEventListeners() {
+    // Add Product Modal
+    const addProductBtn = document.getElementById("addProductBtn");
+    const addProductModal = document.getElementById("addProductModal");
+    const cancelProductBtn = document.getElementById("cancelProductBtn");
+
+    addProductBtn.addEventListener("click", () => {
+      addProductModal.classList.remove("hidden");
+    });
+
+    cancelProductBtn.addEventListener("click", () => {
+      addProductModal.classList.add("hidden");
+      productForm.reset();
+      imagePreview.innerHTML = "";
+    });
+
+    addProductModal.addEventListener("click", (e) => {
+      if (e.target === addProductModal) {
+        addProductModal.classList.add("hidden");
+        productForm.reset();
+        imagePreview.innerHTML = "";
       }
+    });
 
-      function handleSearch() {
-        filterProducts('all');
+    // Edit Modal
+    document.getElementById("cancelEdit").addEventListener("click", () => {
+      document.getElementById("editModal").classList.add("hidden");
+    });
+
+    document.getElementById("saveEditBtn").addEventListener("click", handleEditProduct);
+
+    // Filter buttons
+    document.getElementById("filterAll").addEventListener("click", () => filterProducts('all'));
+    document.getElementById("filterInStock").addEventListener("click", () => filterProducts('in-stock'));
+    document.getElementById("filterLowStock").addEventListener("click", () => filterProducts('low-stock'));
+    document.getElementById("filterOutOfStock").addEventListener("click", () => filterProducts('out-of-stock'));
+    
+    // Search and category filter
+    document.getElementById("searchInput").addEventListener("input", handleSearch);
+    document.getElementById("categoryFilter").addEventListener("change", handleCategoryFilter);
+  }
+
+  // Dashboard functions
+  async function loadDashboard() {
+    await loadProducts();
+    initSalesChart();
+  }
+
+  // PRODUCTS SECTION - UPDATED WITH PROPER ERROR HANDLING
+  async function loadProducts() {
+    try {
+      showLoadingState();
+      
+      console.log("📦 Fetching products from:", `${API_BASE_URL}/api/products`);
+      const res = await fetch(`${API_BASE_URL}/api/products`);
+      
+      console.log("📨 Response status:", res.status);
+      
+      if (!res.ok) {
+        throw new Error(`HTTP error! status: ${res.status}`);
       }
+      
+      allProducts = await res.json();
+      console.log("✅ Products loaded successfully:", allProducts.length);
+      renderProductsTable(allProducts);
+      
+    } catch (err) {
+      console.error("❌ Error loading products:", err);
+      showNotification("❌ Error loading products: " + err.message, "error");
+      showErrorState();
+    }
+  }
 
-      function handleCategoryFilter() {
-        filterProducts('all');
-      }
+  function showLoadingState() {
+    const productsTableBody = document.getElementById("productsTableBody");
+    productsTableBody.innerHTML = `
+      <tr>
+        <td colspan="6" class="px-6 py-12 text-center">
+          <i class="fas fa-spinner fa-spin text-3xl text-primary mb-3"></i>
+          <p class="text-gray-600">Loading products...</p>
+        </td>
+      </tr>
+    `;
+  }
 
-      // Pagination Functions
-      function updatePaginationInfo(totalProducts) {
-        const start = Math.min((currentPage - 1) * productsPerPage + 1, totalProducts);
-        const end = Math.min(currentPage * productsPerPage, totalProducts);
-        
-        document.getElementById("productsStart").textContent = totalProducts === 0 ? 0 : start;
-        document.getElementById("productsEnd").textContent = end;
-        document.getElementById("productsTotal").textContent = totalProducts;
-      }
-
-      function renderPagination(totalProducts) {
-        const totalPages = Math.ceil(totalProducts / productsPerPage);
-        const paginationContainer = document.getElementById("paginationContainer");
-        
-        if (totalPages <= 1) {
-          paginationContainer.innerHTML = '';
-          return;
-        }
-
-        let paginationHTML = '';
-        
-        // Previous button
-        paginationHTML += `
-          <button class="px-4 py-2 border border-gray-300 rounded-xl text-sm font-medium hover:bg-gray-50 transition-colors ${currentPage === 1 ? 'opacity-50 cursor-not-allowed' : ''}" 
-            ${currentPage === 1 ? 'disabled' : ''} onclick="changePage(${currentPage - 1})">
-            Previous
+  function showErrorState() {
+    const productsTableBody = document.getElementById("productsTableBody");
+    productsTableBody.innerHTML = `
+      <tr>
+        <td colspan="6" class="px-6 py-12 text-center text-gray-500">
+          <i class="fas fa-exclamation-triangle text-3xl text-red-500 mb-3"></i>
+          <p class="text-lg">Failed to load products</p>
+          <p class="text-sm">Please check your connection and try again</p>
+          <button onclick="loadProducts()" class="mt-3 bg-primary text-white px-4 py-2 rounded-lg hover:bg-darkRed transition-colors">
+            <i class="fas fa-redo mr-2"></i>Retry
           </button>
-        `;
+        </td>
+      </tr>
+    `;
+  }
 
-        // Page numbers
-        for (let i = 1; i <= totalPages; i++) {
-          if (i === 1 || i === totalPages || (i >= currentPage - 1 && i <= currentPage + 1)) {
-            paginationHTML += `
-              <button class="px-4 py-2 ${currentPage === i ? 'bg-primary text-white' : 'border border-gray-300 text-gray-700'} rounded-xl text-sm font-medium hover:bg-gray-50 transition-colors" 
-                onclick="changePage(${i})">
-                ${i}
-              </button>
-            `;
-          } else if (i === currentPage - 2 || i === currentPage + 2) {
-            paginationHTML += `<span class="px-2 py-2 text-gray-500">...</span>`;
-          }
-        }
+  function renderProductsTable(products) {
+    const productsTableBody = document.getElementById("productsTableBody");
+    
+    if (!products || products.length === 0) {
+      productsTableBody.innerHTML = `
+        <tr>
+          <td colspan="6" class="px-6 py-12 text-center text-gray-500">
+            <i class="fas fa-tshirt text-4xl text-gray-300 mb-3"></i>
+            <p class="text-lg">No products found</p>
+            <p class="text-sm">Add your first product to get started</p>
+            <button onclick="document.getElementById('addProductBtn').click()" class="mt-3 bg-primary text-white px-4 py-2 rounded-lg hover:bg-darkRed transition-colors">
+              <i class="fas fa-plus mr-2"></i>Add Product
+            </button>
+          </td>
+        </tr>
+      `;
+      updatePaginationInfo(0);
+      return;
+    }
 
-        // Next button
-        paginationHTML += `
-          <button class="px-4 py-2 border border-gray-300 rounded-xl text-sm font-medium hover:bg-gray-50 transition-colors ${currentPage === totalPages ? 'opacity-50 cursor-not-allowed' : ''}" 
-            ${currentPage === totalPages ? 'disabled' : ''} onclick="changePage(${currentPage + 1})">
-            Next
-          </button>
-        `;
+    // Calculate pagination
+    const startIndex = (currentPage - 1) * productsPerPage;
+    const endIndex = startIndex + productsPerPage;
+    const paginatedProducts = products.slice(startIndex, endIndex);
 
-        paginationContainer.innerHTML = paginationHTML;
+    productsTableBody.innerHTML = paginatedProducts.map((product, index) => {
+      const actualIndex = startIndex + index;
+      
+      // Determine stock status
+      let stockClass = "stock-high";
+      let stockStatus = "In Stock";
+      let statusClass = "bg-green-100 text-green-800";
+      
+      if (product.stock === 0) {
+        stockClass = "stock-low";
+        stockStatus = "Out of Stock";
+        statusClass = "bg-red-100 text-red-800";
+      } else if (product.stock <= 10) {
+        stockClass = "stock-medium";
+        stockStatus = "Low Stock";
+        statusClass = "bg-yellow-100 text-yellow-800";
       }
 
-      function changePage(page) {
-        currentPage = page;
-        filterProducts('all'); // This will re-render with the new page
-      }
-
-      // Other dashboard functions
-      function initSalesChart() {
-        const ctx = document.getElementById("salesChart")?.getContext("2d");
-        if (!ctx) return;
-
-        new Chart(ctx, {
-          type: 'line',
-          data: {
-            labels: ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'],
-            datasets: [{
-              label: 'Sales (₹)',
-              data: [120000, 190000, 150000, 180000, 220000, 250000, 280000, 300000, 270000, 320000, 350000, 400000],
-              borderColor: '#800000',
-              backgroundColor: 'rgba(128, 0, 0, 0.1)',
-              borderWidth: 3,
-              fill: true,
-              tension: 0.4,
-              pointBackgroundColor: '#800000',
-              pointBorderColor: '#ffffff',
-              pointBorderWidth: 2,
-              pointRadius: 6,
-              pointHoverRadius: 8
-            }]
-          },
-          options: {
-            responsive: true,
-            maintainAspectRatio: false,
-            plugins: {
-              legend: {
-                display: false
-              }
-            },
-            scales: {
-              y: {
-                beginAtZero: true,
-                ticks: {
-                  callback: function(value) {
-                    return '₹' + (value / 1000) + 'k';
-                  }
-                },
-                grid: {
-                  color: 'rgba(0, 0, 0, 0.1)'
-                }
-              },
-              x: {
-                grid: {
-                  color: 'rgba(0, 0, 0, 0.1)'
-                }
-              }
-            }
-          }
-        });
-      }
-
-      // Notification function
-      function showNotification(message, type = 'info') {
-        // Remove existing notifications
-        const existingNotifications = document.querySelectorAll('.custom-notification');
-        existingNotifications.forEach(notification => notification.remove());
-
-        const notification = document.createElement('div');
-        notification.className = `custom-notification fixed top-4 right-4 px-6 py-4 rounded-xl shadow-lg z-50 transform transition-all duration-300 ${
-          type === 'success' ? 'bg-green-500 text-white' :
-          type === 'error' ? 'bg-red-500 text-white' :
-          'bg-blue-500 text-white'
-        }`;
+      // Handle image URLs properly
+      let imageHtml = '';
+      if (product.images && product.images.length > 0) {
+        const imagePath = product.images[0].replace(/\\/g, "/");
+        const cleanPath = imagePath.startsWith('/') ? imagePath.slice(1) : imagePath;
+        const imageUrl = `${API_BASE_URL}/${cleanPath}`;
         
-        notification.innerHTML = `
-          <div class="flex items-center">
-            <i class="fas fa-${type === 'success' ? 'check' : type === 'error' ? 'exclamation-triangle' : 'info'}-circle mr-3 text-lg"></i>
-            <span class="font-semibold">${message}</span>
+        imageHtml = `
+          <img src="${imageUrl}" alt="${product.name}" 
+               class="w-full h-full object-cover" 
+               onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';">
+          <div class="w-full h-full hidden items-center justify-center bg-primary/10">
+            <i class="fas fa-tshirt text-primary text-lg"></i>
           </div>
         `;
-        
-        document.body.appendChild(notification);
-        
-        // Auto remove after 5 seconds
-        setTimeout(() => {
-          notification.style.opacity = '0';
-          notification.style.transform = 'translateX(100%)';
-          setTimeout(() => notification.remove(), 300);
-        }, 5000);
+      } else {
+        imageHtml = `
+          <div class="w-full h-full flex items-center justify-center bg-primary/10">
+            <i class="fas fa-tshirt text-primary text-lg"></i>
+          </div>
+        `;
       }
-    </script>
+
+      return `
+        <tr class="table-row">
+          <td class="px-6 py-4 whitespace-nowrap">
+            <div class="flex items-center">
+              <div class="w-12 h-12 bg-gradient-to-br from-gray-100 to-gray-200 rounded-xl mr-4 flex items-center justify-center product-image overflow-hidden">
+                ${imageHtml}
+              </div>
+              <div>
+                <div class="text-sm font-semibold text-gray-900">${product.name || 'Unnamed Product'}</div>
+                <div class="text-sm text-gray-500">SKU: ${(product.category || '').substring(0, 2).toUpperCase()}-${(product._id || '').slice(-4)}</div>
+              </div>
+            </div>
+          </td>
+          <td class="px-6 py-4 whitespace-nowrap">
+            <span class="inline-flex items-center px-3 py-1 rounded-full text-xs font-semibold bg-primary/10 text-primary">
+              ${product.category || 'Uncategorized'}
+            </span>
+          </td>
+          <td class="px-6 py-4 whitespace-nowrap text-sm font-semibold text-gray-900">
+            ₹${(product.price || 0).toLocaleString()}
+          </td>
+          <td class="px-6 py-4 whitespace-nowrap">
+            <span class="status-badge ${stockClass}">
+              ${product.stock || 0} units
+            </span>
+          </td>
+          <td class="px-6 py-4 whitespace-nowrap">
+            <span class="status-badge ${statusClass}">
+              ${stockStatus}
+            </span>
+          </td>
+          <td class="px-6 py-4 whitespace-nowrap text-sm font-medium">
+            <button class="text-primary hover:text-primaryLight mr-4 edit-product" data-id="${product._id}" data-index="${actualIndex}">
+              <i class="fas fa-edit mr-1"></i>Edit
+            </button>
+            <button class="text-red-600 hover:text-red-800 delete-product" data-id="${product._id}">
+              <i class="fas fa-trash mr-1"></i>Delete
+            </button>
+          </td>
+        </tr>
+      `;
+    }).join("");
+
+    // Add event listeners to action buttons
+    addProductActionListeners();
+    
+    // Update pagination
+    updatePaginationInfo(products.length);
+    renderPagination(products.length);
+  }
+
+  function addProductActionListeners() {
+    // DELETE PRODUCT
+    document.querySelectorAll(".delete-product").forEach((btn) => {
+      btn.addEventListener("click", async function () {
+        const id = this.dataset.id;
+        const productName = this.closest('tr').querySelector('.font-semibold').textContent;
+        
+        if (confirm(`Are you sure you want to delete "${productName}"? This action cannot be undone.`)) {
+          try {
+            console.log("🗑️ Deleting product:", id);
+            const res = await fetch(`${API_BASE_URL}/api/products/${id}`, { 
+              method: "DELETE" 
+            });
+            
+            if (res.ok) {
+              showNotification("✅ Product deleted successfully!", "success");
+              await loadProducts(); // Reload the products
+            } else {
+              const error = await res.json();
+              throw new Error(error.message || "Failed to delete product");
+            }
+          } catch (err) {
+            console.error("Delete error:", err);
+            showNotification("❌ Error deleting product: " + err.message, "error");
+          }
+        }
+      });
+    });
+
+    // EDIT PRODUCT
+    document.querySelectorAll(".edit-product").forEach((btn) => {
+      btn.addEventListener("click", function () {
+        const id = this.dataset.id;
+        const index = parseInt(this.dataset.index);
+        const product = allProducts[index];
+        
+        if (product) {
+          openEditModal(product);
+        }
+      });
+    });
+  }
+
+  function openEditModal(product) {
+    document.getElementById("editProductId").value = product._id;
+    document.getElementById("editName").value = product.name || '';
+    document.getElementById("editPrice").value = product.price || '';
+    document.getElementById("editCategory").value = product.category || '';
+    document.getElementById("editStock").value = product.stock || '';
+    document.getElementById("editDescription").value = product.description || '';
+
+    document.getElementById("editModal").classList.remove("hidden");
+  }
+
+  async function handleEditProduct() {
+    const saveBtn = document.getElementById("saveEditBtn");
+    const originalText = saveBtn.innerHTML;
+    
+    try {
+      saveBtn.innerHTML = '<i class="fas fa-spinner fa-spin mr-2"></i>Saving...';
+      saveBtn.disabled = true;
+
+      const id = document.getElementById("editProductId").value;
+      const updateData = {
+        name: document.getElementById("editName").value,
+        price: parseFloat(document.getElementById("editPrice").value),
+        category: document.getElementById("editCategory").value,
+        stock: parseInt(document.getElementById("editStock").value),
+        description: document.getElementById("editDescription").value
+      };
+
+      // Validate data
+      if (!updateData.name || !updateData.category || updateData.price < 0 || updateData.stock < 0) {
+        throw new Error("Please fill all required fields with valid values");
+      }
+
+      console.log("✏️ Updating product:", id, updateData);
+      const res = await fetch(`${API_BASE_URL}/api/products/${id}`, {
+        method: "PUT",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(updateData)
+      });
+
+      const result = await res.json();
+
+      if (!res.ok) {
+        throw new Error(result.error || result.message || "Failed to update product");
+      }
+
+      showNotification("✅ Product updated successfully!", "success");
+      document.getElementById("editModal").classList.add("hidden");
+      await loadProducts(); // Reload to show updated data
+      
+    } catch (error) {
+      console.error("Update error:", error);
+      showNotification("❌ Error updating product: " + error.message, "error");
+    } finally {
+      saveBtn.innerHTML = 'Save Changes';
+      saveBtn.disabled = false;
+    }
+  }
+
+  // Add Product Form Submission
+  productForm.addEventListener("submit", async (e) => {
+    e.preventDefault();
+
+    const saveBtn = document.getElementById("saveProductBtn");
+    const originalText = saveBtn.innerHTML;
+    
+    try {
+      saveBtn.innerHTML = '<i class="fas fa-spinner fa-spin mr-2"></i>Adding...';
+      saveBtn.disabled = true;
+
+      const formData = new FormData(productForm);
+      
+      // Validate required fields
+      const name = formData.get('name');
+      const category = formData.get('category');
+      const price = formData.get('price');
+      const stock = formData.get('stock');
+      const images = formData.getAll('images');
+
+      if (!name || !category || !price || !stock) {
+        throw new Error("Please fill all required fields");
+      }
+
+      if (images.length === 0) {
+        throw new Error("Please upload at least one product image");
+      }
+
+      console.log("➕ Adding new product...");
+      const res = await fetch(`${API_BASE_URL}/api/products`, {
+        method: "POST",
+        body: formData,
+      });
+
+      const result = await res.json();
+
+      if (!res.ok) {
+        throw new Error(result.error || result.message || "Failed to add product");
+      }
+
+      showNotification("✅ Product added successfully!", "success");
+      document.getElementById("addProductModal").classList.add("hidden");
+      productForm.reset();
+      imagePreview.innerHTML = "";
+      await loadProducts(); // Reload products to show the new one
+
+    } catch (err) {
+      console.error("Add product error:", err);
+      showNotification("❌ Error: " + err.message, "error");
+    } finally {
+      saveBtn.innerHTML = '<i class="fas fa-plus mr-2"></i> Add Product';
+      saveBtn.disabled = false;
+    }
+  });
+
+  // Filtering and Search Functions
+  function filterProducts(filterType) {
+    let filteredProducts = [...allProducts];
+    
+    switch (filterType) {
+      case 'in-stock':
+        filteredProducts = allProducts.filter(p => p.stock > 10);
+        break;
+      case 'low-stock':
+        filteredProducts = allProducts.filter(p => p.stock > 0 && p.stock <= 10);
+        break;
+      case 'out-of-stock':
+        filteredProducts = allProducts.filter(p => p.stock === 0);
+        break;
+      case 'all':
+      default:
+        filteredProducts = allProducts;
+        break;
+    }
+    
+    // Apply category filter
+    const categoryFilter = document.getElementById("categoryFilter").value;
+    if (categoryFilter) {
+      filteredProducts = filteredProducts.filter(p => p.category === categoryFilter);
+    }
+    
+    // Apply search filter
+    const searchTerm = document.getElementById("searchInput").value.toLowerCase();
+    if (searchTerm) {
+      filteredProducts = filteredProducts.filter(p => 
+        p.name.toLowerCase().includes(searchTerm) || 
+        (p.category && p.category.toLowerCase().includes(searchTerm))
+      );
+    }
+    
+    currentPage = 1;
+    renderProductsTable(filteredProducts);
+  }
+
+  function handleSearch() {
+    filterProducts('all');
+  }
+
+  function handleCategoryFilter() {
+    filterProducts('all');
+  }
+
+  // Pagination Functions
+  function updatePaginationInfo(totalProducts) {
+    const start = Math.min((currentPage - 1) * productsPerPage + 1, totalProducts);
+    const end = Math.min(currentPage * productsPerPage, totalProducts);
+    
+    document.getElementById("productsStart").textContent = totalProducts === 0 ? 0 : start;
+    document.getElementById("productsEnd").textContent = end;
+    document.getElementById("productsTotal").textContent = totalProducts;
+  }
+
+  function renderPagination(totalProducts) {
+    const totalPages = Math.ceil(totalProducts / productsPerPage);
+    const paginationContainer = document.getElementById("paginationContainer");
+    
+    if (totalPages <= 1) {
+      paginationContainer.innerHTML = '';
+      return;
+    }
+
+    let paginationHTML = '';
+    
+    // Previous button
+    paginationHTML += `
+      <button class="px-4 py-2 border border-gray-300 rounded-xl text-sm font-medium hover:bg-gray-50 transition-colors ${currentPage === 1 ? 'opacity-50 cursor-not-allowed' : ''}" 
+        ${currentPage === 1 ? 'disabled' : ''} onclick="changePage(${currentPage - 1})">
+        Previous
+      </button>
+    `;
+
+    // Page numbers
+    for (let i = 1; i <= totalPages; i++) {
+      if (i === 1 || i === totalPages || (i >= currentPage - 1 && i <= currentPage + 1)) {
+        paginationHTML += `
+          <button class="px-4 py-2 ${currentPage === i ? 'bg-primary text-white' : 'border border-gray-300 text-gray-700'} rounded-xl text-sm font-medium hover:bg-gray-50 transition-colors" 
+            onclick="changePage(${i})">
+            ${i}
+          </button>
+        `;
+      } else if (i === currentPage - 2 || i === currentPage + 2) {
+        paginationHTML += `<span class="px-2 py-2 text-gray-500">...</span>`;
+      }
+    }
+
+    // Next button
+    paginationHTML += `
+      <button class="px-4 py-2 border border-gray-300 rounded-xl text-sm font-medium hover:bg-gray-50 transition-colors ${currentPage === totalPages ? 'opacity-50 cursor-not-allowed' : ''}" 
+        ${currentPage === totalPages ? 'disabled' : ''} onclick="changePage(${currentPage + 1})">
+        Next
+      </button>
+    `;
+
+    paginationContainer.innerHTML = paginationHTML;
+  }
+
+  function changePage(page) {
+    currentPage = page;
+    filterProducts('all'); // This will re-render with the new page
+  }
+
+  // Other dashboard functions
+  function initSalesChart() {
+    const ctx = document.getElementById("salesChart")?.getContext("2d");
+    if (!ctx) return;
+
+    new Chart(ctx, {
+      type: 'line',
+      data: {
+        labels: ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'],
+        datasets: [{
+          label: 'Sales (₹)',
+          data: [120000, 190000, 150000, 180000, 220000, 250000, 280000, 300000, 270000, 320000, 350000, 400000],
+          borderColor: '#800000',
+          backgroundColor: 'rgba(128, 0, 0, 0.1)',
+          borderWidth: 3,
+          fill: true,
+          tension: 0.4,
+          pointBackgroundColor: '#800000',
+          pointBorderColor: '#ffffff',
+          pointBorderWidth: 2,
+          pointRadius: 6,
+          pointHoverRadius: 8
+        }]
+      },
+      options: {
+        responsive: true,
+        maintainAspectRatio: false,
+        plugins: {
+          legend: {
+            display: false
+          }
+        },
+        scales: {
+          y: {
+            beginAtZero: true,
+            ticks: {
+              callback: function(value) {
+                return '₹' + (value / 1000) + 'k';
+              }
+            },
+            grid: {
+              color: 'rgba(0, 0, 0, 0.1)'
+            }
+          },
+          x: {
+            grid: {
+              color: 'rgba(0, 0, 0, 0.1)'
+            }
+          }
+        }
+      }
+    });
+  }
+
+  // Notification function
+  function showNotification(message, type = 'info') {
+    // Remove existing notifications
+    const existingNotifications = document.querySelectorAll('.custom-notification');
+    existingNotifications.forEach(notification => notification.remove());
+
+    const notification = document.createElement('div');
+    notification.className = `custom-notification fixed top-4 right-4 px-6 py-4 rounded-xl shadow-lg z-50 transform transition-all duration-300 ${
+      type === 'success' ? 'bg-green-500 text-white' :
+      type === 'error' ? 'bg-red-500 text-white' :
+      'bg-blue-500 text-white'
+    }`;
+    
+    notification.innerHTML = `
+      <div class="flex items-center">
+        <i class="fas fa-${type === 'success' ? 'check' : type === 'error' ? 'exclamation-triangle' : 'info'}-circle mr-3 text-lg"></i>
+        <span class="font-semibold">${message}</span>
+      </div>
+    `;
+    
+    document.body.appendChild(notification);
+    
+    // Auto remove after 5 seconds
+    setTimeout(() => {
+      notification.style.opacity = '0';
+      notification.style.transform = 'translateX(100%)';
+      setTimeout(() => notification.remove(), 300);
+    }, 5000);
+  }
+
+  console.log("✅ Admin Dashboard JavaScript loaded successfully");
+</script>
   </body>
 </html>
