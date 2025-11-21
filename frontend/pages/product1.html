@@ -1574,79 +1574,154 @@
     }
 
     // ✅ UPDATED: Render products with real-time stock status
+    // function renderProducts(items) {
+    //   productList.innerHTML = "";
+    //   productList.classList.add("products-grid");
+
+    //   if (!items.length) {
+    //     const urlParams = getUrlParams();
+    //     let message = 'No products found for the selected filters.';
+        
+    //     if (urlParams.search) {
+    //       message = `No products found for "${urlParams.search}". Try different keywords.`;
+    //     } else if (urlParams.category) {
+    //       message = `No products found in "${urlParams.category}" category.`;
+    //     }
+        
+    //     productList.innerHTML = `
+    //       <div style="text-align: center; padding: 40px; grid-column: 1 / -1;">
+    //         <p style='color: #777;'>${message}</p>
+    //         <button class="filter-btn reset-btn" style="margin-top: 10px;" onclick="resetFilters()">Show All Products</button>
+    //       </div>
+    //     `;
+    //     return;
+    //   }
+
+    //   items.forEach((product) => {
+    //     const imageSrc = product.images?.[0]
+    //       ? `https://saikrupapaithanisarees-mdqk.onrender.com/${product.images[0].replace(/\\/g, "/")}`
+    //       : "https://via.placeholder.com/300x300?text=No+Image";
+
+    //     // Determine stock status based on actual stock from database
+    //     const isOutOfStock = product.stock === 0;
+    //     const isLowStock = product.stock > 0 && product.stock <= 10;
+    //     const stockStatusText = isOutOfStock ? 'Out of Stock' : (isLowStock ? 'Low Stock' : 'In Stock');
+    //     const stockStatusClass = isOutOfStock ? 'stock-out' : (isLowStock ? 'stock-low' : 'stock-good');
+    //     const buttonText = isOutOfStock ? 'Out of Stock' : 'Add to Cart';
+    //     const buttonClass = isOutOfStock ? 'out-of-stock-btn' : 'addToCart';
+
+    //     const card = document.createElement("div");
+    //     card.className = "product-card";
+
+    //     card.innerHTML = `
+    //       <img src="${imageSrc}" alt="${product.name}">
+    //       <div class="product-info">
+    //         <h3>${product.name}</h3>
+    //         <p>Type: ${product.category || "Uncategorized"}</p>
+    //         <div class="price">₹${product.price ? product.price.toLocaleString() : '0'}</div>
+            
+    //         <!-- Stock Status - Shows real-time stock from database -->
+    //         <div class="stock-status ${stockStatusClass}">
+    //           <i class="fas ${isOutOfStock ? 'fa-times-circle' : isLowStock ? 'fa-exclamation-triangle' : 'fa-check-circle'}"></i>
+    //           ${stockStatusText} - ${product.stock} units available
+    //         </div>
+            
+    //         <div class="rating">${"★".repeat(product.popularity || 0)}${"☆".repeat(5 - (product.popularity || 0))}</div>
+    //         <div class="card-actions">
+    //           <button class="${buttonClass}" ${isOutOfStock ? 'disabled' : ''}>
+    //             <i class="fas ${isOutOfStock ? 'fa-ban' : 'fa-shopping-cart'}"></i> ${buttonText}
+    //           </button>
+    //           <a href="description1.html?id=${product._id}"><button class="shop-now">View More</button></a>
+    //         </div>
+    //       </div>
+    //     `;
+
+    //     // Only add event listener if not out of stock
+    //     if (!isOutOfStock) {
+    //       const btn = card.querySelector(".addToCart");
+    //       btn.addEventListener("click", async (event) => {
+    //         await addToCartHandler(product._id, 1, event);
+    //       });
+    //     }
+
+    //     productList.appendChild(card);
+    //   });
+    // }
     function renderProducts(items) {
-      productList.innerHTML = "";
-      productList.classList.add("products-grid");
+  productList.innerHTML = "";
+  productList.classList.add("products-grid");
 
-      if (!items.length) {
-        const urlParams = getUrlParams();
-        let message = 'No products found for the selected filters.';
+  if (!items.length) {
+    const urlParams = getUrlParams();
+    let message = 'No products found for the selected filters.';
+    
+    if (urlParams.search) {
+      message = `No products found for "${urlParams.search}". Try different keywords.`;
+    } else if (urlParams.category) {
+      message = `No products found in "${urlParams.category}" category.`;
+    }
+    
+    productList.innerHTML = `
+      <div style="text-align: center; padding: 40px; grid-column: 1 / -1;">
+        <p style='color: #777;'>${message}</p>
+        <button class="filter-btn reset-btn" style="margin-top: 10px;" onclick="resetFilters()">Show All Products</button>
+      </div>
+    `;
+    return;
+  }
+
+  items.forEach((product) => {
+    // ✅ FIXED: Use Cloudinary URLs directly
+    const imageSrc = product.images?.[0] 
+      ? product.images[0]  // Cloudinary URL is already complete
+      : "https://via.placeholder.com/300x300?text=No+Image";
+
+    // Determine stock status based on actual stock from database
+    const isOutOfStock = product.stock === 0;
+    const isLowStock = product.stock > 0 && product.stock <= 10;
+    const stockStatusText = isOutOfStock ? 'Out of Stock' : (isLowStock ? 'Low Stock' : 'In Stock');
+    const stockStatusClass = isOutOfStock ? 'stock-out' : (isLowStock ? 'stock-low' : 'stock-good');
+    const buttonText = isOutOfStock ? 'Out of Stock' : 'Add to Cart';
+    const buttonClass = isOutOfStock ? 'out-of-stock-btn' : 'addToCart';
+
+    const card = document.createElement("div");
+    card.className = "product-card";
+
+    card.innerHTML = `
+      <img src="${imageSrc}" alt="${product.name}" 
+           onerror="this.src='https://via.placeholder.com/300x300/800000/ffffff?text=Image+Not+Found'">
+      <div class="product-info">
+        <h3>${product.name}</h3>
+        <p>Type: ${product.category || "Uncategorized"}</p>
+        <div class="price">₹${product.price ? product.price.toLocaleString() : '0'}</div>
         
-        if (urlParams.search) {
-          message = `No products found for "${urlParams.search}". Try different keywords.`;
-        } else if (urlParams.category) {
-          message = `No products found in "${urlParams.category}" category.`;
-        }
+        <!-- Stock Status - Shows real-time stock from database -->
+        <div class="stock-status ${stockStatusClass}">
+          <i class="fas ${isOutOfStock ? 'fa-times-circle' : isLowStock ? 'fa-exclamation-triangle' : 'fa-check-circle'}"></i>
+          ${stockStatusText} - ${product.stock} units available
+        </div>
         
-        productList.innerHTML = `
-          <div style="text-align: center; padding: 40px; grid-column: 1 / -1;">
-            <p style='color: #777;'>${message}</p>
-            <button class="filter-btn reset-btn" style="margin-top: 10px;" onclick="resetFilters()">Show All Products</button>
-          </div>
-        `;
-        return;
-      }
+        <div class="rating">${"★".repeat(product.popularity || 0)}${"☆".repeat(5 - (product.popularity || 0))}</div>
+        <div class="card-actions">
+          <button class="${buttonClass}" ${isOutOfStock ? 'disabled' : ''}>
+            <i class="fas ${isOutOfStock ? 'fa-ban' : 'fa-shopping-cart'}"></i> ${buttonText}
+          </button>
+          <a href="description1.html?id=${product._id}"><button class="shop-now">View More</button></a>
+        </div>
+      </div>
+    `;
 
-      items.forEach((product) => {
-        const imageSrc = product.images?.[0]
-          ? `https://saikrupapaithanisarees-mdqk.onrender.com/${product.images[0].replace(/\\/g, "/")}`
-          : "https://via.placeholder.com/300x300?text=No+Image";
-
-        // Determine stock status based on actual stock from database
-        const isOutOfStock = product.stock === 0;
-        const isLowStock = product.stock > 0 && product.stock <= 10;
-        const stockStatusText = isOutOfStock ? 'Out of Stock' : (isLowStock ? 'Low Stock' : 'In Stock');
-        const stockStatusClass = isOutOfStock ? 'stock-out' : (isLowStock ? 'stock-low' : 'stock-good');
-        const buttonText = isOutOfStock ? 'Out of Stock' : 'Add to Cart';
-        const buttonClass = isOutOfStock ? 'out-of-stock-btn' : 'addToCart';
-
-        const card = document.createElement("div");
-        card.className = "product-card";
-
-        card.innerHTML = `
-          <img src="${imageSrc}" alt="${product.name}">
-          <div class="product-info">
-            <h3>${product.name}</h3>
-            <p>Type: ${product.category || "Uncategorized"}</p>
-            <div class="price">₹${product.price ? product.price.toLocaleString() : '0'}</div>
-            
-            <!-- Stock Status - Shows real-time stock from database -->
-            <div class="stock-status ${stockStatusClass}">
-              <i class="fas ${isOutOfStock ? 'fa-times-circle' : isLowStock ? 'fa-exclamation-triangle' : 'fa-check-circle'}"></i>
-              ${stockStatusText} - ${product.stock} units available
-            </div>
-            
-            <div class="rating">${"★".repeat(product.popularity || 0)}${"☆".repeat(5 - (product.popularity || 0))}</div>
-            <div class="card-actions">
-              <button class="${buttonClass}" ${isOutOfStock ? 'disabled' : ''}>
-                <i class="fas ${isOutOfStock ? 'fa-ban' : 'fa-shopping-cart'}"></i> ${buttonText}
-              </button>
-              <a href="description1.html?id=${product._id}"><button class="shop-now">View More</button></a>
-            </div>
-          </div>
-        `;
-
-        // Only add event listener if not out of stock
-        if (!isOutOfStock) {
-          const btn = card.querySelector(".addToCart");
-          btn.addEventListener("click", async (event) => {
-            await addToCartHandler(product._id, 1, event);
-          });
-        }
-
-        productList.appendChild(card);
+    // Only add event listener if not out of stock
+    if (!isOutOfStock) {
+      const btn = card.querySelector(".addToCart");
+      btn.addEventListener("click", async (event) => {
+        await addToCartHandler(product._id, 1, event);
       });
     }
+
+    productList.appendChild(card);
+  });
+}
 
     // ✅ Update product count
     function updateProductCount() {
