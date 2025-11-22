@@ -893,7 +893,11 @@
         throw new Error(`HTTP error! status: ${res.status}`);
       }
       
-      allProducts = await res.json();
+      allProducts.sort((a, b) => {
+      const dateA = new Date(a.createdAt || a.updatedAt || 0);
+      const dateB = new Date(b.createdAt || b.updatedAt || 0);
+      return dateB - dateA; // Descending order (newest first)
+    });
       console.log("✅ Products loaded successfully:", allProducts.length);
       renderProductsTable(allProducts);
       
