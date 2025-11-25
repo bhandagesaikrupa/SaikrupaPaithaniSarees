@@ -2249,7 +2249,7 @@ if (product.images && product.images.length > 0 && product.images[0]) {
       }
 
       // File size validation
-      function validateFileSize(file, maxSizeMB = 5) {
+      function validateFileSize(file, maxSizeMB = 20) {
         const maxSizeBytes = maxSizeMB * 1024 * 1024;
         if (file.size > maxSizeBytes) {
           throw new Error(`File "${file.name}" is too large. Maximum size is ${maxSizeMB}MB.`);
@@ -2278,7 +2278,7 @@ if (product.images && product.images.length > 0 && product.images[0]) {
           
           for (let i = 0; i < files.length; i++) {
             const file = files[i];
-            validateFileSize(file, 5);
+            validateFileSize(file, 20);
             
             const reader = new FileReader();
             reader.onload = (e) => {
@@ -2801,7 +2801,7 @@ if (product.images && product.images.length > 0 && product.images[0]) {
 
           // Validate file count and size
           validateFileCount(images, 5);
-          Array.from(images).forEach(file => validateFileSize(file, 5));
+          Array.from(images).forEach(file => validateFileSize(file, 20));
 
           // Compress and add images
           imageUploadInfo.innerHTML = "Compressing images...";
