@@ -512,59 +512,136 @@
   }
 
   // Fetch cart from backend
-  async function fetchCart() {
-    try {
-      if (!checkAuth()) return;
+  // async function fetchCart() {
+  //   try {
+  //     if (!checkAuth()) return;
 
-      const token = getAuthToken();
-      console.log("Fetching cart...");
+  //     const token = getAuthToken();
+  //     console.log("Fetching cart...");
 
-      const res = await fetch("https://saikrupapaithanisarees-mdqk.onrender.com/api/cart", {
-        headers: {
-          Authorization: `Bearer ${token}`,
-          "Content-Type": "application/json",
-        },
-      });
+  //     const res = await fetch("https://saikrupapaithanisarees-mdqk.onrender.com/api/cart", {
+  //       headers: {
+  //         Authorization: `Bearer ${token}`,
+  //         "Content-Type": "application/json",
+  //       },
+  //     });
 
-      if (!res.ok) {
-        if (res.status === 401) {
-          localStorage.removeItem("authToken");
-          localStorage.removeItem("token");
-          window.location.href = "signup_login.html";
-          return;
-        }
-        throw new Error(`HTTP error! status: ${res.status}`);
+  //     if (!res.ok) {
+  //       if (res.status === 401) {
+  //         localStorage.removeItem("authToken");
+  //         localStorage.removeItem("token");
+  //         window.location.href = "signup_login.html";
+  //         return;
+  //       }
+  //       throw new Error(`HTTP error! status: ${res.status}`);
+  //     }
+
+  //     const result = await res.json();
+  //     console.log("Cart API response:", result);
+
+  //     if (result.success && result.cart) {
+  //       // Process cart items
+  //       cartItems = result.cart.items.map((item) => {
+  //         const product = item.productId;
+  //         return {
+  //           productId: product._id,
+  //           name: product.name || "Product",
+  //           image: product.images?.[0] || "images/default.jpg",
+  //           price: item.price || product.price || 0,
+  //           quantity: item.quantity || 1,
+  //         };
+  //       });
+
+  //       console.log("Processed cart items:", cartItems);
+  //       renderCartItems();
+  //       updateOrderSummary();
+  //       updateCartCount();
+  //     } else {
+  //       throw new Error(result.message || "Failed to fetch cart");
+  //     }
+  //   } catch (err) {
+  //     console.error("Fetch cart error:", err);
+  //     alert("Failed to load cart items: " + err.message);
+  //   }
+  // }
+// Fetch cart from backend
+async function fetchCart() {
+  try {
+    if (!checkAuth()) return;
+
+    const token = getAuthToken();
+    console.log("Fetching cart...");
+
+    const res = await fetch("https://saikrupapaithanisarees-mdqk.onrender.com/api/cart", {
+      headers: {
+        Authorization: `Bearer ${token}`,
+        "Content-Type": "application/json",
+      },
+    });
+
+    if (!res.ok) {
+      if (res.status === 401) {
+        localStorage.removeItem("authToken");
+        localStorage.removeItem("token");
+        window.location.href = "signup_login.html";
+        return;
       }
+      throw new Error(`HTTP error! status: ${res.status}`);
+    }
 
-      const result = await res.json();
-      console.log("Cart API response:", result);
+    const result = await res.json();
+    console.log("Cart API response:", result);
 
-      if (result.success && result.cart) {
-        // Process cart items
-        cartItems = result.cart.items.map((item) => {
+    if (result.success && result.cart) {
+      // FIXED: Filter out items with null productId and handle missing products
+      cartItems = result.cart.items
+        .filter(item => item.productId && item.productId._id) // Filter out null/invalid products
+        .map((item) => {
           const product = item.productId;
           return {
             productId: product._id,
-            name: product.name || "Product",
+            name: product.name || "Unnamed Product",
             image: product.images?.[0] || "images/default.jpg",
             price: item.price || product.price || 0,
             quantity: item.quantity || 1,
           };
         });
 
-        console.log("Processed cart items:", cartItems);
-        renderCartItems();
-        updateOrderSummary();
-        updateCartCount();
-      } else {
-        throw new Error(result.message || "Failed to fetch cart");
+      console.log("Processed cart items:", cartItems);
+      
+      // Show warning if some items were filtered out
+      const originalCount = result.cart.items.length;
+      const filteredCount = cartItems.length;
+      if (filteredCount < originalCount) {
+        console.warn(`Filtered out ${originalCount - filteredCount} invalid cart items`);
       }
-    } catch (err) {
-      console.error("Fetch cart error:", err);
-      alert("Failed to load cart items: " + err.message);
+
+      renderCartItems();
+      updateOrderSummary();
+      updateCartCount();
+    } else {
+      throw new Error(result.message || "Failed to fetch cart");
+    }
+  } catch (err) {
+    console.error("Fetch cart error:", err);
+    
+    // Show user-friendly error message
+    const cartContainer = document.getElementById("cartItems");
+    if (cartContainer) {
+      cartContainer.innerHTML = `
+        <div class="empty-cart">
+          <div class="empty-cart-icon">
+            <i class="fas fa-exclamation-triangle"></i>
+          </div>
+          <h3 class="text-xl font-semibold text-primary mb-2">Unable to load cart</h3>
+          <p class="text-gray mb-4">There was an error loading your cart items.</p>
+          <button onclick="fetchCart()" class="bg-primary hover:bg-darkRed text-white py-2 px-4 rounded-lg font-semibold">
+            Try Again
+          </button>
+        </div>`;
     }
   }
-
+}
   // Render cart items
   function renderCartItems() {
     const cartContainer = document.getElementById("cartItems");
