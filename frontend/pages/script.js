@@ -27,14 +27,14 @@
 //   // ✅ Fetch products from backend
 //   async function fetchProducts() {
 //     try {
-//       const res = await fetch("http://localhost:5000/api/products");
+//       const res = await fetch(`${API_BASE_URL}/api/products`);
 //       if (!res.ok) throw new Error("Failed to fetch products");
 //       const data = await res.json();
 //       products = data;
-      
+
 //       // Check URL parameters
 //       const urlParams = getUrlParams();
-      
+
 //       if (urlParams.category) {
 //         // Auto-filter by category
 //         typeFilter.value = urlParams.category;
@@ -46,7 +46,7 @@
 //         filteredProducts = [...products];
 //         renderProducts(products);
 //       }
-      
+
 //       updateProductCount();
 //     } catch (err) {
 //       console.error("Error fetching products:", err);
@@ -57,16 +57,16 @@
 //   // ✅ Search function
 //   function performSearch(searchTerm) {
 //     const searchLower = searchTerm.toLowerCase();
-    
+
 //     filteredProducts = products.filter(product => 
 //       product.name.toLowerCase().includes(searchLower) ||
 //       (product.description && product.description.toLowerCase().includes(searchLower)) ||
 //       (product.category && product.category.toLowerCase().includes(searchLower))
 //     );
-    
+
 //     renderProducts(filteredProducts);
 //     updateProductCount();
-    
+
 //     // Update page title or show search term
 //     const productCount = document.getElementById("productCount");
 //     if (productCount) {
@@ -109,13 +109,13 @@
 //     if (!items.length) {
 //       const urlParams = getUrlParams();
 //       let message = 'No products found for the selected filters.';
-      
+
 //       if (urlParams.search) {
 //         message = `No products found for "${urlParams.search}". Try different keywords.`;
 //       } else if (urlParams.category) {
 //         message = `No products found in "${urlParams.category}" category.`;
 //       }
-      
+
 //       productList.innerHTML = `
 //         <div style="text-align: center; padding: 40px; grid-column: 1 / -1;">
 //           <p class='text-gray-600'>${message}</p>
@@ -127,7 +127,7 @@
 
 //     items.forEach((product) => {
 //       const imageSrc = product.images?.[0]
-//         ? `http://localhost:5000/${product.images[0].replace(/\\/g, "/")}`
+//         ? `${API_BASE_URL}/${product.images[0].replace(/\\/g, "/")}`
 //         : "https://via.placeholder.com/300x300?text=No+Image";
 
 //       const card = document.createElement("div");
@@ -166,7 +166,7 @@
 //     if (productCount) {
 //       const count = filteredProducts.length;
 //       const urlParams = getUrlParams();
-      
+
 //       if (urlParams.category) {
 //         productCount.textContent = `(${count} ${urlParams.category} products)`;
 //       } else if (urlParams.search) {
@@ -183,10 +183,10 @@
 //     priceRange.value = 50000;
 //     priceValue.textContent = "₹50,000";
 //     sortFilter.value = "default";
-    
+
 //     // Clear URL parameters
 //     window.history.replaceState({}, '', 'product.html');
-    
+
 //     filteredProducts = [...products];
 //     renderProducts(filteredProducts);
 //     updateProductCount();
@@ -194,7 +194,7 @@
 
 //   // ✅ Event Listeners
 //   applyBtn.addEventListener("click", applyFilters);
-  
+
 //   if (resetBtn) {
 //     resetBtn.addEventListener("click", resetFilters);
 //   }
@@ -214,15 +214,15 @@
 //       const headers = {
 //         'Content-Type': 'application/json'
 //       };
-      
+
 //       if (token) {
 //         headers['Authorization'] = `Bearer ${token}`;
 //       }
-      
-//       const res = await fetch("http://localhost:5000/api/cart", {
+
+//       const res = await fetch(`${API_BASE_URL}/api/cart`, {
 //         headers: headers
 //       });
-      
+
 //       if (res.ok) {
 //         const data = await res.json();
 //         if (data.success && data.cart && data.cart.items) {
@@ -241,7 +241,7 @@
 //   fetchProducts();
 //   updateCartCount();
 
-  
+
 // });
 
 
@@ -273,14 +273,14 @@ document.addEventListener("DOMContentLoaded", async function () {
   // ✅ Fetch products from backend
   async function fetchProducts() {
     try {
-      const res = await fetch("http://localhost:5000/api/products");
+      const res = await fetch(`${API_BASE_URL}/api/products`);
       if (!res.ok) throw new Error("Failed to fetch products");
       const data = await res.json();
       products = data;
-      
+
       // Check URL parameters
       const urlParams = getUrlParams();
-      
+
       if (urlParams.category) {
         // Auto-filter by category
         typeFilter.value = urlParams.category;
@@ -292,7 +292,7 @@ document.addEventListener("DOMContentLoaded", async function () {
         filteredProducts = [...products];
         renderProducts(products);
       }
-      
+
       updateProductCount();
     } catch (err) {
       console.error("Error fetching products:", err);
@@ -303,16 +303,16 @@ document.addEventListener("DOMContentLoaded", async function () {
   // ✅ Search function - FIXED: Properly handle search
   function performSearch(searchTerm) {
     const searchLower = searchTerm.toLowerCase();
-    
-    filteredProducts = products.filter(product => 
+
+    filteredProducts = products.filter(product =>
       product.name.toLowerCase().includes(searchLower) ||
       (product.description && product.description.toLowerCase().includes(searchLower)) ||
       (product.category && product.category.toLowerCase().includes(searchLower))
     );
-    
+
     renderProducts(filteredProducts);
     updateProductCount();
-    
+
     // Update page title or show search term
     const productCount = document.getElementById("productCount");
     if (productCount) {
@@ -361,13 +361,13 @@ document.addEventListener("DOMContentLoaded", async function () {
     if (!items.length) {
       const urlParams = getUrlParams();
       let message = 'No products found for the selected filters.';
-      
+
       if (urlParams.search) {
         message = `No products found for "${urlParams.search}". Try different keywords.`;
       } else if (urlParams.category) {
         message = `No products found in "${urlParams.category}" category.`;
       }
-      
+
       productList.innerHTML = `
         <div style="text-align: center; padding: 40px; grid-column: 1 / -1;">
           <p style="color: #777;">${message}</p>
@@ -379,7 +379,7 @@ document.addEventListener("DOMContentLoaded", async function () {
 
     items.forEach((product) => {
       const imageSrc = product.images?.[0]
-        ? `http://localhost:5000/${product.images[0].replace(/\\/g, "/")}`
+        ? `${API_BASE_URL}/${product.images[0].replace(/\\/g, "/")}`
         : "https://via.placeholder.com/300x300?text=No+Image";
 
       const card = document.createElement("div");
@@ -412,21 +412,21 @@ document.addEventListener("DOMContentLoaded", async function () {
   async function addToCart(product) {
     try {
       const token = localStorage.getItem('authToken');
-      
+
       if (token) {
         // Logged-in user - add to backend cart
-        const res = await fetch('http://localhost:5000/api/cart/add', {
+        const res = await fetch(`${API_BASE_URL}/api/cart/add`, {
           method: 'POST',
           headers: {
             'Content-Type': 'application/json',
             'Authorization': `Bearer ${token}`
           },
-          body: JSON.stringify({ 
-            productId: product._id, 
-            quantity: 1 
+          body: JSON.stringify({
+            productId: product._id,
+            quantity: 1
           })
         });
-        
+
         if (res.ok) {
           const result = await res.json();
           if (result.success) {
@@ -441,9 +441,9 @@ document.addEventListener("DOMContentLoaded", async function () {
       } else {
         // Guest user - add to localStorage
         let guestCart = JSON.parse(localStorage.getItem('guestCart') || '[]');
-        
+
         const existingItem = guestCart.find(item => item.productId === product._id);
-        
+
         if (existingItem) {
           existingItem.quantity += 1;
         } else {
@@ -455,7 +455,7 @@ document.addEventListener("DOMContentLoaded", async function () {
             quantity: 1
           });
         }
-        
+
         localStorage.setItem('guestCart', JSON.stringify(guestCart));
         currentCartCount = guestCart.reduce((sum, item) => sum + item.quantity, 0);
         if (cartCount) {
@@ -475,7 +475,7 @@ document.addEventListener("DOMContentLoaded", async function () {
     if (productCount) {
       const count = filteredProducts.length;
       const urlParams = getUrlParams();
-      
+
       if (urlParams.category) {
         productCount.textContent = `(${count} ${urlParams.category} products)`;
       } else if (urlParams.search) {
@@ -492,10 +492,10 @@ document.addEventListener("DOMContentLoaded", async function () {
     priceRange.value = 50000;
     priceValue.textContent = "₹50,000";
     sortFilter.value = "default";
-    
+
     // Clear URL parameters
     window.history.replaceState({}, '', 'product.html');
-    
+
     filteredProducts = [...products];
     renderProducts(filteredProducts);
     updateProductCount();
@@ -503,7 +503,7 @@ document.addEventListener("DOMContentLoaded", async function () {
 
   // ✅ Event Listeners
   applyBtn.addEventListener("click", applyFilters);
-  
+
   if (resetBtn) {
     resetBtn.addEventListener("click", resetFilters);
   }
@@ -521,16 +521,16 @@ document.addEventListener("DOMContentLoaded", async function () {
   async function updateCartCount() {
     try {
       const token = localStorage.getItem('authToken');
-      
+
       if (token) {
         // Logged-in user - fetch from backend
-        const res = await fetch("http://localhost:5000/api/cart", {
+        const res = await fetch(`${API_BASE_URL}/api/cart`, {
           headers: {
             'Content-Type': 'application/json',
             'Authorization': `Bearer ${token}`
           }
         });
-        
+
         if (res.ok) {
           const data = await res.json();
           if (data.success && data.cart && data.cart.items) {

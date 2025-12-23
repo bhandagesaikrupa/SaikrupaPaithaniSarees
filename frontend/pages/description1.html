@@ -498,7 +498,7 @@ function updateSlidesPerView() {
 //   // Create slider items
 //   products.forEach(product => {
 //     const imageSrc = product.images?.[0]
-//       ? `https://saikrupapaithanisarees-mdqk.onrender.com/${product.images[0].replace(/\\/g, "/")}`
+//       ? `${API_BASE_URL}/${product.images[0].replace(/\\/g, "/")}`
 //       : "https://via.placeholder.com/300x300?text=No+Image";
     
 //     const sliderItem = document.createElement('div');
@@ -665,7 +665,7 @@ async function updateCartCount() {
       return;
     }
 
-    const res = await fetch("https://saikrupapaithanisarees-mdqk.onrender.com/api/cart", {
+    const res = await fetch("${API_BASE_URL}/api/cart", {
       headers: {
         "Authorization": `Bearer ${authToken}`
       }
@@ -725,7 +725,7 @@ function initCharCounter() {
 async function submitReview(reviewData) {
   try {
     console.log('Submitting review:', reviewData);
-    const res = await fetch("https://saikrupapaithanisarees-mdqk.onrender.com/api/reviews", {
+    const res = await fetch("${API_BASE_URL}/api/reviews", {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
@@ -751,7 +751,7 @@ async function submitReview(reviewData) {
 async function fetchProductReviews(productId) {
   try {
     console.log('Fetching reviews for product:', productId);
-    const res = await fetch(`https://saikrupapaithanisarees-mdqk.onrender.com/api/reviews?productId=${productId}`);
+    const res = await fetch(`${API_BASE_URL}/api/reviews?productId=${productId}`);
     
     if (res.ok) {
       const result = await res.json();
@@ -769,7 +769,7 @@ async function fetchProductReviews(productId) {
 
 async function fetchReviewStats(productId) {
   try {
-    const res = await fetch(`https://saikrupapaithanisarees-mdqk.onrender.com/api/reviews/product/${productId}/summary`);
+    const res = await fetch(`${API_BASE_URL}/api/reviews/product/${productId}/summary`);
     
     if (res.ok) {
       const result = await res.json();
@@ -950,7 +950,7 @@ async function renderReviews(productId) {
 // Fetch product data
 async function fetchProductData(productId){
   try{
-    const res = await fetch(`https://saikrupapaithanisarees-mdqk.onrender.com/api/products/${productId}`);
+    const res = await fetch(`${API_BASE_URL}/api/products/${productId}`);
     const result = await res.json();
     
     if (res.ok) {
@@ -978,11 +978,11 @@ async function fetchProductData(productId){
 //   document.getElementById("breadcrumb-product").textContent = product.name;
 //   const stars = "★".repeat(product.popularity || 0) + "☆".repeat(5 - (product.popularity || 0));
 //   const mainImage = product.images && product.images.length > 0 ? 
-//     `https://saikrupapaithanisarees-mdqk.onrender.com/${product.images[0].replace(/\\/g, "/")}` : 
+//     `${API_BASE_URL}/${product.images[0].replace(/\\/g, "/")}` : 
 //     "https://via.placeholder.com/400x500?text=No+Image";
   
 //   const thumbnails = product.images ? product.images.map((img, i) => `
-//     <img src="https://saikrupapaithanisarees-mdqk.onrender.com/${img.replace(/\\/g, "/")}" class="thumbnail ${i === 0 ? "active" : ""}" width="70" height="70">
+//     <img src="${API_BASE_URL}/${img.replace(/\\/g, "/")}" class="thumbnail ${i === 0 ? "active" : ""}" width="70" height="70">
 //   `).join("") : "";
  function renderProduct(product){
   if(!product || !product.name){ 
@@ -1145,7 +1145,7 @@ async function addToCartHandler() {
     const newStock = currentProduct.stock - quantity;
     
     // Update product in database using the main update endpoint
-    const updateResponse = await fetch(`https://saikrupapaithanisarees-mdqk.onrender.com/api/products/${currentProduct._id}`, {
+    const updateResponse = await fetch(`${API_BASE_URL}/api/products/${currentProduct._id}`, {
       method: 'PUT',
       headers: {
         'Content-Type': 'application/json',
@@ -1174,7 +1174,7 @@ async function addToCartHandler() {
       quantity: quantity
     };
 
-    const res = await fetch("https://saikrupapaithanisarees-mdqk.onrender.com/api/cart/add", {
+    const res = await fetch("${API_BASE_URL}/api/cart/add", {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
@@ -1235,7 +1235,7 @@ async function addToCartHandler() {
 // Related products
 async function renderRelatedProducts(currentId){
   try{
-    const res = await fetch("https://saikrupapaithanisarees-mdqk.onrender.com/api/products");
+    const res = await fetch("${API_BASE_URL}/api/products");
     const products = await res.json();
     const related = products.filter(p => p._id !== currentId).slice(0, 7);
     
@@ -1305,357 +1305,368 @@ document.addEventListener("DOMContentLoaded", async () => {
 
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
-<meta charset="UTF-8" />
-<meta name="viewport" content="width=device-width, initial-scale=1.0" />
-<title>Buy Pure Silk Paithani Saree – Product Details | Saikrupa Paithani</title>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Buy Pure Silk Paithani Saree – Product Details | Saikrupa Paithani</title>
 
-<meta 
-  name="description" 
-  content="View detailed information of the selected Paithani saree. 100% pure silk, handwoven craftsmanship, premium borders & authentic Maharashtra designs." 
-/>
+  <meta name="description"
+    content="View detailed information of the selected Paithani saree. 100% pure silk, handwoven craftsmanship, premium borders & authentic Maharashtra designs." />
 
-<meta 
-  name="keywords" 
-  content="paithani product details, pure silk paithani features, handwoven paithani specifications, bridal paithani description" 
-/>
-<meta property="og:title" content="Saikrupa Paithani – Pure Silk Paithani Sarees" />
-<meta property="og:description" content="Buy handwoven pure silk Paithani sarees directly from Saikrupa Paithani." />
-<meta property="og:image" content="saikrupa_logo.jpg" />
-<meta property="og:type" content="website" />
+  <meta name="keywords"
+    content="paithani product details, pure silk paithani features, handwoven paithani specifications, bridal paithani description" />
+  <meta property="og:title" content="Saikrupa Paithani – Pure Silk Paithani Sarees" />
+  <meta property="og:description" content="Buy handwoven pure silk Paithani sarees directly from Saikrupa Paithani." />
+  <meta property="og:image" content="saikrupa_logo.jpg" />
+  <meta property="og:type" content="website" />
 
-<link rel="icon" type="image/png" href="images/logo3.png" />
-<script src="https://cdn.tailwindcss.com"></script>
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" />
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;500;600;700&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
+  <link rel="icon" type="image/png" href="images/logo3.png" />
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" />
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link
+    href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;500;600;700&family=Inter:wght@300;400;500;600&display=swap"
+    rel="stylesheet">
 
-<script>
-  tailwind.config = {
-    theme: {
-      extend: {
-        colors: {
-          primary: "#800000",
-          primaryLight: "#b30000",
-          gold: "#D4AF37",
-          lightGold: "#F2E8C9",
-          cream: "#F8F4E3",
-          darkRed: "#680000",
-          gray: "#777",
-          lightGray: "#f5f5f5",
-          white: "#ffffff",
-          black: "#333333",
-        },
-        fontFamily: {
-          'serif': ['Playfair Display', 'serif'],
-          'sans': ['Inter', 'sans-serif'],
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          colors: {
+            primary: "#800000",
+            primaryLight: "#b30000",
+            gold: "#D4AF37",
+            lightGold: "#F2E8C9",
+            cream: "#F8F4E3",
+            darkRed: "#680000",
+            gray: "#777",
+            lightGray: "#f5f5f5",
+            white: "#ffffff",
+            black: "#333333",
+          },
+          fontFamily: {
+            'serif': ['Playfair Display', 'serif'],
+            'sans': ['Inter', 'sans-serif'],
+          },
         },
       },
-    },
-  };
-</script>
-<style>
-  body { 
-    font-family: "Inter", sans-serif; 
-    background-color: #f8f4e3; 
-  }
-  
-  .saree-image { 
-    transition: transform 0.3s ease; 
-  }
-  
-  .saree-image:hover { 
-    transform: scale(1.02); 
-  }
-  
-  .thumbnail { 
-    cursor: pointer; 
-    border: 2px solid transparent; 
-    transition: all 0.3s ease; 
-  }
-  
-  .thumbnail.active { 
-    border-color: #D4AF37; 
-  }
+    };
+  </script>
+  <style>
+    body {
+      font-family: "Inter", sans-serif;
+      background-color: #f8f4e3;
+    }
 
-  /* Loading Animation with Logo */
-  .loading-overlay {
-    display: none;
-    position: fixed;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    background-color: rgba(0, 0, 0, 0.7);
-    z-index: 3000;
-    align-items: center;
-    justify-content: center;
-    flex-direction: column;
-  }
+    .saree-image {
+      transition: transform 0.3s ease;
+    }
 
-  .loading-content {
-    background-color: white;
-    border-radius: 15px;
-    padding: 40px;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
-  }
+    .saree-image:hover {
+      transform: scale(1.02);
+    }
 
-  .logo-loader {
-    width: 100px;
-    height: 100px;
-    position: relative;
-    margin-bottom: 20px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-  }
+    .thumbnail {
+      cursor: pointer;
+      border: 2px solid transparent;
+      transition: all 0.3s ease;
+    }
 
-  .logo-loader .logo {
-    width: 80px;
-    height: 80px;
-    background: linear-gradient(45deg, #800000, #D4AF37);
-    border-radius: 50%;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
-    animation: logoPulse 2s infinite ease-in-out;
-  }
+    .thumbnail.active {
+      border-color: #D4AF37;
+    }
 
-  .logo-loader .logo i {
-    font-size: 40px;
-    color: white;
-  }
+    /* Loading Animation with Logo */
+    .loading-overlay {
+      display: none;
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background-color: rgba(0, 0, 0, 0.7);
+      z-index: 3000;
+      align-items: center;
+      justify-content: center;
+      flex-direction: column;
+    }
 
-  .loading-text {
-    color: #800000;
-    font-family: "Playfair Display", serif;
-    font-size: 20px;
-    margin-top: 15px;
-    text-align: center;
-  }
+    .loading-content {
+      background-color: white;
+      border-radius: 15px;
+      padding: 40px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+    }
 
-  @keyframes logoPulse {
-    0%, 100% { 
-      transform: scale(1); 
+    .logo-loader {
+      width: 100px;
+      height: 100px;
+      position: relative;
+      margin-bottom: 20px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .logo-loader .logo {
+      width: 80px;
+      height: 80px;
+      background: linear-gradient(45deg, #800000, #D4AF37);
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
       box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+      animation: logoPulse 2s infinite ease-in-out;
     }
-    50% { 
-      transform: scale(1.1); 
-      box-shadow: 0 8px 25px rgba(128, 0, 0, 0.3);
+
+    .logo-loader .logo i {
+      font-size: 40px;
+      color: white;
     }
-  }
 
-  /* Success/Error Messages */
-  .message-overlay {
-    display: none;
-    position: fixed;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    background-color: rgba(0, 0, 0, 0.7);
-    z-index: 3000;
-    align-items: center;
-    justify-content: center;
-  }
+    .loading-text {
+      color: #800000;
+      font-family: "Playfair Display", serif;
+      font-size: 20px;
+      margin-top: 15px;
+      text-align: center;
+    }
 
-  .message-content {
-    background-color: white;
-    border-radius: 15px;
-    padding: 30px;
-    width: 400px;
-    max-width: 90%;
-    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
-    text-align: center;
-    position: relative;
-  }
+    @keyframes logoPulse {
 
-  .message-icon {
-    font-size: 50px;
-    margin-bottom: 20px;
-  }
+      0%,
+      100% {
+        transform: scale(1);
+        box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+      }
 
-  .success-icon {
-    color: #228b22;
-  }
+      50% {
+        transform: scale(1.1);
+        box-shadow: 0 8px 25px rgba(128, 0, 0, 0.3);
+      }
+    }
 
-  .error-icon {
-    color: #800000;
-  }
+    /* Success/Error Messages */
+    .message-overlay {
+      display: none;
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background-color: rgba(0, 0, 0, 0.7);
+      z-index: 3000;
+      align-items: center;
+      justify-content: center;
+    }
 
-  .message-text {
-    font-size: 18px;
-    margin-bottom: 25px;
-    color: #333333;
-    font-family: "Playfair Display", serif;
-  }
+    .message-content {
+      background-color: white;
+      border-radius: 15px;
+      padding: 30px;
+      width: 400px;
+      max-width: 90%;
+      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+      text-align: center;
+      position: relative;
+    }
 
-  .message-btn {
-    padding: 12px 30px;
-    border: none;
-    border-radius: 10px;
-    background: linear-gradient(to right, #800000, #680000);
-    color: #fff;
-    cursor: pointer;
-    transition: all 0.3s ease;
-    font-weight: 600;
-    font-size: 16px;
-    width: 100%;
-  }
+    .message-icon {
+      font-size: 50px;
+      margin-bottom: 20px;
+    }
 
-  .message-btn:hover {
-    transform: translateY(-2px);
-    box-shadow: 0 5px 15px rgba(128, 0, 0, 0.3);
-  }
+    .success-icon {
+      color: #228b22;
+    }
 
-  .slider-container {
-    position: relative;
-    overflow: hidden;
-    padding: 10px 0;
-  }
-  
-  .slider-track {
-    display: flex;
-    transition: transform 0.5s ease;
-    gap: 20px;
-  }
-  
-  .slider-item {
-    flex: 0 0 calc(33.333% - 14px);
-    min-width: calc(33.333% - 14px);
-  }
-  
-  @media (max-width: 1024px) {
+    .error-icon {
+      color: #800000;
+    }
+
+    .message-text {
+      font-size: 18px;
+      margin-bottom: 25px;
+      color: #333333;
+      font-family: "Playfair Display", serif;
+    }
+
+    .message-btn {
+      padding: 12px 30px;
+      border: none;
+      border-radius: 10px;
+      background: linear-gradient(to right, #800000, #680000);
+      color: #fff;
+      cursor: pointer;
+      transition: all 0.3s ease;
+      font-weight: 600;
+      font-size: 16px;
+      width: 100%;
+    }
+
+    .message-btn:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 5px 15px rgba(128, 0, 0, 0.3);
+    }
+
+    .slider-container {
+      position: relative;
+      overflow: hidden;
+      padding: 10px 0;
+    }
+
+    .slider-track {
+      display: flex;
+      transition: transform 0.5s ease;
+      gap: 20px;
+    }
+
     .slider-item {
-      flex: 0 0 calc(50% - 10px);
-      min-width: calc(50% - 10px);
+      flex: 0 0 calc(33.333% - 14px);
+      min-width: calc(33.333% - 14px);
     }
-  }
-  
-  @media (max-width: 640px) {
-    .slider-item {
-      flex: 0 0 100%;
-      min-width: 100%;
+
+    @media (max-width: 1024px) {
+      .slider-item {
+        flex: 0 0 calc(50% - 10px);
+        min-width: calc(50% - 10px);
+      }
     }
-  }
-  
-  .slider-btn {
-    position: absolute;
-    top: 50%;
-    transform: translateY(-50%);
-    background: rgba(128, 0, 0, 0.8);
-    color: white;
-    border: none;
-    width: 40px;
-    height: 40px;
-    border-radius: 50%;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    cursor: pointer;
-    z-index: 10;
-    transition: all 0.3s ease;
-  }
-  
-  .slider-btn:hover {
-    background: #800000;
-    transform: translateY(-50%) scale(1.1);
-  }
-  
-  .slider-btn.prev {
-    left: 10px;
-  }
-  
-  .slider-btn.next {
-    right: 10px;
-  }
-  
-  .slider-btn:disabled {
-    opacity: 0.5;
-    cursor: not-allowed;
-  }
-  
-  .slider-btn:disabled:hover {
-    transform: translateY(-50%);
-    background: rgba(128, 0, 0, 0.8);
-  }
-  
-  .slider-dots {
-    display: flex;
-    justify-content: center;
-    margin-top: 20px;
-    gap: 8px;
-  }
-  
-  .slider-dot {
-    width: 10px;
-    height: 10px;
-    border-radius: 50%;
-    background: #ddd;
-    cursor: pointer;
-    transition: all 0.3s ease;
-  }
-  
-  .slider-dot.active {
-    background: #800000;
-    transform: scale(1.2);
-  }
 
-  /* Review rating styles */
-  .review-stats {
-    background: linear-gradient(135deg, #f8f4e3 0%, #f2e8c9 100%);
-    border-radius: 12px;
-    padding: 20px;
-    margin-bottom: 20px;
-  }
+    @media (max-width: 640px) {
+      .slider-item {
+        flex: 0 0 100%;
+        min-width: 100%;
+      }
+    }
 
-  /* Stock status styles */
-  .stock-out { background: linear-gradient(135deg, #fef2f2 0%, #fee2e2 100%); }
-  .stock-low { background: linear-gradient(135deg, #fffbeb 0%, #fef3c7 100%); }
-  .stock-good { background: linear-gradient(135deg, #f0fdf4 0%, #dcfce7 100%); }
-  
-  /* Mobile menu styles */
-  .mobile-menu {
-    display: none;
-    position: absolute;
-    top: 100%;
-    left: 0;
-    width: 100%;
-    background: white;
-    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-    z-index: 100;
-  }
-  
-  .mobile-menu.active {
-    display: block;
-  }
-  
-  .mobile-menu ul {
-    padding: 1rem;
-  }
-  
-  .mobile-menu li {
-    margin-bottom: 0.5rem;
-  }
-  
-  .mobile-menu a {
-    display: block;
-    padding: 0.5rem 0;
-    color: #333;
-    font-weight: 500;
-  }
-  
-  .mobile-menu a:hover {
-    color: #800000;
-  }
-</style>
+    .slider-btn {
+      position: absolute;
+      top: 50%;
+      transform: translateY(-50%);
+      background: rgba(128, 0, 0, 0.8);
+      color: white;
+      border: none;
+      width: 40px;
+      height: 40px;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+      z-index: 10;
+      transition: all 0.3s ease;
+    }
+
+    .slider-btn:hover {
+      background: #800000;
+      transform: translateY(-50%) scale(1.1);
+    }
+
+    .slider-btn.prev {
+      left: 10px;
+    }
+
+    .slider-btn.next {
+      right: 10px;
+    }
+
+    .slider-btn:disabled {
+      opacity: 0.5;
+      cursor: not-allowed;
+    }
+
+    .slider-btn:disabled:hover {
+      transform: translateY(-50%);
+      background: rgba(128, 0, 0, 0.8);
+    }
+
+    .slider-dots {
+      display: flex;
+      justify-content: center;
+      margin-top: 20px;
+      gap: 8px;
+    }
+
+    .slider-dot {
+      width: 10px;
+      height: 10px;
+      border-radius: 50%;
+      background: #ddd;
+      cursor: pointer;
+      transition: all 0.3s ease;
+    }
+
+    .slider-dot.active {
+      background: #800000;
+      transform: scale(1.2);
+    }
+
+    /* Review rating styles */
+    .review-stats {
+      background: linear-gradient(135deg, #f8f4e3 0%, #f2e8c9 100%);
+      border-radius: 12px;
+      padding: 20px;
+      margin-bottom: 20px;
+    }
+
+    /* Stock status styles */
+    .stock-out {
+      background: linear-gradient(135deg, #fef2f2 0%, #fee2e2 100%);
+    }
+
+    .stock-low {
+      background: linear-gradient(135deg, #fffbeb 0%, #fef3c7 100%);
+    }
+
+    .stock-good {
+      background: linear-gradient(135deg, #f0fdf4 0%, #dcfce7 100%);
+    }
+
+    /* Mobile menu styles */
+    .mobile-menu {
+      display: none;
+      position: absolute;
+      top: 100%;
+      left: 0;
+      width: 100%;
+      background: white;
+      box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+      z-index: 100;
+    }
+
+    .mobile-menu.active {
+      display: block;
+    }
+
+    .mobile-menu ul {
+      padding: 1rem;
+    }
+
+    .mobile-menu li {
+      margin-bottom: 0.5rem;
+    }
+
+    .mobile-menu a {
+      display: block;
+      padding: 0.5rem 0;
+      color: #333;
+      font-weight: 500;
+    }
+
+    .mobile-menu a:hover {
+      color: #800000;
+    }
+  </style>
 </head>
+
 <body class="bg-cream">
 
   <!-- Loading Overlay -->
@@ -1702,12 +1713,13 @@ document.addEventListener("DOMContentLoaded", async () => {
       <div class="relative">
         <a href="cart1.html">
           <i class="fas fa-shopping-cart text-primary cursor-pointer text-xl"></i>
-          <span class="cart-count absolute -top-2 -right-2 bg-primary text-white text-xs w-5 h-5 flex items-center justify-center rounded-full">0</span>
+          <span
+            class="cart-count absolute -top-2 -right-2 bg-primary text-white text-xs w-5 h-5 flex items-center justify-center rounded-full">0</span>
         </a>
       </div>
       <div class="hamburger md:hidden text-2xl cursor-pointer text-primary">&#9776;</div>
     </div>
-    
+
     <!-- Mobile Menu -->
     <div class="mobile-menu md:hidden" id="mobileMenu">
       <ul>
@@ -1720,8 +1732,8 @@ document.addEventListener("DOMContentLoaded", async () => {
   </nav>
 
   <div class="container mx-auto px-6 py-4 text-gray-700">
-    <a href="dashboard1.html" class="hover:text-primary transition-colors">Home</a> / 
-    <a href="product1.html" class="hover:text-primary transition-colors">Sarees</a> / 
+    <a href="dashboard1.html" class="hover:text-primary transition-colors">Home</a> /
+    <a href="product1.html" class="hover:text-primary transition-colors">Sarees</a> /
     <span id="breadcrumb-product" class="text-primary font-medium">Traditional Paithani Saree</span>
   </div>
 
@@ -1731,7 +1743,7 @@ document.addEventListener("DOMContentLoaded", async () => {
   <div class="container mx-auto px-6 py-8">
     <div class="review-section bg-white rounded-lg p-6 shadow">
       <h2 class="text-2xl font-bold text-primary mb-6 font-serif">Customer Reviews</h2>
-      
+
       <!-- Review Statistics -->
       <div class="review-stats mb-8" id="reviewStats">
         <div class="flex flex-col md:flex-row justify-between items-center mb-4">
@@ -1748,24 +1760,34 @@ document.addEventListener("DOMContentLoaded", async () => {
           </div>
         </div>
       </div>
-      
+
       <!-- Review Form -->
       <div class="review-form bg-lightGold p-4 rounded mb-6">
         <form id="reviewForm">
-          <input type="text" id="reviewerName" placeholder="Your Name" class="w-full p-3 mb-3 rounded border border-gray-300 focus:outline-none focus:ring-2 focus:ring-primary" required />
-         
+          <input type="text" id="reviewerName" placeholder="Your Name"
+            class="w-full p-3 mb-3 rounded border border-gray-300 focus:outline-none focus:ring-2 focus:ring-primary"
+            required />
+
           <div class="flex space-x-1 mb-3">
-            <span class="star-rating text-2xl cursor-pointer text-gray-300 hover:text-gold transition-colors" data-rating="1">☆</span>
-            <span class="star-rating text-2xl cursor-pointer text-gray-300 hover:text-gold transition-colors" data-rating="2">☆</span>
-            <span class="star-rating text-2xl cursor-pointer text-gray-300 hover:text-gold transition-colors" data-rating="3">☆</span>
-            <span class="star-rating text-2xl cursor-pointer text-gray-300 hover:text-gold transition-colors" data-rating="4">☆</span>
-            <span class="star-rating text-2xl cursor-pointer text-gray-300 hover:text-gold transition-colors" data-rating="5">☆</span>
+            <span class="star-rating text-2xl cursor-pointer text-gray-300 hover:text-gold transition-colors"
+              data-rating="1">☆</span>
+            <span class="star-rating text-2xl cursor-pointer text-gray-300 hover:text-gold transition-colors"
+              data-rating="2">☆</span>
+            <span class="star-rating text-2xl cursor-pointer text-gray-300 hover:text-gold transition-colors"
+              data-rating="3">☆</span>
+            <span class="star-rating text-2xl cursor-pointer text-gray-300 hover:text-gold transition-colors"
+              data-rating="4">☆</span>
+            <span class="star-rating text-2xl cursor-pointer text-gray-300 hover:text-gold transition-colors"
+              data-rating="5">☆</span>
           </div>
           <input type="hidden" id="ratingValue" value="0" />
-          <textarea id="reviewText" placeholder="Share your experience with this product..." rows="3" class="w-full p-3 mb-2 rounded border border-gray-300 focus:outline-none focus:ring-2 focus:ring-primary" required maxlength="1000"></textarea>
+          <textarea id="reviewText" placeholder="Share your experience with this product..." rows="3"
+            class="w-full p-3 mb-2 rounded border border-gray-300 focus:outline-none focus:ring-2 focus:ring-primary"
+            required maxlength="1000"></textarea>
           <div class="flex justify-between items-center">
             <span class="text-sm text-gray-500" id="charCount">0/1000 characters</span>
-            <button type="submit" class="bg-primary text-white px-6 py-2 rounded hover:bg-darkRed transition duration-300 font-medium">
+            <button type="submit"
+              class="bg-primary text-white px-6 py-2 rounded hover:bg-darkRed transition duration-300 font-medium">
               Submit Review
             </button>
           </div>
@@ -1796,121 +1818,122 @@ document.addEventListener("DOMContentLoaded", async () => {
         </button>
       </div>
     </div>
-    
+
     <div class="slider-container">
       <div class="slider-track" id="sliderTrack"></div>
     </div>
-    
+
     <div class="slider-dots" id="sliderDots"></div>
   </div>
 
-<script>
-let quantity = 1;
-let currentProduct = null;
-let currentSlide = 0;
-let totalSlides = 0;
-let slidesPerView = 3;
+  <script src="config.js"></script>
+  <script>
+    let quantity = 1;
+    let currentProduct = null;
+    let currentSlide = 0;
+    let totalSlides = 0;
+    let slidesPerView = 3;
 
-// Loading and Message overlays
-const loadingOverlay = document.getElementById("loadingOverlay");
-const loadingText = document.getElementById("loadingText");
-const messageOverlay = document.getElementById("messageOverlay");
-const messageIcon = document.getElementById("messageIcon");
-const messageText = document.getElementById("messageText");
-const messageBtn = document.getElementById("messageBtn");
+    // Loading and Message overlays
+    const loadingOverlay = document.getElementById("loadingOverlay");
+    const loadingText = document.getElementById("loadingText");
+    const messageOverlay = document.getElementById("messageOverlay");
+    const messageIcon = document.getElementById("messageIcon");
+    const messageText = document.getElementById("messageText");
+    const messageBtn = document.getElementById("messageBtn");
 
-// Show loading overlay
-function showLoading(text = "Processing...") {
-  loadingText.textContent = text;
-  loadingOverlay.style.display = "flex";
-}
+    // Show loading overlay
+    function showLoading(text = "Processing...") {
+      loadingText.textContent = text;
+      loadingOverlay.style.display = "flex";
+    }
 
-// Hide loading overlay
-function hideLoading() {
-  loadingOverlay.style.display = "none";
-}
+    // Hide loading overlay
+    function hideLoading() {
+      loadingOverlay.style.display = "none";
+    }
 
-// Show message overlay
-function showMessage(text, isSuccess = true) {
-  messageText.textContent = text;
-  
-  if (isSuccess) {
-    messageIcon.innerHTML = '<i class="fas fa-check-circle success-icon"></i>';
-  } else {
-    messageIcon.innerHTML = '<i class="fas fa-exclamation-circle error-icon"></i>';
-  }
-  
-  messageOverlay.style.display = "flex";
-}
+    // Show message overlay
+    function showMessage(text, isSuccess = true) {
+      messageText.textContent = text;
 
-// Hide message overlay
-function hideMessage() {
-  messageOverlay.style.display = "none";
-}
-
-// Message button click
-messageBtn.addEventListener("click", () => {
-  hideMessage();
-});
-
-// Mobile menu toggle
-function initMobileMenu() {
-  const hamburger = document.querySelector(".hamburger");
-  const mobileMenu = document.getElementById("mobileMenu");
-  
-  if (hamburger && mobileMenu) {
-    hamburger.addEventListener("click", () => {
-      mobileMenu.classList.toggle("active");
-    });
-    
-    // Close menu when clicking outside
-    document.addEventListener("click", (e) => {
-      if (!hamburger.contains(e.target) && !mobileMenu.contains(e.target)) {
-        mobileMenu.classList.remove("active");
+      if (isSuccess) {
+        messageIcon.innerHTML = '<i class="fas fa-check-circle success-icon"></i>';
+      } else {
+        messageIcon.innerHTML = '<i class="fas fa-exclamation-circle error-icon"></i>';
       }
+
+      messageOverlay.style.display = "flex";
+    }
+
+    // Hide message overlay
+    function hideMessage() {
+      messageOverlay.style.display = "none";
+    }
+
+    // Message button click
+    messageBtn.addEventListener("click", () => {
+      hideMessage();
     });
-  }
-}
 
-// Update slides per view based on screen size
-function updateSlidesPerView() {
-  if (window.innerWidth < 640) {
-    slidesPerView = 1;
-  } else if (window.innerWidth < 1024) {
-    slidesPerView = 2;
-  } else {
-    slidesPerView = 3;
-  }
-  updateSlider();
-}
+    // Mobile menu toggle
+    function initMobileMenu() {
+      const hamburger = document.querySelector(".hamburger");
+      const mobileMenu = document.getElementById("mobileMenu");
 
-// Initialize slider
-function initSlider(products) {
-  const sliderTrack = document.getElementById('sliderTrack');
-  const sliderDots = document.getElementById('sliderDots');
-  
-  if (!products.length) {
-    sliderTrack.innerHTML = '<p class="text-center py-4 text-gray-700 col-span-full">No related products found.</p>';
-    return;
-  }
-  
-  // Calculate total slides
-  totalSlides = Math.ceil(products.length / slidesPerView);
-  
-  // Clear previous content
-  sliderTrack.innerHTML = '';
-  sliderDots.innerHTML = '';
-  
-  // Create slider items
-  products.forEach(product => {
-    // ✅ FIXED: Use Cloudinary URLs directly
-    const imageSrc = product.images?.[0] 
-      ? product.images[0]  // Cloudinary URL is already complete
-      : "https://via.placeholder.com/300x300?text=No+Image";
-    
-    const sliderItem = document.createElement('div');
-    sliderItem.className = 'slider-item';
-    sliderItem.innerHTML = `
+      if (hamburger && mobileMenu) {
+        hamburger.addEventListener("click", () => {
+          mobileMenu.classList.toggle("active");
+        });
+
+        // Close menu when clicking outside
+        document.addEventListener("click", (e) => {
+          if (!hamburger.contains(e.target) && !mobileMenu.contains(e.target)) {
+            mobileMenu.classList.remove("active");
+          }
+        });
+      }
+    }
+
+    // Update slides per view based on screen size
+    function updateSlidesPerView() {
+      if (window.innerWidth < 640) {
+        slidesPerView = 1;
+      } else if (window.innerWidth < 1024) {
+        slidesPerView = 2;
+      } else {
+        slidesPerView = 3;
+      }
+      updateSlider();
+    }
+
+    // Initialize slider
+    function initSlider(products) {
+      const sliderTrack = document.getElementById('sliderTrack');
+      const sliderDots = document.getElementById('sliderDots');
+
+      if (!products.length) {
+        sliderTrack.innerHTML = '<p class="text-center py-4 text-gray-700 col-span-full">No related products found.</p>';
+        return;
+      }
+
+      // Calculate total slides
+      totalSlides = Math.ceil(products.length / slidesPerView);
+
+      // Clear previous content
+      sliderTrack.innerHTML = '';
+      sliderDots.innerHTML = '';
+
+      // Create slider items
+      products.forEach(product => {
+        // ✅ FIXED: Use Cloudinary URLs directly
+        const imageSrc = product.images?.[0]
+          ? product.images[0]  // Cloudinary URL is already complete
+          : "https://via.placeholder.com/300x300?text=No+Image";
+
+        const sliderItem = document.createElement('div');
+        sliderItem.className = 'slider-item';
+        sliderItem.innerHTML = `
       <div class="bg-white rounded-lg shadow p-4 h-full flex flex-col">
         <img src="${imageSrc}" 
              alt="${product.name}"
@@ -1923,367 +1946,367 @@ function initSlider(products) {
         </a>
       </div>
     `;
-    sliderTrack.appendChild(sliderItem);
-  });
-  
-  // Create dots
-  for (let i = 0; i < totalSlides; i++) {
-    const dot = document.createElement('div');
-    dot.className = `slider-dot ${i === 0 ? 'active' : ''}`;
-    dot.dataset.index = i;
-    dot.addEventListener('click', () => goToSlide(i));
-    sliderDots.appendChild(dot);
-  }
-  
-  // Update slider position
-  updateSlider();
-}
+        sliderTrack.appendChild(sliderItem);
+      });
 
-// Update slider position
-function updateSlider() {
-  const sliderTrack = document.getElementById('sliderTrack');
-  const sliderWidth = sliderTrack.offsetWidth;
-  const itemWidth = sliderWidth / slidesPerView;
-  
-  sliderTrack.style.transform = `translateX(-${currentSlide * itemWidth}px)`;
-  
-  // Update buttons state
-  document.getElementById('prevBtn').disabled = currentSlide === 0;
-  document.getElementById('nextBtn').disabled = currentSlide >= totalSlides - 1;
-  
-  // Update dots
-  const dots = document.querySelectorAll('.slider-dot');
-  dots.forEach((dot, index) => {
-    dot.classList.toggle('active', index === currentSlide);
-  });
-}
+      // Create dots
+      for (let i = 0; i < totalSlides; i++) {
+        const dot = document.createElement('div');
+        dot.className = `slider-dot ${i === 0 ? 'active' : ''}`;
+        dot.dataset.index = i;
+        dot.addEventListener('click', () => goToSlide(i));
+        sliderDots.appendChild(dot);
+      }
 
-// Go to specific slide
-function goToSlide(slideIndex) {
-  currentSlide = slideIndex;
-  updateSlider();
-}
-
-// Next slide
-function nextSlide() {
-  if (currentSlide < totalSlides - 1) {
-    currentSlide++;
-    updateSlider();
-  }
-}
-
-// Previous slide
-function prevSlide() {
-  if (currentSlide > 0) {
-    currentSlide--;
-    updateSlider();
-  }
-}
-
-// Get authentication token
-function getAuthToken() {
-  return localStorage.getItem('authToken');
-}
-
-// Check if user is logged in
-function checkLoginStatus() {
-  const authToken = getAuthToken();
-  const userIcon = document.querySelector('.fa-user');
-  
-  if (authToken) {
-    userIcon.classList.remove('fa-user');
-    userIcon.classList.add('fa-user-check');
-    userIcon.style.color = 'green';
-  }
-}
-
-// Get product ID from URL
-function getProductId() {
-  return new URLSearchParams(window.location.search).get("id");
-}
-
-// Quantity functions with stock validation - UPDATED
-function increaseQuantity() { 
-  if (currentProduct && quantity < currentProduct.stock) {
-    quantity++; 
-    document.getElementById("quantity").textContent = quantity; 
-  } else {
-    showMessage(`Maximum available quantity is ${currentProduct.stock}`, false);
-  }
-}
-
-function decreaseQuantity() { 
-  if(quantity > 1){ 
-    quantity--; 
-    document.getElementById("quantity").textContent = quantity; 
-  } else {
-    showMessage("Quantity cannot be less than 1", false);
-  }
-}
-
-// Update cart count from API
-async function updateCartCount() {
-  try {
-    const authToken = getAuthToken();
-    
-    if (!authToken) {
-      document.querySelector(".cart-count").textContent = "0";
-      return;
+      // Update slider position
+      updateSlider();
     }
 
-    const res = await fetch("https://saikrupapaithanisarees-mdqk.onrender.com/api/cart", {
-      headers: {
-        "Authorization": `Bearer ${authToken}`
-      }
-    });
+    // Update slider position
+    function updateSlider() {
+      const sliderTrack = document.getElementById('sliderTrack');
+      const sliderWidth = sliderTrack.offsetWidth;
+      const itemWidth = sliderWidth / slidesPerView;
 
-    if (res.ok) {
-      const result = await res.json();
-      if (result.success && result.cart && result.cart.items) {
-        const totalItems = result.cart.items.reduce((sum, item) => sum + item.quantity, 0);
-        document.querySelector(".cart-count").textContent = totalItems;
+      sliderTrack.style.transform = `translateX(-${currentSlide * itemWidth}px)`;
+
+      // Update buttons state
+      document.getElementById('prevBtn').disabled = currentSlide === 0;
+      document.getElementById('nextBtn').disabled = currentSlide >= totalSlides - 1;
+
+      // Update dots
+      const dots = document.querySelectorAll('.slider-dot');
+      dots.forEach((dot, index) => {
+        dot.classList.toggle('active', index === currentSlide);
+      });
+    }
+
+    // Go to specific slide
+    function goToSlide(slideIndex) {
+      currentSlide = slideIndex;
+      updateSlider();
+    }
+
+    // Next slide
+    function nextSlide() {
+      if (currentSlide < totalSlides - 1) {
+        currentSlide++;
+        updateSlider();
+      }
+    }
+
+    // Previous slide
+    function prevSlide() {
+      if (currentSlide > 0) {
+        currentSlide--;
+        updateSlider();
+      }
+    }
+
+    // Get authentication token
+    function getAuthToken() {
+      return localStorage.getItem('authToken');
+    }
+
+    // Check if user is logged in
+    function checkLoginStatus() {
+      const authToken = getAuthToken();
+      const userIcon = document.querySelector('.fa-user');
+
+      if (authToken) {
+        userIcon.classList.remove('fa-user');
+        userIcon.classList.add('fa-user-check');
+        userIcon.style.color = 'green';
+      }
+    }
+
+    // Get product ID from URL
+    function getProductId() {
+      return new URLSearchParams(window.location.search).get("id");
+    }
+
+    // Quantity functions with stock validation - UPDATED
+    function increaseQuantity() {
+      if (currentProduct && quantity < currentProduct.stock) {
+        quantity++;
+        document.getElementById("quantity").textContent = quantity;
       } else {
+        showMessage(`Maximum available quantity is ${currentProduct.stock}`, false);
+      }
+    }
+
+    function decreaseQuantity() {
+      if (quantity > 1) {
+        quantity--;
+        document.getElementById("quantity").textContent = quantity;
+      } else {
+        showMessage("Quantity cannot be less than 1", false);
+      }
+    }
+
+    // Update cart count from API
+    async function updateCartCount() {
+      try {
+        const authToken = getAuthToken();
+
+        if (!authToken) {
+          document.querySelector(".cart-count").textContent = "0";
+          return;
+        }
+
+        const res = await fetch("${API_BASE_URL}/api/cart", {
+          headers: {
+            "Authorization": `Bearer ${authToken}`
+          }
+        });
+
+        if (res.ok) {
+          const result = await res.json();
+          if (result.success && result.cart && result.cart.items) {
+            const totalItems = result.cart.items.reduce((sum, item) => sum + item.quantity, 0);
+            document.querySelector(".cart-count").textContent = totalItems;
+          } else {
+            document.querySelector(".cart-count").textContent = "0";
+          }
+        } else {
+          document.querySelector(".cart-count").textContent = "0";
+        }
+      } catch (err) {
+        console.error("Failed to fetch cart count:", err);
         document.querySelector(".cart-count").textContent = "0";
       }
-    } else {
-      document.querySelector(".cart-count").textContent = "0";
-    }
-  } catch (err) {
-    console.error("Failed to fetch cart count:", err);
-    document.querySelector(".cart-count").textContent = "0";
-  }
-}
-
-// Star rating system
-function initStarRating() {
-  const stars = document.querySelectorAll(".star-rating");
-  const ratingValue = document.getElementById("ratingValue");
-  
-  stars.forEach(star => {
-    star.addEventListener("click", function(){
-      const rating = parseInt(this.dataset.rating);
-      ratingValue.value = rating;
-      
-      stars.forEach((s, i) => { 
-        if (i < rating) {
-          s.textContent = "★";
-          s.style.color = "#D4AF37";
-        } else {
-          s.textContent = "☆";
-          s.style.color = "#ddd";
-        }
-      });
-    });
-    
-    // Hover effect
-    star.addEventListener("mouseover", function() {
-      const rating = parseInt(this.dataset.rating);
-      
-      stars.forEach((s, i) => { 
-        if (i < rating) {
-          s.style.color = "#D4AF37";
-        }
-      });
-    });
-    
-    star.addEventListener("mouseout", function() {
-      const currentRating = parseInt(ratingValue.value);
-      
-      stars.forEach((s, i) => { 
-        if (i >= currentRating) {
-          s.style.color = "#ddd";
-        }
-      });
-    });
-  });
-}
-
-// Character counter for review text
-function initCharCounter() {
-  const reviewText = document.getElementById('reviewText');
-  const charCount = document.getElementById('charCount');
-  
-  if (reviewText && charCount) {
-    reviewText.addEventListener('input', function() {
-      const length = this.value.length;
-      charCount.textContent = `${length}/1000 characters`;
-      
-      if (length > 1000) {
-        charCount.classList.add('text-red-500');
-      } else {
-        charCount.classList.remove('text-red-500');
-      }
-    });
-  }
-}
-
-// API Functions for Reviews
-async function submitReview(reviewData) {
-  try {
-    console.log('Submitting review:', reviewData);
-    const res = await fetch("https://saikrupapaithanisarees-mdqk.onrender.com/api/reviews", {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify(reviewData)
-    });
-
-    const result = await res.json();
-    console.log('Review submission response:', result);
-    
-    if (res.ok && result.success) {
-      return result;
-    } else {
-      throw new Error(result.message || "Failed to submit review");
-    }
-  } catch (err) {
-    console.error("Submit review error:", err);
-    throw err;
-  }
-}
-
-// Get product reviews
-async function fetchProductReviews(productId) {
-  try {
-    console.log('Fetching reviews for product:', productId);
-    const res = await fetch(`https://saikrupapaithanisarees-mdqk.onrender.com/api/reviews?productId=${productId}`);
-    
-    if (res.ok) {
-      const result = await res.json();
-      console.log('Fetched reviews:', result);
-      return result.reviews || [];
-    } else {
-      console.error('Failed to fetch reviews, status:', res.status);
-      return [];
-    }
-  } catch (err) {
-    console.error("Fetch reviews error:", err);
-    return [];
-  }
-}
-
-async function fetchReviewStats(productId) {
-  try {
-    const res = await fetch(`https://saikrupapaithanisarees-mdqk.onrender.com/api/reviews/product/${productId}/summary`);
-    
-    if (res.ok) {
-      const result = await res.json();
-      return result.summary || {};
-    } else {
-      return {};
-    }
-  } catch (err) {
-    console.error("Fetch review stats error:", err);
-    return {};
-  }
-}
-
-// Review system with API integration - UPDATED
-function handleReviewForm() {
-  const form = document.getElementById("reviewForm");
-  
-  if (!form) {
-    console.error('Review form not found!');
-    return;
-  }
-  
-  form.addEventListener("submit", async function(e){
-    e.preventDefault();
-    console.log('Form submitted');
-    
-    const name = document.getElementById("reviewerName").value;
-    const rating = parseInt(document.getElementById("ratingValue").value);
-    const text = document.getElementById("reviewText").value;
-    const productId = getProductId();
-    
-    console.log('Form data:', { name, rating, text, productId });
-    
-    if(rating === 0){ 
-      showMessage("Please select a rating!", false); 
-      return; 
     }
 
-    if (text.length > 1000) {
-      showMessage("Review text must be 1000 characters or less.", false);
-      return;
-    }
+    // Star rating system
+    function initStarRating() {
+      const stars = document.querySelectorAll(".star-rating");
+      const ratingValue = document.getElementById("ratingValue");
 
-    try {
-      showLoading("Submitting your review...");
+      stars.forEach(star => {
+        star.addEventListener("click", function () {
+          const rating = parseInt(this.dataset.rating);
+          ratingValue.value = rating;
 
-      const reviewData = {
-        productId: productId,
-        reviewerName: name,
-        rating: rating,
-        reviewText: text,
-        status: 'approved'
-      };
-
-      console.log('Sending review data:', reviewData);
-
-      const result = await submitReview(reviewData);
-      
-      if (result.success) {
-        hideLoading();
-        showMessage("Review submitted successfully!");
-        form.reset();
-        document.querySelectorAll(".star-rating").forEach(s => {
-          s.textContent = "☆";
-          s.style.color = "#ddd";
+          stars.forEach((s, i) => {
+            if (i < rating) {
+              s.textContent = "★";
+              s.style.color = "#D4AF37";
+            } else {
+              s.textContent = "☆";
+              s.style.color = "#ddd";
+            }
+          });
         });
-        document.getElementById("ratingValue").value = 0;
-        document.getElementById("charCount").textContent = "0/1000 characters";
-        
-        await renderReviews(productId);
-        await renderReviewStats(productId);
-      }
-    } catch (err) {
-      console.error('Review submission failed:', err);
-      hideLoading();
-      showMessage("Failed to submit review: " + err.message, false);
-    }
-  });
-}
 
-// Render review statistics
-async function renderReviewStats(productId) {
-  const stats = await fetchReviewStats(productId);
-  const statsContainer = document.getElementById('reviewStats');
-  
-  if (!statsContainer) {
-    console.error('Review stats container not found');
-    return;
-  }
-  
-  if (stats.totalReviews > 0) {
-    document.getElementById('averageRating').textContent = stats.averageRating.toFixed(1);
-    document.getElementById('totalReviews').textContent = `${stats.totalReviews} Review${stats.totalReviews !== 1 ? 's' : ''}`;
-    
-    const avgStars = document.getElementById('averageStars');
-    const fullStars = Math.floor(stats.averageRating);
-    const hasHalfStar = stats.averageRating % 1 >= 0.5;
-    
-    let starsHtml = '';
-    for (let i = 0; i < 5; i++) {
-      if (i < fullStars) {
-        starsHtml += '★';
-      } else if (i === fullStars && hasHalfStar) {
-        starsHtml += '½';
-      } else {
-        starsHtml += '☆';
+        // Hover effect
+        star.addEventListener("mouseover", function () {
+          const rating = parseInt(this.dataset.rating);
+
+          stars.forEach((s, i) => {
+            if (i < rating) {
+              s.style.color = "#D4AF37";
+            }
+          });
+        });
+
+        star.addEventListener("mouseout", function () {
+          const currentRating = parseInt(ratingValue.value);
+
+          stars.forEach((s, i) => {
+            if (i >= currentRating) {
+              s.style.color = "#ddd";
+            }
+          });
+        });
+      });
+    }
+
+    // Character counter for review text
+    function initCharCounter() {
+      const reviewText = document.getElementById('reviewText');
+      const charCount = document.getElementById('charCount');
+
+      if (reviewText && charCount) {
+        reviewText.addEventListener('input', function () {
+          const length = this.value.length;
+          charCount.textContent = `${length}/1000 characters`;
+
+          if (length > 1000) {
+            charCount.classList.add('text-red-500');
+          } else {
+            charCount.classList.remove('text-red-500');
+          }
+        });
       }
     }
-    avgStars.innerHTML = starsHtml;
-    
-    const distributionContainer = document.getElementById('ratingDistribution');
-    if (stats.distribution) {
-      let distributionHtml = '';
-      for (let i = 5; i >= 1; i--) {
-        const ratingData = stats.distribution.find(d => d._id === i) || { count: 0 };
-        const percentage = stats.totalReviews > 0 ? (ratingData.count / stats.totalReviews) * 100 : 0;
-        
-        distributionHtml += `
+
+    // API Functions for Reviews
+    async function submitReview(reviewData) {
+      try {
+        console.log('Submitting review:', reviewData);
+        const res = await fetch("${API_BASE_URL}/api/reviews", {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify(reviewData)
+        });
+
+        const result = await res.json();
+        console.log('Review submission response:', result);
+
+        if (res.ok && result.success) {
+          return result;
+        } else {
+          throw new Error(result.message || "Failed to submit review");
+        }
+      } catch (err) {
+        console.error("Submit review error:", err);
+        throw err;
+      }
+    }
+
+    // Get product reviews
+    async function fetchProductReviews(productId) {
+      try {
+        console.log('Fetching reviews for product:', productId);
+        const res = await fetch(`${API_BASE_URL}/api/reviews?productId=${productId}`);
+
+        if (res.ok) {
+          const result = await res.json();
+          console.log('Fetched reviews:', result);
+          return result.reviews || [];
+        } else {
+          console.error('Failed to fetch reviews, status:', res.status);
+          return [];
+        }
+      } catch (err) {
+        console.error("Fetch reviews error:", err);
+        return [];
+      }
+    }
+
+    async function fetchReviewStats(productId) {
+      try {
+        const res = await fetch(`${API_BASE_URL}/api/reviews/product/${productId}/summary`);
+
+        if (res.ok) {
+          const result = await res.json();
+          return result.summary || {};
+        } else {
+          return {};
+        }
+      } catch (err) {
+        console.error("Fetch review stats error:", err);
+        return {};
+      }
+    }
+
+    // Review system with API integration - UPDATED
+    function handleReviewForm() {
+      const form = document.getElementById("reviewForm");
+
+      if (!form) {
+        console.error('Review form not found!');
+        return;
+      }
+
+      form.addEventListener("submit", async function (e) {
+        e.preventDefault();
+        console.log('Form submitted');
+
+        const name = document.getElementById("reviewerName").value;
+        const rating = parseInt(document.getElementById("ratingValue").value);
+        const text = document.getElementById("reviewText").value;
+        const productId = getProductId();
+
+        console.log('Form data:', { name, rating, text, productId });
+
+        if (rating === 0) {
+          showMessage("Please select a rating!", false);
+          return;
+        }
+
+        if (text.length > 1000) {
+          showMessage("Review text must be 1000 characters or less.", false);
+          return;
+        }
+
+        try {
+          showLoading("Submitting your review...");
+
+          const reviewData = {
+            productId: productId,
+            reviewerName: name,
+            rating: rating,
+            reviewText: text,
+            status: 'approved'
+          };
+
+          console.log('Sending review data:', reviewData);
+
+          const result = await submitReview(reviewData);
+
+          if (result.success) {
+            hideLoading();
+            showMessage("Review submitted successfully!");
+            form.reset();
+            document.querySelectorAll(".star-rating").forEach(s => {
+              s.textContent = "☆";
+              s.style.color = "#ddd";
+            });
+            document.getElementById("ratingValue").value = 0;
+            document.getElementById("charCount").textContent = "0/1000 characters";
+
+            await renderReviews(productId);
+            await renderReviewStats(productId);
+          }
+        } catch (err) {
+          console.error('Review submission failed:', err);
+          hideLoading();
+          showMessage("Failed to submit review: " + err.message, false);
+        }
+      });
+    }
+
+    // Render review statistics
+    async function renderReviewStats(productId) {
+      const stats = await fetchReviewStats(productId);
+      const statsContainer = document.getElementById('reviewStats');
+
+      if (!statsContainer) {
+        console.error('Review stats container not found');
+        return;
+      }
+
+      if (stats.totalReviews > 0) {
+        document.getElementById('averageRating').textContent = stats.averageRating.toFixed(1);
+        document.getElementById('totalReviews').textContent = `${stats.totalReviews} Review${stats.totalReviews !== 1 ? 's' : ''}`;
+
+        const avgStars = document.getElementById('averageStars');
+        const fullStars = Math.floor(stats.averageRating);
+        const hasHalfStar = stats.averageRating % 1 >= 0.5;
+
+        let starsHtml = '';
+        for (let i = 0; i < 5; i++) {
+          if (i < fullStars) {
+            starsHtml += '★';
+          } else if (i === fullStars && hasHalfStar) {
+            starsHtml += '½';
+          } else {
+            starsHtml += '☆';
+          }
+        }
+        avgStars.innerHTML = starsHtml;
+
+        const distributionContainer = document.getElementById('ratingDistribution');
+        if (stats.distribution) {
+          let distributionHtml = '';
+          for (let i = 5; i >= 1; i--) {
+            const ratingData = stats.distribution.find(d => d._id === i) || { count: 0 };
+            const percentage = stats.totalReviews > 0 ? (ratingData.count / stats.totalReviews) * 100 : 0;
+
+            distributionHtml += `
           <div class="flex items-center">
             <span class="w-8 text-gold font-semibold">${i}★</span>
             <div class="flex-1 bg-gray-200 rounded-full h-2 mx-2">
@@ -2292,45 +2315,45 @@ async function renderReviewStats(productId) {
             <span class="w-12 text-sm text-gray-600">${ratingData.count}</span>
           </div>
         `;
-      }
-      distributionContainer.innerHTML = distributionHtml;
-    }
-  } else {
-    // No reviews yet
-    document.getElementById('averageRating').textContent = "0.0";
-    document.getElementById('totalReviews').textContent = "0 Reviews";
-    document.getElementById('averageStars').innerHTML = "☆☆☆☆☆";
-    document.getElementById('ratingDistribution').innerHTML = `
+          }
+          distributionContainer.innerHTML = distributionHtml;
+        }
+      } else {
+        // No reviews yet
+        document.getElementById('averageRating').textContent = "0.0";
+        document.getElementById('totalReviews').textContent = "0 Reviews";
+        document.getElementById('averageStars').innerHTML = "☆☆☆☆☆";
+        document.getElementById('ratingDistribution').innerHTML = `
       <p class="text-gray-500 text-center py-4">No reviews yet. Be the first to review this product!</p>
     `;
-  }
-}
+      }
+    }
 
-// Render reviews
-async function renderReviews(productId) {
-  const reviews = await fetchProductReviews(productId);
-  const container = document.getElementById("reviewsList");
-  const loading = document.getElementById("reviewsLoading");
-  
-  if (!container) {
-    console.error('Reviews container not found');
-    return;
-  }
-  
-  if (loading) loading.classList.add('hidden');
-  
-  if(reviews.length === 0){ 
-    container.innerHTML = `
+    // Render reviews
+    async function renderReviews(productId) {
+      const reviews = await fetchProductReviews(productId);
+      const container = document.getElementById("reviewsList");
+      const loading = document.getElementById("reviewsLoading");
+
+      if (!container) {
+        console.error('Reviews container not found');
+        return;
+      }
+
+      if (loading) loading.classList.add('hidden');
+
+      if (reviews.length === 0) {
+        container.innerHTML = `
       <div class="text-center py-8">
         <p class="text-gray-500">No reviews yet. Be the first to review this product!</p>
       </div>
-    `; 
-    return; 
-  }
-  
-  const sortedReviews = reviews.sort((a, b) => new Date(b.createdAt) - new Date(a.createdAt));
-  
-  container.innerHTML = sortedReviews.map(review => `
+    `;
+        return;
+      }
+
+      const sortedReviews = reviews.sort((a, b) => new Date(b.createdAt) - new Date(a.createdAt));
+
+      container.innerHTML = sortedReviews.map(review => `
     <div class="bg-lightGold p-4 rounded-lg">
       <div class="flex justify-between items-start mb-2">
         <div>
@@ -2341,10 +2364,10 @@ async function renderReviews(productId) {
           </div>
         </div>
         <span class="text-gray-500 text-sm">${new Date(review.createdAt).toLocaleDateString('en-IN', {
-          year: 'numeric',
-          month: 'long',
-          day: 'numeric'
-        })}</span>
+        year: 'numeric',
+        month: 'long',
+        day: 'numeric'
+      })}</span>
       </div>
       <p class="text-gray-700 mt-2">${review.reviewText}</p>
       ${review.adminEdited ? `
@@ -2363,62 +2386,62 @@ async function renderReviews(productId) {
       ` : ''}
     </div>
   `).join("");
-}
-
-// Fetch product data
-async function fetchProductData(productId){
-  try{
-    const res = await fetch(`https://saikrupapaithanisarees-mdqk.onrender.com/api/products/${productId}`);
-    const result = await res.json();
-    
-    if (res.ok) {
-      currentProduct = result;
-      renderProduct(currentProduct);
-    } else {
-      throw new Error(result.message || "Failed to load product");
     }
-  } catch(err){
-    console.error(err);
-    document.getElementById("productDetail").innerHTML = "<p class='text-center text-red-600'>Failed to load product!</p>";
-  }
-}
 
-// Render product details with stock management
-function renderProduct(product){
-  if(!product || !product.name){ 
-    document.getElementById("productDetail").innerHTML = "<p class='text-center text-red-600'>Product not found!</p>"; 
-    return; 
-  }
-  
-  // Store current product globally for quantity management
-  currentProduct = product;
-  
-  document.getElementById("breadcrumb-product").textContent = product.name;
-  const stars = "★".repeat(product.popularity || 0) + "☆".repeat(5 - (product.popularity || 0));
-  
-  // ✅ FIXED: Use Cloudinary URLs directly
-  const mainImage = product.images && product.images.length > 0 ? 
-    product.images[0] : // Cloudinary URL is already complete
-    "https://via.placeholder.com/400x500?text=No+Image";
-  
-  const thumbnails = product.images ? product.images.map((img, i) => `
+    // Fetch product data
+    async function fetchProductData(productId) {
+      try {
+        const res = await fetch(`${API_BASE_URL}/api/products/${productId}`);
+        const result = await res.json();
+
+        if (res.ok) {
+          currentProduct = result;
+          renderProduct(currentProduct);
+        } else {
+          throw new Error(result.message || "Failed to load product");
+        }
+      } catch (err) {
+        console.error(err);
+        document.getElementById("productDetail").innerHTML = "<p class='text-center text-red-600'>Failed to load product!</p>";
+      }
+    }
+
+    // Render product details with stock management
+    function renderProduct(product) {
+      if (!product || !product.name) {
+        document.getElementById("productDetail").innerHTML = "<p class='text-center text-red-600'>Product not found!</p>";
+        return;
+      }
+
+      // Store current product globally for quantity management
+      currentProduct = product;
+
+      document.getElementById("breadcrumb-product").textContent = product.name;
+      const stars = "★".repeat(product.popularity || 0) + "☆".repeat(5 - (product.popularity || 0));
+
+      // ✅ FIXED: Use Cloudinary URLs directly
+      const mainImage = product.images && product.images.length > 0 ?
+        product.images[0] : // Cloudinary URL is already complete
+        "https://via.placeholder.com/400x500?text=No+Image";
+
+      const thumbnails = product.images ? product.images.map((img, i) => `
     <img src="${img}" class="thumbnail ${i === 0 ? "active" : ""}" width="70" height="70"
          onerror="this.src='https://via.placeholder.com/70x70/800000/ffffff?text=Image+Error'">
   `).join("") : "";
-  
-  // Determine stock status
-  const isOutOfStock = product.stock === 0;
-  const isLowStock = product.stock > 0 && product.stock <= 10;
-  const stockStatusClass = isOutOfStock ? 'text-red-600 font-bold' : (isLowStock ? 'text-yellow-600 font-bold' : 'text-green-600 font-bold');
-  const stockStatusText = isOutOfStock ? 'Out of Stock' : (isLowStock ? 'Low Stock' : 'In Stock');
-  const buttonText = isOutOfStock ? 'Out of Stock' : 'Add to Cart';
-  const buttonClass = isOutOfStock ? 'bg-gray-400 cursor-not-allowed' : 'bg-primary hover:bg-darkRed cursor-pointer';
-  const stockBgClass = isOutOfStock ? 'stock-out' : (isLowStock ? 'stock-low' : 'stock-good');
-  
-  // Reset quantity to 1 when rendering
-  quantity = 1;
-  
-  document.getElementById("productDetail").innerHTML = `
+
+      // Determine stock status
+      const isOutOfStock = product.stock === 0;
+      const isLowStock = product.stock > 0 && product.stock <= 10;
+      const stockStatusClass = isOutOfStock ? 'text-red-600 font-bold' : (isLowStock ? 'text-yellow-600 font-bold' : 'text-green-600 font-bold');
+      const stockStatusText = isOutOfStock ? 'Out of Stock' : (isLowStock ? 'Low Stock' : 'In Stock');
+      const buttonText = isOutOfStock ? 'Out of Stock' : 'Add to Cart';
+      const buttonClass = isOutOfStock ? 'bg-gray-400 cursor-not-allowed' : 'bg-primary hover:bg-darkRed cursor-pointer';
+      const stockBgClass = isOutOfStock ? 'stock-out' : (isLowStock ? 'stock-low' : 'stock-good');
+
+      // Reset quantity to 1 when rendering
+      quantity = 1;
+
+      document.getElementById("productDetail").innerHTML = `
   <div class="md:flex bg-white rounded-lg shadow p-6">
     <div class="md:w-1/2 flex flex-col">
       <img src="${mainImage}" id="mainImage" class="saree-image rounded mb-4 w-full h-96 object-cover"
@@ -2438,12 +2461,12 @@ function renderProduct(product){
             ${stockStatusText} - ${product.stock} units available
           </span>
           <p class="text-sm text-gray-600 mt-1">
-            ${isOutOfStock ? 
-              'This product is currently unavailable' : 
-              isLowStock ? 
-              'Only a few units left - Order soon!' : 
-              'Available for immediate delivery'
-            }
+            ${isOutOfStock ?
+          'This product is currently unavailable' :
+          isLowStock ?
+            'Only a few units left - Order soon!' :
+            'Available for immediate delivery'
+        }
           </p>
         </div>
       </div>
@@ -2482,8 +2505,8 @@ function renderProduct(product){
       
       <button id="addToCartBtn" class="mt-6 ${buttonClass} text-white px-6 py-3 rounded-lg text-lg font-semibold transition duration-300 flex items-center justify-center" 
         ${isOutOfStock ? 'disabled' : ''}>
-        ${isOutOfStock ? 
-          '<i class="fas fa-ban mr-2"></i> Out of Stock' : 
+        ${isOutOfStock ?
+          '<i class="fas fa-ban mr-2"></i> Out of Stock' :
           '<i class="fas fa-shopping-cart mr-2"></i> Add to Cart'
         }
       </button>
@@ -2499,197 +2522,198 @@ function renderProduct(product){
     </div>
   </div>`;
 
-  // Thumbnail click events
-  document.querySelectorAll(".thumbnail").forEach(thumb => {
-    thumb.addEventListener("click", () => {
-      document.getElementById("mainImage").src = thumb.src;
-      document.querySelectorAll(".thumbnail").forEach(t => t.classList.remove("active"));
-      thumb.classList.add("active");
-    });
-  });
+      // Thumbnail click events
+      document.querySelectorAll(".thumbnail").forEach(thumb => {
+        thumb.addEventListener("click", () => {
+          document.getElementById("mainImage").src = thumb.src;
+          document.querySelectorAll(".thumbnail").forEach(t => t.classList.remove("active"));
+          thumb.classList.add("active");
+        });
+      });
 
-  // Add to cart event only if not out of stock
-  if (!isOutOfStock) {
-    document.getElementById("addToCartBtn").addEventListener("click", addToCartHandler);
-  }
-}
-
-// UPDATED: Add to cart handler with logo loading animation
-async function addToCartHandler() {
-  try {
-    const addToCartBtn = document.getElementById("addToCartBtn");
-    const originalText = addToCartBtn.innerHTML;
-    
-    // Check if requested quantity is available
-    if (quantity > currentProduct.stock) {
-      showMessage(`Sorry, only ${currentProduct.stock} units available in stock.`, false);
-      return;
-    }
-
-    // Show loading animation
-    showLoading("Adding to Cart...");
-
-    const authToken = getAuthToken();
-    
-    if (!authToken) {
-      hideLoading();
-      showMessage("Please login to add items to cart", false);
-      setTimeout(() => {
-        if (confirm("Redirect to login page?")) {
-          window.location.href = "signup.html";
-        }
-      }, 1000);
-      return;
-    }
-
-    // Calculate new stock
-    const newStock = currentProduct.stock - quantity;
-    
-    // Update product in database using the main update endpoint
-    const updateResponse = await fetch(`https://saikrupapaithanisarees-mdqk.onrender.com/api/products/${currentProduct._id}`, {
-      method: 'PUT',
-      headers: {
-        'Content-Type': 'application/json',
-        "Authorization": `Bearer ${authToken}`
-      },
-      body: JSON.stringify({
-        name: currentProduct.name,
-        price: currentProduct.price,
-        category: currentProduct.category,
-        stock: newStock,
-        description: currentProduct.description
-      })
-    });
-
-    if (!updateResponse.ok) {
-      const errorData = await updateResponse.json();
-      throw new Error(errorData.error || 'Failed to update stock');
-    }
-
-    const updateResult = await updateResponse.json();
-    console.log('Stock update result:', updateResult);
-
-    // Then add to cart
-    const requestBody = {
-      productId: currentProduct._id,
-      quantity: quantity
-    };
-
-    const res = await fetch("https://saikrupapaithanisarees-mdqk.onrender.com/api/cart/add", {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-        "Authorization": `Bearer ${authToken}`
-      },
-      body: JSON.stringify(requestBody)
-    });
-
-    const result = await res.json();
-
-    if (!res.ok) {
-      if (res.status === 401) {
-        localStorage.removeItem('authToken');
-        hideLoading();
-        showMessage("Session expired. Please login again.", false);
-        setTimeout(() => {
-          window.location.href = "signup.html";
-        }, 1500);
-        return;
+      // Add to cart event only if not out of stock
+      if (!isOutOfStock) {
+        document.getElementById("addToCartBtn").addEventListener("click", addToCartHandler);
       }
-      throw new Error(result.message || "Failed to add to cart");
     }
 
-    if (result.success) {
-      // Hide loading and show success message
-      hideLoading();
-      showMessage("Product added to cart successfully!");
-      
-      // Update product stock locally with the actual updated value
-      currentProduct.stock = newStock;
-      
-      // Re-render product to show updated stock
-      renderProduct(currentProduct);
-      
-      await updateCartCount();
-    } else {
-      throw new Error(result.message || "Failed to add to cart");
+    // UPDATED: Add to cart handler with logo loading animation
+    async function addToCartHandler() {
+      try {
+        const addToCartBtn = document.getElementById("addToCartBtn");
+        const originalText = addToCartBtn.innerHTML;
+
+        // Check if requested quantity is available
+        if (quantity > currentProduct.stock) {
+          showMessage(`Sorry, only ${currentProduct.stock} units available in stock.`, false);
+          return;
+        }
+
+        // Show loading animation
+        showLoading("Adding to Cart...");
+
+        const authToken = getAuthToken();
+
+        if (!authToken) {
+          hideLoading();
+          showMessage("Please login to add items to cart", false);
+          setTimeout(() => {
+            if (confirm("Redirect to login page?")) {
+              window.location.href = "signup.html";
+            }
+          }, 1000);
+          return;
+        }
+
+        // Calculate new stock
+        const newStock = currentProduct.stock - quantity;
+
+        // Update product in database using the main update endpoint
+        const updateResponse = await fetch(`${API_BASE_URL}/api/products/${currentProduct._id}`, {
+          method: 'PUT',
+          headers: {
+            'Content-Type': 'application/json',
+            "Authorization": `Bearer ${authToken}`
+          },
+          body: JSON.stringify({
+            name: currentProduct.name,
+            price: currentProduct.price,
+            category: currentProduct.category,
+            stock: newStock,
+            description: currentProduct.description
+          })
+        });
+
+        if (!updateResponse.ok) {
+          const errorData = await updateResponse.json();
+          throw new Error(errorData.error || 'Failed to update stock');
+        }
+
+        const updateResult = await updateResponse.json();
+        console.log('Stock update result:', updateResult);
+
+        // Then add to cart
+        const requestBody = {
+          productId: currentProduct._id,
+          quantity: quantity
+        };
+
+        const res = await fetch("${API_BASE_URL}/api/cart/add", {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+            "Authorization": `Bearer ${authToken}`
+          },
+          body: JSON.stringify(requestBody)
+        });
+
+        const result = await res.json();
+
+        if (!res.ok) {
+          if (res.status === 401) {
+            localStorage.removeItem('authToken');
+            hideLoading();
+            showMessage("Session expired. Please login again.", false);
+            setTimeout(() => {
+              window.location.href = "signup.html";
+            }, 1500);
+            return;
+          }
+          throw new Error(result.message || "Failed to add to cart");
+        }
+
+        if (result.success) {
+          // Hide loading and show success message
+          hideLoading();
+          showMessage("Product added to cart successfully!");
+
+          // Update product stock locally with the actual updated value
+          currentProduct.stock = newStock;
+
+          // Re-render product to show updated stock
+          renderProduct(currentProduct);
+
+          await updateCartCount();
+        } else {
+          throw new Error(result.message || "Failed to add to cart");
+        }
+
+      } catch (err) {
+        console.error("Add to cart error:", err);
+        // Hide loading and show error message
+        hideLoading();
+        showMessage("Failed to add to cart: " + err.message, false);
+
+        // Reload product data to get correct stock
+        await fetchProductData(currentProduct._id);
+
+      } finally {
+        const addToCartBtn = document.getElementById("addToCartBtn");
+        if (addToCartBtn) {
+          addToCartBtn.innerHTML = '<i class="fas fa-shopping-cart mr-2"></i> Add to Cart';
+          addToCartBtn.disabled = false;
+        }
+      }
     }
 
-  } catch (err) {
-    console.error("Add to cart error:", err);
-    // Hide loading and show error message
-    hideLoading();
-    showMessage("Failed to add to cart: " + err.message, false);
-    
-    // Reload product data to get correct stock
-    await fetchProductData(currentProduct._id);
-    
-  } finally {
-    const addToCartBtn = document.getElementById("addToCartBtn");
-    if (addToCartBtn) {
-      addToCartBtn.innerHTML = '<i class="fas fa-shopping-cart mr-2"></i> Add to Cart';
-      addToCartBtn.disabled = false;
+    // Related products
+    async function renderRelatedProducts(currentId) {
+      try {
+        const res = await fetch("${API_BASE_URL}/api/products");
+        const products = await res.json();
+        const related = products.filter(p => p._id !== currentId).slice(0, 7);
+
+        // Initialize slider with related products
+        initSlider(related);
+      } catch (err) {
+        console.error(err);
+        document.getElementById('sliderTrack').innerHTML = '<p class="text-center py-4 text-gray-700 col-span-full">Failed to load related products.</p>';
+      }
     }
-  }
-}
 
-// Related products
-async function renderRelatedProducts(currentId){
-  try{
-    const res = await fetch("https://saikrupapaithanisarees-mdqk.onrender.com/api/products");
-    const products = await res.json();
-    const related = products.filter(p => p._id !== currentId).slice(0, 7);
-    
-    // Initialize slider with related products
-    initSlider(related);
-  } catch(err){ 
-    console.error(err); 
-    document.getElementById('sliderTrack').innerHTML = '<p class="text-center py-4 text-gray-700 col-span-full">Failed to load related products.</p>';
-  }
-}
+    // Initialize everything with better error handling
+    document.addEventListener("DOMContentLoaded", async () => {
+      console.log('DOM loaded, initializing...');
 
-// Initialize everything with better error handling
-document.addEventListener("DOMContentLoaded", async () => {
-  console.log('DOM loaded, initializing...');
-  
-  const productId = getProductId();
-  console.log('Product ID:', productId);
-  
-  if (productId) {
-    try {
-      await fetchProductData(productId);
-      await renderRelatedProducts(productId);
-      await renderReviewStats(productId);
-      await renderReviews(productId);
-    } catch (error) {
-      console.error('Error loading product data:', error);
-    }
-  } else {
-    console.error('No product ID found in URL');
-  }
-  
-  // Initialize components
-  initStarRating();
-  initCharCounter();
-  handleReviewForm();
-  checkLoginStatus();
-  updateCartCount();
-  initMobileMenu();
+      const productId = getProductId();
+      console.log('Product ID:', productId);
 
-  // Slider event listeners
-  const prevBtn = document.getElementById('prevBtn');
-  const nextBtn = document.getElementById('nextBtn');
-  
-  if (prevBtn) prevBtn.addEventListener('click', prevSlide);
-  if (nextBtn) nextBtn.addEventListener('click', nextSlide);
-  
-  // Update slides per view on resize
-  window.addEventListener('resize', updateSlidesPerView);
-  updateSlidesPerView(); // Initial call
-  
-  console.log('Initialization complete');
-});
-</script>
+      if (productId) {
+        try {
+          await fetchProductData(productId);
+          await renderRelatedProducts(productId);
+          await renderReviewStats(productId);
+          await renderReviews(productId);
+        } catch (error) {
+          console.error('Error loading product data:', error);
+        }
+      } else {
+        console.error('No product ID found in URL');
+      }
+
+      // Initialize components
+      initStarRating();
+      initCharCounter();
+      handleReviewForm();
+      checkLoginStatus();
+      updateCartCount();
+      initMobileMenu();
+
+      // Slider event listeners
+      const prevBtn = document.getElementById('prevBtn');
+      const nextBtn = document.getElementById('nextBtn');
+
+      if (prevBtn) prevBtn.addEventListener('click', prevSlide);
+      if (nextBtn) nextBtn.addEventListener('click', nextSlide);
+
+      // Update slides per view on resize
+      window.addEventListener('resize', updateSlidesPerView);
+      updateSlidesPerView(); // Initial call
+
+      console.log('Initialization complete');
+    });
+  </script>
 
 </body>
+
 </html>

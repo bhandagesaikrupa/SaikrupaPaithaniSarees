@@ -1,700 +1,898 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Order Confirmation - SaiKrupa Paithani</title>
- <meta 
-      name="description" 
-      content="Your order is successfully placed. Thank you for shopping Saikrupa Paithani – makers of authentic pure silk Paithani sarees." 
-    />
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Order Confirmation - SaiKrupa Paithani</title>
+  <meta name="description"
+    content="Your order is successfully placed. Thank you for shopping Saikrupa Paithani – makers of authentic pure silk Paithani sarees." />
 
-    <meta 
-      name="keywords" 
-      content="paithani order confirmed, paithani order receipt, saikrupa paithani order"  />
-    <meta property="og:title" content="Saikrupa Paithani – Pure Silk Paithani Sarees" />
-    <meta property="og:description" content="Buy handwoven pure silk Paithani sarees directly from Saikrupa Paithani." />
-    <meta property="og:image" content="saikrupa_logo.jpg" />
-    <meta property="og:type" content="website" />
+  <meta name="keywords" content="paithani order confirmed, paithani order receipt, saikrupa paithani order" />
+  <meta property="og:title" content="Saikrupa Paithani – Pure Silk Paithani Sarees" />
+  <meta property="og:description" content="Buy handwoven pure silk Paithani sarees directly from Saikrupa Paithani." />
+  <meta property="og:image" content="saikrupa_logo.jpg" />
+  <meta property="og:type" content="website" />
 
-     <link rel="icon" type="image/png" href="images/logo3.png" />
-<script src="https://cdn.tailwindcss.com"></script>
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-<link rel="stylesheet" href="nav.css">
-<script>
-tailwind.config = {
-    theme: {
+  <link rel="icon" type="image/png" href="images/logo3.png" />
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <link rel="stylesheet" href="nav.css">
+  <script>
+    tailwind.config = {
+      theme: {
         extend: {
-            colors: {
-                primary: '#800000',
-                primaryLight: '#b30000',
-                gold: '#D4AF37',
-                lightGold: '#F2E8C9',
-                cream: '#F8F4E3',
-                darkRed: '#680000',
-                gray: '#777',
-                lightGray: '#f5f5f5',
-                white: '#ffffff',
-                black: '#333333',
-            }
+          colors: {
+            primary: '#800000',
+            primaryLight: '#b30000',
+            gold: '#D4AF37',
+            lightGold: '#F2E8C9',
+            cream: '#F8F4E3',
+            darkRed: '#680000',
+            gray: '#777',
+            lightGray: '#f5f5f5',
+            white: '#ffffff',
+            black: '#333333',
+          }
         }
+      }
     }
-}
-</script>
-<style>
-body { font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; background-color: #F8F4E3; }
-.confetti { position: fixed; width: 10px; height: 10px; background: #D4AF37; animation: confetti-fall 5s linear forwards; }
-@keyframes confetti-fall { 
-    0% { transform: translateY(-100px) rotate(0deg); opacity: 1; }
-    100% { transform: translateY(100vh) rotate(360deg); opacity: 0; }
-}
-.order-card { transition: all 0.3s ease; }
-.order-card:hover { transform: translateY(-5px); box-shadow: 0 10px 25px rgba(0,0,0,0.1); }
-nav { display: flex; justify-content: space-between; align-items: center; padding: 0 40px; background: rgba(255,255,255,0.95); color: #800000; position: sticky; top: 0; z-index: 1000; box-shadow: 0 2px 15px rgba(128,0,0,0.1); height: 80px; }
-nav ul { display: flex; list-style: none; }
-nav ul li { position: relative; margin: 0 15px; }
-nav ul li a { color: #800000; text-decoration: none; font-weight: 500; font-size: 1.1rem; padding: 10px 5px; display: block; position: relative; }
-nav ul li a:after { content: ""; position: absolute; width: 0; height: 2px; background: #800000; left: 0; bottom: 0; transition: width 0.3s ease; }
-nav ul li a:hover:after { width: 100%; }
-.nav-icons { display: flex; align-items: center; }
-.nav-icon { color: #800000; font-size: 1.3rem; margin-left: 20px; position: relative; cursor: pointer; }
-.cart-count { position: absolute; top: -8px; right: -8px; background: #800000; color: white; font-size: 0.7rem; width: 18px; height: 18px; border-radius: 50%; display: flex; justify-content: center; align-items: center; }
-.hamburger { display: none; font-size: 1.8rem; cursor: pointer; margin-left: 20px; color: #800000; }
-.status-timeline { display: flex; justify-content: space-between; position: relative; margin: 30px 0; }
-.status-timeline::before { content: ''; position: absolute; top: 15px; left: 0; right: 0; height: 2px; background: #e5e7eb; }
-.status-step { display: flex; flex-direction: column; align-items: center; position: relative; z-index: 2; }
-.status-icon { width: 32px; height: 32px; border-radius: 50%; background: #e5e7eb; display: flex; align-items: center; justify-content: center; margin-bottom: 8px; }
-.status-step.completed .status-icon { background: #10B981; color: white; }
-.status-step.active .status-icon { background: #D4AF37; color: white; }
-.status-label { font-size: 0.8rem; color: #6B7280; }
-.status-step.completed .status-label { color: #10B981; font-weight: 600; }
-.status-step.active .status-label { color: #D4AF37; font-weight: 600; }
-.loading-spinner { display: none; }
-.loading-spinner.active { display: inline-block; animation: spin 1s linear infinite; }
-@keyframes spin { 0% { transform: rotate(0deg); } 100% { transform: rotate(360deg); } }
-/* Mobile menu */
-@media (max-width: 900px) {
-    nav ul { display: none; position: absolute; top: 100%; left: 0; width: 100%; background: rgba(255,255,255,0.98); flex-direction: column; padding: 20px; }
-    nav ul.show { display: flex; }
-    nav ul li { margin: 10px 0; width: 100%; text-align: center; }
-    .hamburger { display: block; }
-}
+  </script>
+  <style>
+    body {
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      background-color: #F8F4E3;
+    }
+
+    .confetti {
+      position: fixed;
+      width: 10px;
+      height: 10px;
+      background: #D4AF37;
+      animation: confetti-fall 5s linear forwards;
+    }
+
+    @keyframes confetti-fall {
+      0% {
+        transform: translateY(-100px) rotate(0deg);
+        opacity: 1;
+      }
+
+      100% {
+        transform: translateY(100vh) rotate(360deg);
+        opacity: 0;
+      }
+    }
+
+    .order-card {
+      transition: all 0.3s ease;
+    }
+
+    .order-card:hover {
+      transform: translateY(-5px);
+      box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
+    }
+
+    nav {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 0 40px;
+      background: rgba(255, 255, 255, 0.95);
+      color: #800000;
+      position: sticky;
+      top: 0;
+      z-index: 1000;
+      box-shadow: 0 2px 15px rgba(128, 0, 0, 0.1);
+      height: 80px;
+    }
+
+    nav ul {
+      display: flex;
+      list-style: none;
+    }
+
+    nav ul li {
+      position: relative;
+      margin: 0 15px;
+    }
+
+    nav ul li a {
+      color: #800000;
+      text-decoration: none;
+      font-weight: 500;
+      font-size: 1.1rem;
+      padding: 10px 5px;
+      display: block;
+      position: relative;
+    }
+
+    nav ul li a:after {
+      content: "";
+      position: absolute;
+      width: 0;
+      height: 2px;
+      background: #800000;
+      left: 0;
+      bottom: 0;
+      transition: width 0.3s ease;
+    }
+
+    nav ul li a:hover:after {
+      width: 100%;
+    }
+
+    .nav-icons {
+      display: flex;
+      align-items: center;
+    }
+
+    .nav-icon {
+      color: #800000;
+      font-size: 1.3rem;
+      margin-left: 20px;
+      position: relative;
+      cursor: pointer;
+    }
+
+    .cart-count {
+      position: absolute;
+      top: -8px;
+      right: -8px;
+      background: #800000;
+      color: white;
+      font-size: 0.7rem;
+      width: 18px;
+      height: 18px;
+      border-radius: 50%;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+    }
+
+    .hamburger {
+      display: none;
+      font-size: 1.8rem;
+      cursor: pointer;
+      margin-left: 20px;
+      color: #800000;
+    }
+
+    .status-timeline {
+      display: flex;
+      justify-content: space-between;
+      position: relative;
+      margin: 30px 0;
+    }
+
+    .status-timeline::before {
+      content: '';
+      position: absolute;
+      top: 15px;
+      left: 0;
+      right: 0;
+      height: 2px;
+      background: #e5e7eb;
+    }
+
+    .status-step {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      position: relative;
+      z-index: 2;
+    }
+
+    .status-icon {
+      width: 32px;
+      height: 32px;
+      border-radius: 50%;
+      background: #e5e7eb;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      margin-bottom: 8px;
+    }
+
+    .status-step.completed .status-icon {
+      background: #10B981;
+      color: white;
+    }
+
+    .status-step.active .status-icon {
+      background: #D4AF37;
+      color: white;
+    }
+
+    .status-label {
+      font-size: 0.8rem;
+      color: #6B7280;
+    }
+
+    .status-step.completed .status-label {
+      color: #10B981;
+      font-weight: 600;
+    }
+
+    .status-step.active .status-label {
+      color: #D4AF37;
+      font-weight: 600;
+    }
+
+    .loading-spinner {
+      display: none;
+    }
+
+    .loading-spinner.active {
+      display: inline-block;
+      animation: spin 1s linear infinite;
+    }
+
+    @keyframes spin {
+      0% {
+        transform: rotate(0deg);
+      }
+
+      100% {
+        transform: rotate(360deg);
+      }
+    }
+
+    /* Mobile menu */
+    @media (max-width: 900px) {
+      nav ul {
+        display: none;
+        position: absolute;
+        top: 100%;
+        left: 0;
+        width: 100%;
+        background: rgba(255, 255, 255, 0.98);
+        flex-direction: column;
+        padding: 20px;
+      }
+
+      nav ul.show {
+        display: flex;
+      }
+
+      nav ul li {
+        margin: 10px 0;
+        width: 100%;
+        text-align: center;
+      }
+
+      .hamburger {
+        display: block;
+      }
+    }
 
 
-.shop-map-section {
-  background: linear-gradient(135deg, var(--cream) 0%, var(--light-gold) 100%);
-  padding: 60px 20px;
-  border-top: 3px solid var(--gold);
-}
+    .shop-map-section {
+      background: linear-gradient(135deg, var(--cream) 0%, var(--light-gold) 100%);
+      padding: 60px 20px;
+      border-top: 3px solid var(--gold);
+    }
 
-.map-container {
-  max-width: 1400px;
-  margin: 0 auto;
-}
+    .map-container {
+      max-width: 1400px;
+      margin: 0 auto;
+    }
 
-.map-container h2 {
-  text-align: center;
-  font-family: "Playfair Display", serif;
-  color: var(--primary-color);
-  font-size: 2.5rem;
-  margin-bottom: 15px;
-  font-weight: 700;
-}
+    .map-container h2 {
+      text-align: center;
+      font-family: "Playfair Display", serif;
+      color: var(--primary-color);
+      font-size: 2.5rem;
+      margin-bottom: 15px;
+      font-weight: 700;
+    }
 
-.map-subtitle {
-  text-align: center;
-  color: var(--dark-red);
-  font-size: 1.2rem;
-  margin-bottom: 40px;
-  max-width: 600px;
-  margin-left: auto;
-  margin-right: auto;
-}
+    .map-subtitle {
+      text-align: center;
+      color: var(--dark-red);
+      font-size: 1.2rem;
+      margin-bottom: 40px;
+      max-width: 600px;
+      margin-left: auto;
+      margin-right: auto;
+    }
 
-.map-content {
-  display: grid;
-  grid-template-columns: 1fr 1fr;
-  gap: 40px;
-  align-items: start;
-}
+    .map-content {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 40px;
+      align-items: start;
+    }
 
-.map-info {
-  display: flex;
-  flex-direction: column;
-  gap: 20px;
-}
+    .map-info {
+      display: flex;
+      flex-direction: column;
+      gap: 20px;
+    }
 
-.info-card {
-  background: var(--white);
-  padding: 25px;
-  border-radius: 12px;
-  box-shadow: 0 5px 15px rgba(0, 0, 0, 0.08);
-  border-left: 4px solid var(--primary-color);
-  transition: var(--transition);
-}
+    .info-card {
+      background: var(--white);
+      padding: 25px;
+      border-radius: 12px;
+      box-shadow: 0 5px 15px rgba(0, 0, 0, 0.08);
+      border-left: 4px solid var(--primary-color);
+      transition: var(--transition);
+    }
 
-.info-card:hover {
-  transform: translateY(-5px);
-  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.15);
-}
+    .info-card:hover {
+      transform: translateY(-5px);
+      box-shadow: 0 10px 25px rgba(0, 0, 0, 0.15);
+    }
 
-.info-card h3 {
-  color: var(--primary-color);
-  font-family: "Playfair Display", serif;
-  font-size: 1.3rem;
-  margin-bottom: 15px;
-  display: flex;
-  align-items: center;
-  gap: 10px;
-}
+    .info-card h3 {
+      color: var(--primary-color);
+      font-family: "Playfair Display", serif;
+      font-size: 1.3rem;
+      margin-bottom: 15px;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
 
-.info-card h3 i {
-  color: var(--gold);
-  font-size: 1.2rem;
-}
+    .info-card h3 i {
+      color: var(--gold);
+      font-size: 1.2rem;
+    }
 
-.info-card p {
-  color: var(--gray);
-  line-height: 1.6;
-  margin: 0;
-}
+    .info-card p {
+      color: var(--gray);
+      line-height: 1.6;
+      margin: 0;
+    }
 
-.map-wrapper {
-  display: flex;
-  flex-direction: column;
-  gap: 20px;
-}
+    .map-wrapper {
+      display: flex;
+      flex-direction: column;
+      gap: 20px;
+    }
 
-.map-embed {
-  border-radius: 12px;
-  overflow: hidden;
-  box-shadow: 0 8px 25px rgba(0, 0, 0, 0.15);
-  border: 3px solid var(--white);
-}
+    .map-embed {
+      border-radius: 12px;
+      overflow: hidden;
+      box-shadow: 0 8px 25px rgba(0, 0, 0, 0.15);
+      border: 3px solid var(--white);
+    }
 
-.map-actions {
-  display: flex;
-  gap: 15px;
-  justify-content: center;
-}
+    .map-actions {
+      display: flex;
+      gap: 15px;
+      justify-content: center;
+    }
 
-.map-btn {
-  background: linear-gradient(135deg, var(--primary-color), var(--primary-light));
-  color: var(--white);
-  padding: 12px 25px;
-  border-radius: 8px;
-  text-decoration: none;
-  font-weight: 600;
-  display: flex;
-  align-items: center;
-  gap: 8px;
-  transition: var(--transition);
-  box-shadow: 0 4px 15px rgba(128, 0, 0, 0.2);
-}
+    .map-btn {
+      background: linear-gradient(135deg, var(--primary-color), var(--primary-light));
+      color: var(--white);
+      padding: 12px 25px;
+      border-radius: 8px;
+      text-decoration: none;
+      font-weight: 600;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      transition: var(--transition);
+      box-shadow: 0 4px 15px rgba(128, 0, 0, 0.2);
+    }
 
-.map-btn:hover {
-  background: linear-gradient(135deg, var(--primary-light), var(--dark-red));
-  transform: translateY(-2px);
-  box-shadow: 0 6px 20px rgba(128, 0, 0, 0.3);
-  color: var(--white);
-}
+    .map-btn:hover {
+      background: linear-gradient(135deg, var(--primary-light), var(--dark-red));
+      transform: translateY(-2px);
+      box-shadow: 0 6px 20px rgba(128, 0, 0, 0.3);
+      color: var(--white);
+    }
 
-/* Responsive Design for Map Section */
-@media (max-width: 1024px) {
-  .map-content {
-    grid-template-columns: 1fr;
-    gap: 30px;
-  }
-  
-  .map-info {
-    order: 2;
-  }
-  
-  .map-wrapper {
-    order: 1;
-  }
-}
+    /* Responsive Design for Map Section */
+    @media (max-width: 1024px) {
+      .map-content {
+        grid-template-columns: 1fr;
+        gap: 30px;
+      }
 
-@media (max-width: 768px) {
-  .shop-map-section {
-    padding: 40px 15px;
-  }
-  
-  .map-container h2 {
-    font-size: 2rem;
-  }
-  
-  .map-subtitle {
-    font-size: 1.1rem;
-  }
-  
-  .info-card {
-    padding: 20px;
-  }
-  
-  .map-actions {
-    flex-direction: column;
-  }
-  
-  .map-btn {
-    justify-content: center;
-  }
-}
+      .map-info {
+        order: 2;
+      }
 
-@media (max-width: 480px) {
-  .map-container h2 {
-    font-size: 1.8rem;
-  }
-  
-  .info-card h3 {
-    font-size: 1.1rem;
-  }
-  
-  .map-embed iframe {
-    height: 350px;
-  }
-   .logo-text-image{
-          width: 4rem;
-        }
-}
-</style>
+      .map-wrapper {
+        order: 1;
+      }
+    }
+
+    @media (max-width: 768px) {
+      .shop-map-section {
+        padding: 40px 15px;
+      }
+
+      .map-container h2 {
+        font-size: 2rem;
+      }
+
+      .map-subtitle {
+        font-size: 1.1rem;
+      }
+
+      .info-card {
+        padding: 20px;
+      }
+
+      .map-actions {
+        flex-direction: column;
+      }
+
+      .map-btn {
+        justify-content: center;
+      }
+    }
+
+    @media (max-width: 480px) {
+      .map-container h2 {
+        font-size: 1.8rem;
+      }
+
+      .info-card h3 {
+        font-size: 1.1rem;
+      }
+
+      .map-embed iframe {
+        height: 350px;
+      }
+
+      .logo-text-image {
+        width: 4rem;
+      }
+    }
+  </style>
 </head>
+
 <body class="bg-cream">
 
-<!-- Navigation -->
-<nav>
-  <a href="dashboard1.html" class="logo flex items-center font-bold text-darkRed">
-    <img
-          src="images/logo3.png"
-          alt="Paithani Logo"
-          class="logo-img h-20 w-20 rounded-full mr-3"
-        />
-    <img src="saikrupa_logo.jpg" alt="SaiKrupa Paithani" class="logo-text-image" />
-  </a>
-  <ul>
+  <!-- Navigation -->
+  <nav>
+    <a href="dashboard1.html" class="logo flex items-center font-bold text-darkRed">
+      <img src="images/logo3.png" alt="Paithani Logo" class="logo-img h-20 w-20 rounded-full mr-3" />
+      <img src="saikrupa_logo.jpg" alt="SaiKrupa Paithani" class="logo-text-image" />
+    </a>
+    <ul>
       <li><a href="dashboard1.html">Home</a></li>
-    <li><a href="product1.html">Collections</a></li>
-   
-    <li><a href="#testimonials">Testimonials</a></li>
-    <li><a href="#">Contact</a></li>
-  </ul>
-  <div class="nav-icons">
-  <a href="history1.html"><div class="nav-icon"><i class="fas fa-shipping-fast mr-2"></i></div></a>
-   
-    <div class="nav-icon"><a href="cart1.html"><i class="fas fa-shopping-cart"></i><span class="cart-count" id="headerCartCount">0</span></a></div>
-    <div class="hamburger">&#9776;</div>
-  </div>
-</nav>
+      <li><a href="product1.html">Collections</a></li>
 
-<!-- Breadcrumb -->
-<div class="container mx-auto px-6 py-4 text-gray">
-  <a href="dashboard1.html"><span class="hover:text-primary cursor-pointer">Home</span> / </a>
-  <a href="cart1.html"><span class="hover:text-primary cursor-pointer">Cart</span> / </a>
-  <a href="checkout1.html"><span class="hover:text-primary cursor-pointer">Checkout</span> / </a>
-  <span class="text-primary">Order Confirmation</span>
-</div>
+      <li><a href="#testimonials">Testimonials</a></li>
+      <li><a href="#">Contact</a></li>
+    </ul>
+    <div class="nav-icons">
+      <a href="history1.html">
+        <div class="nav-icon"><i class="fas fa-shipping-fast mr-2"></i></div>
+      </a>
 
-<!-- Loading State -->
-<div id="loadingState" class="container mx-auto px-6 py-8 text-center">
-  <div class="w-24 h-24 bg-primary rounded-full flex items-center justify-center mx-auto mb-6">
-    <i class="fas fa-spinner text-white text-3xl loading-spinner active"></i>
-  </div>
-  <h2 class="text-2xl font-bold text-primary mb-4">Loading Order Details...</h2>
-  <p class="text-gray">Please wait while we fetch your order information.</p>
-</div>
-
-<!-- Main Content (Hidden until data loads) -->
-<div id="mainContent" class="hidden">
-  <div class="container mx-auto px-6 py-8">
-    <!-- Success Header -->
-    <div class="text-center mb-12">
-      <div class="w-24 h-24 bg-green-100 rounded-full flex items-center justify-center mx-auto mb-6">
-        <i class="fas fa-check-circle text-5xl text-green-500"></i>
-      </div>
-      <h1 class="text-4xl font-bold text-primary mb-4">Order Confirmed!</h1>
-      <p class="text-xl text-gray max-w-2xl mx-auto">Thank you for your purchase! Your order has been successfully placed and is being processed.</p>
-      <div class="mt-6 bg-lightGold p-4 rounded-lg inline-block">
-        <p class="text-primary font-semibold">Order ID: <span id="orderNumber">Loading...</span></p>
-      </div>
+      <div class="nav-icon"><a href="cart1.html"><i class="fas fa-shopping-cart"></i><span class="cart-count"
+            id="headerCartCount">0</span></a></div>
+      <div class="hamburger">&#9776;</div>
     </div>
+  </nav>
 
-    <div class="flex flex-col lg:flex-row gap-8">
-      <!-- Order Details -->
-      <div class="lg:w-2/3">
-        <!-- Order Summary Card -->
-        <div class="bg-white rounded-lg shadow-md p-6 mb-6 order-card">
-          <h2 class="text-2xl font-semibold text-primary mb-6">Order Summary</h2>
-          
-          <!-- Order Items -->
-          <div id="orderItemsContainer" class="space-y-6 mb-8">
-            <!-- Dynamic items will be loaded here -->
-          </div>
-          
-          <!-- Order Totals -->
-          <div class="border-t border-gray-200 pt-6">
-            <div class="space-y-3 mb-6" id="orderSummary">
-              <!-- Dynamic totals will be loaded here -->
-            </div>
-            
-            <div class="flex justify-between items-center bg-lightGold p-4 rounded-lg">
-              <div>
-                <p class="font-semibold text-primary">Payment Method</p>
-                <p class="text-gray" id="paymentMethodDisplay">Loading...</p>
-              </div>
-              <div id="paymentStatusDisplay" class="text-green-600 font-semibold">
-                <i class="fas fa-check-circle mr-1"></i> Paid
-              </div>
-            </div>
-          </div>
+  <!-- Breadcrumb -->
+  <div class="container mx-auto px-6 py-4 text-gray">
+    <a href="dashboard1.html"><span class="hover:text-primary cursor-pointer">Home</span> / </a>
+    <a href="cart1.html"><span class="hover:text-primary cursor-pointer">Cart</span> / </a>
+    <a href="checkout1.html"><span class="hover:text-primary cursor-pointer">Checkout</span> / </a>
+    <span class="text-primary">Order Confirmation</span>
+  </div>
+
+  <!-- Loading State -->
+  <div id="loadingState" class="container mx-auto px-6 py-8 text-center">
+    <div class="w-24 h-24 bg-primary rounded-full flex items-center justify-center mx-auto mb-6">
+      <i class="fas fa-spinner text-white text-3xl loading-spinner active"></i>
+    </div>
+    <h2 class="text-2xl font-bold text-primary mb-4">Loading Order Details...</h2>
+    <p class="text-gray">Please wait while we fetch your order information.</p>
+  </div>
+
+  <!-- Main Content (Hidden until data loads) -->
+  <div id="mainContent" class="hidden">
+    <div class="container mx-auto px-6 py-8">
+      <!-- Success Header -->
+      <div class="text-center mb-12">
+        <div class="w-24 h-24 bg-green-100 rounded-full flex items-center justify-center mx-auto mb-6">
+          <i class="fas fa-check-circle text-5xl text-green-500"></i>
         </div>
-        
-        <!-- Order Timeline -->
-        <div class="bg-white rounded-lg shadow-md p-6 mb-6 order-card">
-          <h2 class="text-2xl font-semibold text-primary mb-6">Order Status</h2>
-          
-          <div class="status-timeline">
-            <div class="status-step completed">
-              <div class="status-icon">
-                <i class="fas fa-shopping-cart"></i>
-              </div>
-              <span class="status-label">Order Placed</span>
-              <span class="text-xs text-gray mt-1" id="orderPlacedDate">Today</span>
-            </div>
-            <div class="status-step active">
-              <div class="status-icon">
-                <i class="fas fa-cog"></i>
-              </div>
-              <span class="status-label">Processing</span>
-              <span class="text-xs text-gray mt-1">Expected: Today</span>
-            </div>
-            <div class="status-step">
-              <div class="status-icon">
-                <i class="fas fa-truck"></i>
-              </div>
-              <span class="status-label">Shipped</span>
-              <span class="text-xs text-gray mt-1">2-3 days</span>
-            </div>
-            <div class="status-step">
-              <div class="status-icon">
-                <i class="fas fa-home"></i>
-              </div>
-              <span class="status-label">Delivered</span>
-              <span class="text-xs text-gray mt-1">5-7 days</span>
-            </div>
-          </div>
-          
-          <div class="mt-8 p-4 bg-blue-50 rounded-lg border border-blue-200">
-            <div class="flex items-start">
-              <i class="fas fa-info-circle text-blue-500 mt-1 mr-3"></i>
-              <div>
-                <h4 class="font-semibold text-blue-800">What's Next?</h4>
-                <p class="text-blue-700 text-sm mt-1">Your order is being processed. You will receive a confirmation email with tracking details once your order ships.</p>
-              </div>
-            </div>
-          </div>
+        <h1 class="text-4xl font-bold text-primary mb-4">Order Confirmed!</h1>
+        <p class="text-xl text-gray max-w-2xl mx-auto">Thank you for your purchase! Your order has been successfully
+          placed and is being processed.</p>
+        <div class="mt-6 bg-lightGold p-4 rounded-lg inline-block">
+          <p class="text-primary font-semibold">Order ID: <span id="orderNumber">Loading...</span></p>
         </div>
-        
-        <!-- Shipping Information -->
-        <div class="bg-white rounded-lg shadow-md p-6 order-card">
-          <h2 class="text-2xl font-semibold text-primary mb-6">Shipping Information</h2>
-          
-          <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
-            <div>
-              <h3 class="font-semibold text-primary mb-3">Shipping Address</h3>
-              <div class="bg-lightGold p-4 rounded-lg">
-                <p class="font-medium" id="customerName">Loading...</p>
-                <p id="shippingAddress">Loading...</p>
-                <p class="mt-2"><strong>Phone:</strong> <span id="customerPhone">Loading...</span></p>
-                <p class="mt-1"><strong>Email:</strong> <span id="customerEmail">Loading...</span></p>
+      </div>
+
+      <div class="flex flex-col lg:flex-row gap-8">
+        <!-- Order Details -->
+        <div class="lg:w-2/3">
+          <!-- Order Summary Card -->
+          <div class="bg-white rounded-lg shadow-md p-6 mb-6 order-card">
+            <h2 class="text-2xl font-semibold text-primary mb-6">Order Summary</h2>
+
+            <!-- Order Items -->
+            <div id="orderItemsContainer" class="space-y-6 mb-8">
+              <!-- Dynamic items will be loaded here -->
+            </div>
+
+            <!-- Order Totals -->
+            <div class="border-t border-gray-200 pt-6">
+              <div class="space-y-3 mb-6" id="orderSummary">
+                <!-- Dynamic totals will be loaded here -->
+              </div>
+
+              <div class="flex justify-between items-center bg-lightGold p-4 rounded-lg">
+                <div>
+                  <p class="font-semibold text-primary">Payment Method</p>
+                  <p class="text-gray" id="paymentMethodDisplay">Loading...</p>
+                </div>
+                <div id="paymentStatusDisplay" class="text-green-600 font-semibold">
+                  <i class="fas fa-check-circle mr-1"></i> Paid
+                </div>
               </div>
             </div>
-            
-            <div>
-              <h3 class="font-semibold text-primary mb-3">Shipping Method</h3>
-              <div class="bg-lightGold p-4 rounded-lg">
-                <div class="flex items-center justify-between">
-                  <div>
-                    <p class="font-medium" id="shippingMethodDisplay">Loading...</p>
-                    <p class="text-sm text-gray" id="shippingTime">Loading...</p>
+          </div>
+
+          <!-- Order Timeline -->
+          <div class="bg-white rounded-lg shadow-md p-6 mb-6 order-card">
+            <h2 class="text-2xl font-semibold text-primary mb-6">Order Status</h2>
+
+            <div class="status-timeline">
+              <div class="status-step completed">
+                <div class="status-icon">
+                  <i class="fas fa-shopping-cart"></i>
+                </div>
+                <span class="status-label">Order Placed</span>
+                <span class="text-xs text-gray mt-1" id="orderPlacedDate">Today</span>
+              </div>
+              <div class="status-step active">
+                <div class="status-icon">
+                  <i class="fas fa-cog"></i>
+                </div>
+                <span class="status-label">Processing</span>
+                <span class="text-xs text-gray mt-1">Expected: Today</span>
+              </div>
+              <div class="status-step">
+                <div class="status-icon">
+                  <i class="fas fa-truck"></i>
+                </div>
+                <span class="status-label">Shipped</span>
+                <span class="text-xs text-gray mt-1">2-3 days</span>
+              </div>
+              <div class="status-step">
+                <div class="status-icon">
+                  <i class="fas fa-home"></i>
+                </div>
+                <span class="status-label">Delivered</span>
+                <span class="text-xs text-gray mt-1">5-7 days</span>
+              </div>
+            </div>
+
+            <div class="mt-8 p-4 bg-blue-50 rounded-lg border border-blue-200">
+              <div class="flex items-start">
+                <i class="fas fa-info-circle text-blue-500 mt-1 mr-3"></i>
+                <div>
+                  <h4 class="font-semibold text-blue-800">What's Next?</h4>
+                  <p class="text-blue-700 text-sm mt-1">Your order is being processed. You will receive a confirmation
+                    email with tracking details once your order ships.</p>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Shipping Information -->
+          <div class="bg-white rounded-lg shadow-md p-6 order-card">
+            <h2 class="text-2xl font-semibold text-primary mb-6">Shipping Information</h2>
+
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+              <div>
+                <h3 class="font-semibold text-primary mb-3">Shipping Address</h3>
+                <div class="bg-lightGold p-4 rounded-lg">
+                  <p class="font-medium" id="customerName">Loading...</p>
+                  <p id="shippingAddress">Loading...</p>
+                  <p class="mt-2"><strong>Phone:</strong> <span id="customerPhone">Loading...</span></p>
+                  <p class="mt-1"><strong>Email:</strong> <span id="customerEmail">Loading...</span></p>
+                </div>
+              </div>
+
+              <div>
+                <h3 class="font-semibold text-primary mb-3">Shipping Method</h3>
+                <div class="bg-lightGold p-4 rounded-lg">
+                  <div class="flex items-center justify-between">
+                    <div>
+                      <p class="font-medium" id="shippingMethodDisplay">Loading...</p>
+                      <p class="text-sm text-gray" id="shippingTime">Loading...</p>
+                    </div>
+                    <div class="text-primary font-semibold" id="shippingCost">Loading...</div>
                   </div>
-                  <div class="text-primary font-semibold" id="shippingCost">Loading...</div>
+                  <div class="mt-3 pt-3 border-t border-gold">
+                    <p class="text-sm"><strong>Estimated Delivery:</strong> <span
+                        id="estimatedDelivery">Loading...</span></p>
+                  </div>
                 </div>
-                <div class="mt-3 pt-3 border-t border-gold">
-                  <p class="text-sm"><strong>Estimated Delivery:</strong> <span id="estimatedDelivery">Loading...</span></p>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Sidebar -->
+        <div class="lg:w-1/3">
+          <!-- Action Cards -->
+          <div class="bg-white rounded-lg shadow-md p-6 mb-6 order-card">
+            <h3 class="text-xl font-semibold text-primary mb-4">Order Actions</h3>
+
+            <div class="space-y-4">
+
+
+              <button onclick="trackOrder()"
+                class="w-full bg-white border border-primary text-primary hover:bg-primary hover:text-white py-3 px-4 rounded-lg font-semibold flex items-center justify-center">
+                <i class="fas fa-shipping-fast mr-2"></i> Track Order
+              </button>
+
+              <button onclick="printOrderDetails()"
+                class="w-full bg-white border border-gray-300 text-gray-700 hover:bg-gray-50 py-3 px-4 rounded-lg font-semibold flex items-center justify-center">
+                <i class="fas fa-print mr-2"></i> Print Details
+              </button>
+            </div>
+          </div>
+
+          <!-- Support Card -->
+          <div class="bg-white rounded-lg shadow-md p-6 mb-6 order-card">
+            <h3 class="text-xl font-semibold text-primary mb-4">Need Help?</h3>
+
+            <div class="space-y-4">
+              <div class="flex items-center p-3 bg-lightGold rounded-lg">
+                <i class="fas fa-phone text-primary text-xl mr-3"></i>
+                <div>
+                  <p class="font-medium">Call Us</p>
+                  <p class="text-sm text-gray">+91 9860725578</p>
                 </div>
+              </div>
+
+              <div class="flex items-center p-3 bg-lightGold rounded-lg">
+                <i class="fas fa-comments text-primary text-xl mr-3"></i>
+                <div>
+                  <p class="font-medium">Chat with Us</p>
+                  <p class="text-sm text-gray">Available 24/7</p>
+                </div>
+              </div>
+
+              <div class="flex items-center p-3 bg-lightGold rounded-lg">
+                <i class="fas fa-envelope text-primary text-xl mr-3"></i>
+                <div>
+                  <p class="font-medium">Email Support</p>
+                  <p class="text-sm text-gray">bhandge@yahoo.com</p>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Continue Shopping -->
+          <div class="bg-white rounded-lg shadow-md p-6 order-card">
+            <h3 class="text-xl font-semibold text-primary mb-4">Continue Shopping</h3>
+            <p class="text-gray mb-4">Explore more beautiful Paithani sarees for your collection.</p>
+
+            <div class="space-y-4">
+              <a href="product1.html"
+                class="block bg-gold hover:bg-yellow-600 text-black py-3 px-4 rounded-lg font-semibold text-center">
+                <i class="fas fa-shopping-bag mr-2"></i> Browse Collections
+              </a>
+
+              <a href="dashboard1.html"
+                class="block bg-white border border-primary text-primary hover:bg-primary hover:text-white py-3 px-4 rounded-lg font-semibold text-center">
+                <i class="fas fa-home mr-2"></i> Back to Home
+              </a>
+            </div>
+          </div>
+
+          <!-- Trust Badges -->
+          <div class="bg-white rounded-lg shadow-md p-6 mt-6 order-card">
+            <h3 class="text-xl font-semibold text-primary mb-4 text-center">Shop With Confidence</h3>
+
+            <div class="grid grid-cols-2 gap-4 text-center">
+              <div class="p-3">
+                <i class="fas fa-shield-alt text-2xl text-primary mb-2"></i>
+                <p class="text-xs font-medium">Secure Payment</p>
+              </div>
+              <div class="p-3">
+                <i class="fas fa-truck text-2xl text-primary mb-2"></i>
+                <p class="text-xs font-medium">Free Shipping</p>
+              </div>
+              <div class="p-3">
+                <i class="fas fa-undo text-2xl text-primary mb-2"></i>
+                <p class="text-xs font-medium">Easy Returns</p>
+              </div>
+              <div class="p-3">
+                <i class="fas fa-certificate text-2xl text-primary mb-2"></i>
+                <p class="text-xs font-medium">Authenticity Guarantee</p>
               </div>
             </div>
           </div>
         </div>
       </div>
-      
-      <!-- Sidebar -->
-      <div class="lg:w-1/3">
-        <!-- Action Cards -->
-        <div class="bg-white rounded-lg shadow-md p-6 mb-6 order-card">
-          <h3 class="text-xl font-semibold text-primary mb-4">Order Actions</h3>
-          
-          <div class="space-y-4">
-           
-            
-            <button onclick="trackOrder()" class="w-full bg-white border border-primary text-primary hover:bg-primary hover:text-white py-3 px-4 rounded-lg font-semibold flex items-center justify-center">
-              <i class="fas fa-shipping-fast mr-2"></i> Track Order
-            </button>
-            
-            <button onclick="printOrderDetails()" class="w-full bg-white border border-gray-300 text-gray-700 hover:bg-gray-50 py-3 px-4 rounded-lg font-semibold flex items-center justify-center">
-              <i class="fas fa-print mr-2"></i> Print Details
-            </button>
-          </div>
-        </div>
-        
-        <!-- Support Card -->
-        <div class="bg-white rounded-lg shadow-md p-6 mb-6 order-card">
-          <h3 class="text-xl font-semibold text-primary mb-4">Need Help?</h3>
-          
-          <div class="space-y-4">
-            <div class="flex items-center p-3 bg-lightGold rounded-lg">
-              <i class="fas fa-phone text-primary text-xl mr-3"></i>
-              <div>
-                <p class="font-medium">Call Us</p>
-                <p class="text-sm text-gray">+91 9860725578</p>
-              </div>
-            </div>
-            
-            <div class="flex items-center p-3 bg-lightGold rounded-lg">
-              <i class="fas fa-comments text-primary text-xl mr-3"></i>
-              <div>
-                <p class="font-medium">Chat with Us</p>
-                <p class="text-sm text-gray">Available 24/7</p>
-              </div>
-            </div>
-            
-            <div class="flex items-center p-3 bg-lightGold rounded-lg">
-              <i class="fas fa-envelope text-primary text-xl mr-3"></i>
-              <div>
-                <p class="font-medium">Email Support</p>
-                <p class="text-sm text-gray">bhandge@yahoo.com</p>
-              </div>
+
+      <!-- Email Confirmation -->
+      <div class="bg-white rounded-lg shadow-md p-6 mt-8 order-card">
+        <div class="flex flex-col md:flex-row items-center justify-between">
+          <div class="flex items-center mb-4 md:mb-0">
+            <i class="fas fa-envelope-open-text text-2xl text-primary mr-3"></i>
+            <div>
+              <h3 class="font-semibold text-primary">Confirmation Email Sent</h3>
+              <p class="text-gray text-sm">We've sent order details to <span id="customerEmailDisplay">Loading...</span>
+              </p>
             </div>
           </div>
+          <button
+            class="bg-white border border-primary text-primary hover:bg-primary hover:text-white py-2 px-4 rounded-lg font-semibold flex items-center">
+            <i class="fas fa-redo mr-2"></i> Resend Email
+          </button>
         </div>
-        
-        <!-- Continue Shopping -->
-        <div class="bg-white rounded-lg shadow-md p-6 order-card">
-          <h3 class="text-xl font-semibold text-primary mb-4">Continue Shopping</h3>
-          <p class="text-gray mb-4">Explore more beautiful Paithani sarees for your collection.</p>
-          
-          <div class="space-y-4">
-            <a href="product1.html" class="block bg-gold hover:bg-yellow-600 text-black py-3 px-4 rounded-lg font-semibold text-center">
-              <i class="fas fa-shopping-bag mr-2"></i> Browse Collections
-            </a>
-            
-            <a href="dashboard1.html" class="block bg-white border border-primary text-primary hover:bg-primary hover:text-white py-3 px-4 rounded-lg font-semibold text-center">
-              <i class="fas fa-home mr-2"></i> Back to Home
-            </a>
-          </div>
-        </div>
-        
-        <!-- Trust Badges -->
-        <div class="bg-white rounded-lg shadow-md p-6 mt-6 order-card">
-          <h3 class="text-xl font-semibold text-primary mb-4 text-center">Shop With Confidence</h3>
-          
-          <div class="grid grid-cols-2 gap-4 text-center">
-            <div class="p-3">
-              <i class="fas fa-shield-alt text-2xl text-primary mb-2"></i>
-              <p class="text-xs font-medium">Secure Payment</p>
-            </div>
-            <div class="p-3">
-              <i class="fas fa-truck text-2xl text-primary mb-2"></i>
-              <p class="text-xs font-medium">Free Shipping</p>
-            </div>
-            <div class="p-3">
-              <i class="fas fa-undo text-2xl text-primary mb-2"></i>
-              <p class="text-xs font-medium">Easy Returns</p>
-            </div>
-            <div class="p-3">
-              <i class="fas fa-certificate text-2xl text-primary mb-2"></i>
-              <p class="text-xs font-medium">Authenticity Guarantee</p>
-            </div>
-          </div>
-        </div>
-      </div>
-    </div>
-    
-    <!-- Email Confirmation -->
-    <div class="bg-white rounded-lg shadow-md p-6 mt-8 order-card">
-      <div class="flex flex-col md:flex-row items-center justify-between">
-        <div class="flex items-center mb-4 md:mb-0">
-          <i class="fas fa-envelope-open-text text-2xl text-primary mr-3"></i>
-          <div>
-            <h3 class="font-semibold text-primary">Confirmation Email Sent</h3>
-            <p class="text-gray text-sm">We've sent order details to <span id="customerEmailDisplay">Loading...</span></p>
-          </div>
-        </div>
-        <button class="bg-white border border-primary text-primary hover:bg-primary hover:text-white py-2 px-4 rounded-lg font-semibold flex items-center">
-          <i class="fas fa-redo mr-2"></i> Resend Email
-        </button>
       </div>
     </div>
   </div>
-</div>
 
-<!-- Footer -->
-<footer class="bg-primary text-white mt-12 py-12">
-  <div class="container mx-auto px-6">
-    <div class="grid grid-cols-1 md:grid-cols-4 gap-8">
-      <div>
-        <h3 class="text-xl font-bold mb-4">SaiKrupa Paithani</h3>
-        <p class="text-lightGold">Bringing traditional Maharashtrian elegance to your doorstep with authentic handwoven Paithani sarees.</p>
-      </div>
-      <div>
-        <h4 class="font-semibold mb-4">Quick Links</h4>
-        <ul class="space-y-2">
-          <li><a href="#" class="text-lightGold hover:text-gold">About Us</a></li>
-          <li><a href="#" class="text-lightGold hover:text-gold">Collections</a></li>
-          <li><a href="#" class="text-lightGold hover:text-gold">Shipping Policy</a></li>
-          <li><a href="#" class="text-lightGold hover:text-gold">Return Policy</a></li>
-        </ul>
-      </div>
-      <div>
-        <h4 class="font-semibold mb-4">Customer Service</h4>
-        <ul class="space-y-2">
-          <li><a href="#" class="text-lightGold hover:text-gold">Contact Us</a></li>
-          <li><a href="#" class="text-lightGold hover:text-gold">FAQs</a></li>
-          <li><a href="#" class="text-lightGold hover:text-gold">Track Order</a></li>
-          <li><a href="#" class="text-lightGold hover:text-gold">Privacy Policy</a></li>
-        </ul>
-      </div>
-      <div>
-        <h4 class="font-semibold mb-4">Newsletter</h4>
-        <p class="text-lightGold mb-4">Subscribe to get special offers and once-in-a-lifetime deals.</p>
-        <div class="flex">
-          <input type="email" placeholder="Your email" class="px-4 py-2 rounded-l-lg w-full text-black">
-          <button class="bg-gold text-black px-4 py-2 rounded-r-lg font-semibold">Subscribe</button>
+  <!-- Footer -->
+  <footer class="bg-primary text-white mt-12 py-12">
+    <div class="container mx-auto px-6">
+      <div class="grid grid-cols-1 md:grid-cols-4 gap-8">
+        <div>
+          <h3 class="text-xl font-bold mb-4">SaiKrupa Paithani</h3>
+          <p class="text-lightGold">Bringing traditional Maharashtrian elegance to your doorstep with authentic
+            handwoven Paithani sarees.</p>
+        </div>
+        <div>
+          <h4 class="font-semibold mb-4">Quick Links</h4>
+          <ul class="space-y-2">
+            <li><a href="#" class="text-lightGold hover:text-gold">About Us</a></li>
+            <li><a href="#" class="text-lightGold hover:text-gold">Collections</a></li>
+            <li><a href="#" class="text-lightGold hover:text-gold">Shipping Policy</a></li>
+            <li><a href="#" class="text-lightGold hover:text-gold">Return Policy</a></li>
+          </ul>
+        </div>
+        <div>
+          <h4 class="font-semibold mb-4">Customer Service</h4>
+          <ul class="space-y-2">
+            <li><a href="#" class="text-lightGold hover:text-gold">Contact Us</a></li>
+            <li><a href="#" class="text-lightGold hover:text-gold">FAQs</a></li>
+            <li><a href="#" class="text-lightGold hover:text-gold">Track Order</a></li>
+            <li><a href="#" class="text-lightGold hover:text-gold">Privacy Policy</a></li>
+          </ul>
+        </div>
+        <div>
+          <h4 class="font-semibold mb-4">Newsletter</h4>
+          <p class="text-lightGold mb-4">Subscribe to get special offers and once-in-a-lifetime deals.</p>
+          <div class="flex">
+            <input type="email" placeholder="Your email" class="px-4 py-2 rounded-l-lg w-full text-black">
+            <button class="bg-gold text-black px-4 py-2 rounded-r-lg font-semibold">Subscribe</button>
+          </div>
         </div>
       </div>
+      <div class="border-t border-primaryLight mt-8 pt-8 text-center">
+        <p>© 2025 SaiKrupa Paithani. All rights reserved.</p>
+      </div>
     </div>
-    <div class="border-t border-primaryLight mt-8 pt-8 text-center">
-      <p>© 2025 SaiKrupa Paithani. All rights reserved.</p>
-    </div>
-  </div>
-</footer>
+  </footer>
 
 
-<!-- JS -->
-<script>
-// Global variables
-let orderData = null;
+  <!-- JS -->
+  <script src="config.js"></script>
+  <script>
+    // Global variables
+    let orderData = null;
 
-// Get auth token
-function getAuthToken() {
-  return localStorage.getItem("authToken") || localStorage.getItem("token");
-}
-
-// Check if user is logged in
-function checkAuth() {
-  const token = getAuthToken();
-  if (!token) {
-    alert("Please login to view order details");
-    window.location.href = "signup.html";
-    return false;
-  }
-  return true;
-}
-
-// Fetch order data from backend
-async function fetchOrderData() {
-  if (!checkAuth()) return;
-
-  try {
-    const urlParams = new URLSearchParams(window.location.search);
-    const orderId = urlParams.get('order_id');
-    
-    if (!orderId) {
-      throw new Error("No order ID found in URL");
+    // Get auth token
+    function getAuthToken() {
+      return localStorage.getItem("authToken") || localStorage.getItem("token");
     }
 
-    const token = getAuthToken();
-    console.log("🔄 Fetching order data for:", orderId);
-
-    const response = await fetch(`https://saikrupapaithanisarees-mdqk.onrender.com/api/orders/${orderId}`, {
-      headers: { 
-        "Authorization": `Bearer ${token}` 
+    // Check if user is logged in
+    function checkAuth() {
+      const token = getAuthToken();
+      if (!token) {
+        alert("Please login to view order details");
+        window.location.href = "signup.html";
+        return false;
       }
-    });
-
-    if (!response.ok) {
-      throw new Error(`Failed to fetch order: ${response.status}`);
+      return true;
     }
 
-    const result = await response.json();
-    console.log(" Order API response:", result);
+    // Fetch order data from backend
+    async function fetchOrderData() {
+      if (!checkAuth()) return;
 
-    if (result.success && result.order) {
-      orderData = result.order;
-      renderOrderData();
-      showMainContent();
-      createConfetti();
-    } else {
-      throw new Error(result.message || "Failed to fetch order data");
+      try {
+        const urlParams = new URLSearchParams(window.location.search);
+        const orderId = urlParams.get('order_id');
+
+        if (!orderId) {
+          throw new Error("No order ID found in URL");
+        }
+
+        const token = getAuthToken();
+        console.log("🔄 Fetching order data for:", orderId);
+
+        const response = await fetch(`${API_BASE_URL}/api/orders/${orderId}`, {
+          headers: {
+            "Authorization": `Bearer ${token}`
+          }
+        });
+
+        if (!response.ok) {
+          throw new Error(`Failed to fetch order: ${response.status}`);
+        }
+
+        const result = await response.json();
+        console.log(" Order API response:", result);
+
+        if (result.success && result.order) {
+          orderData = result.order;
+          renderOrderData();
+          showMainContent();
+          createConfetti();
+        } else {
+          throw new Error(result.message || "Failed to fetch order data");
+        }
+
+      } catch (err) {
+        console.error("❌ Fetch order error:", err);
+        showErrorMessage("Failed to load order details: " + err.message);
+      }
     }
 
-  } catch (err) {
-    console.error("❌ Fetch order error:", err);
-    showErrorMessage("Failed to load order details: " + err.message);
-  }
-}
+    // Render order data
+    function renderOrderData() {
+      if (!orderData) return;
 
-// Render order data
-function renderOrderData() {
-  if (!orderData) return;
+      // Order basic info
+      document.getElementById('orderNumber').textContent = orderData.orderNumber;
+      document.getElementById('orderPlacedDate').textContent = formatDate(orderData.createdAt);
 
-  // Order basic info
-  document.getElementById('orderNumber').textContent = orderData.orderNumber;
-  document.getElementById('orderPlacedDate').textContent = formatDate(orderData.createdAt);
-
-  // Shipping address
-  const addr = orderData.shippingAddress;
-  document.getElementById('customerName').textContent = `${addr.firstName} ${addr.lastName}`;
-  document.getElementById('customerPhone').textContent = addr.phone;
-  document.getElementById('customerEmail').textContent = addr.email;
-  document.getElementById('customerEmailDisplay').textContent = addr.email;
-  document.getElementById('shippingAddress').innerHTML = `
+      // Shipping address
+      const addr = orderData.shippingAddress;
+      document.getElementById('customerName').textContent = `${addr.firstName} ${addr.lastName}`;
+      document.getElementById('customerPhone').textContent = addr.phone;
+      document.getElementById('customerEmail').textContent = addr.email;
+      document.getElementById('customerEmailDisplay').textContent = addr.email;
+      document.getElementById('shippingAddress').innerHTML = `
     ${addr.address},<br>${addr.city}, ${addr.state}<br>${addr.pincode}
   `;
 
-  // Payment method
-  const paymentMethod = orderData.paymentMethod === 'cod' ? 'Cash on Delivery' : 'Razorpay (Online Payment)';
-  document.getElementById('paymentMethodDisplay').textContent = paymentMethod;
+      // Payment method
+      const paymentMethod = orderData.paymentMethod === 'cod' ? 'Cash on Delivery' : 'Razorpay (Online Payment)';
+      document.getElementById('paymentMethodDisplay').textContent = paymentMethod;
 
-  // Shipping method
-  const shippingInfo = getShippingInfo(orderData.shippingMethod);
-  document.getElementById('shippingMethodDisplay').textContent = shippingInfo.name;
-  document.getElementById('shippingTime').textContent = shippingInfo.time;
-  document.getElementById('shippingCost').textContent = orderData.orderSummary.shipping === 0 ? 'FREE' : `₹${orderData.orderSummary.shipping}`;
+      // Shipping method
+      const shippingInfo = getShippingInfo(orderData.shippingMethod);
+      document.getElementById('shippingMethodDisplay').textContent = shippingInfo.name;
+      document.getElementById('shippingTime').textContent = shippingInfo.time;
+      document.getElementById('shippingCost').textContent = orderData.orderSummary.shipping === 0 ? 'FREE' : `₹${orderData.orderSummary.shipping}`;
 
-  // Estimated delivery
-  document.getElementById('estimatedDelivery').textContent = calculateEstimatedDelivery();
+      // Estimated delivery
+      document.getElementById('estimatedDelivery').textContent = calculateEstimatedDelivery();
 
-  // Render order items
-  renderOrderItems();
+      // Render order items
+      renderOrderItems();
 
-  // Render order totals
-  renderOrderTotals();
-}
+      // Render order totals
+      renderOrderTotals();
+    }
 
-// Render order items
-function renderOrderItems() {
-  const container = document.getElementById('orderItemsContainer');
-  
-  if (!orderData.items || orderData.items.length === 0) {
-    container.innerHTML = '<p class="text-gray text-center">No items found</p>';
-    return;
-  }
+    // Render order items
+    function renderOrderItems() {
+      const container = document.getElementById('orderItemsContainer');
 
-  container.innerHTML = orderData.items.map(item => `
+      if (!orderData.items || orderData.items.length === 0) {
+        container.innerHTML = '<p class="text-gray text-center">No items found</p>';
+        return;
+      }
+
+      container.innerHTML = orderData.items.map(item => `
     <div class="flex border-b border-gray-200 pb-6">
       <div class="w-20 h-20 bg-gray-100 rounded-lg overflow-hidden mr-4 flex items-center justify-center">
-        ${item.image ? 
+        ${item.image ?
           `<img src="${item.image}" alt="${item.name}" class="w-full h-full object-cover">` :
           `<i class="fas fa-tshirt text-primary text-2xl"></i>`
         }
@@ -709,15 +907,15 @@ function renderOrderItems() {
       </div>
     </div>
   `).join('');
-}
+    }
 
-// Render order totals
-function renderOrderTotals() {
-  const container = document.getElementById('orderSummary');
-  const summary = orderData.orderSummary;
-  const itemCount = orderData.items.reduce((sum, item) => sum + item.quantity, 0);
+    // Render order totals
+    function renderOrderTotals() {
+      const container = document.getElementById('orderSummary');
+      const summary = orderData.orderSummary;
+      const itemCount = orderData.items.reduce((sum, item) => sum + item.quantity, 0);
 
-  container.innerHTML = `
+      container.innerHTML = `
     <div class="flex justify-between">
       <span class="text-gray">Subtotal (${itemCount} items)</span>
       <span class="font-medium">₹${summary.subtotal.toLocaleString()}</span>
@@ -741,116 +939,117 @@ function renderOrderTotals() {
       <span class="text-primary">₹${summary.total.toLocaleString()}</span>
     </div>
   `;
-}
+    }
 
-// Helper functions
-function getShippingInfo(method) {
-  const methods = {
-    'standard': { name: 'Standard Shipping', time: '5-7 business days' },
-    'express': { name: 'Express Shipping', time: '2-3 business days' },
-    'free': { name: 'Free Shipping', time: '7-10 business days' }
-  };
-  return methods[method] || methods.standard;
-}
+    // Helper functions
+    function getShippingInfo(method) {
+      const methods = {
+        'standard': { name: 'Standard Shipping', time: '5-7 business days' },
+        'express': { name: 'Express Shipping', time: '2-3 business days' },
+        'free': { name: 'Free Shipping', time: '7-10 business days' }
+      };
+      return methods[method] || methods.standard;
+    }
 
-function calculateEstimatedDelivery() {
-  const today = new Date();
-  const minDelivery = new Date(today);
-  const maxDelivery = new Date(today);
-  
-  if (orderData.shippingMethod === 'express') {
-    minDelivery.setDate(today.getDate() + 2);
-    maxDelivery.setDate(today.getDate() + 3);
-  } else if (orderData.shippingMethod === 'standard') {
-    minDelivery.setDate(today.getDate() + 5);
-    maxDelivery.setDate(today.getDate() + 7);
-  } else {
-    minDelivery.setDate(today.getDate() + 7);
-    maxDelivery.setDate(today.getDate() + 10);
-  }
-  
-  const options = { month: 'short', day: 'numeric', year: 'numeric' };
-  return `${minDelivery.toLocaleDateString('en-US', options)} - ${maxDelivery.toLocaleDateString('en-US', options)}`;
-}
+    function calculateEstimatedDelivery() {
+      const today = new Date();
+      const minDelivery = new Date(today);
+      const maxDelivery = new Date(today);
 
-function formatDate(dateString) {
-  const date = new Date(dateString);
-  return date.toLocaleDateString('en-US', { 
-    weekday: 'long', 
-    year: 'numeric', 
-    month: 'long', 
-    day: 'numeric',
-    hour: '2-digit',
-    minute: '2-digit'
-  });
-}
+      if (orderData.shippingMethod === 'express') {
+        minDelivery.setDate(today.getDate() + 2);
+        maxDelivery.setDate(today.getDate() + 3);
+      } else if (orderData.shippingMethod === 'standard') {
+        minDelivery.setDate(today.getDate() + 5);
+        maxDelivery.setDate(today.getDate() + 7);
+      } else {
+        minDelivery.setDate(today.getDate() + 7);
+        maxDelivery.setDate(today.getDate() + 10);
+      }
 
-function showMainContent() {
-  document.getElementById('loadingState').classList.add('hidden');
-  document.getElementById('mainContent').classList.remove('hidden');
-}
+      const options = { month: 'short', day: 'numeric', year: 'numeric' };
+      return `${minDelivery.toLocaleDateString('en-US', options)} - ${maxDelivery.toLocaleDateString('en-US', options)}`;
+    }
 
-function showErrorMessage(msg) {
-  const notif = document.createElement('div');
-  notif.className = 'fixed top-4 right-4 bg-red-500 text-white px-6 py-3 rounded-lg shadow-lg z-50';
-  notif.innerHTML = `<div class="flex items-center"><i class="fas fa-exclamation-circle mr-2"></i><span>${msg}</span></div>`;
-  document.body.appendChild(notif);
-  setTimeout(() => notif.remove(), 5000);
-}
+    function formatDate(dateString) {
+      const date = new Date(dateString);
+      return date.toLocaleDateString('en-US', {
+        weekday: 'long',
+        year: 'numeric',
+        month: 'long',
+        day: 'numeric',
+        hour: '2-digit',
+        minute: '2-digit'
+      });
+    }
 
-// Confetti effect
-function createConfetti() {
-  const colors = ['#D4AF37', '#800000', '#10B981', '#3B82F6', '#8B5CF6'];
-  const confettiCount = 50;
-  
-  for (let i = 0; i < confettiCount; i++) {
-    const confetti = document.createElement('div');
-    confetti.className = 'confetti';
-    confetti.style.left = Math.random() * 100 + 'vw';
-    confetti.style.background = colors[Math.floor(Math.random() * colors.length)];
-    confetti.style.animationDelay = Math.random() * 5 + 's';
-    confetti.style.width = Math.random() * 10 + 5 + 'px';
-    confetti.style.height = Math.random() * 10 + 5 + 'px';
-    
-    document.body.appendChild(confetti);
-    
-    setTimeout(() => {
-      confetti.remove();
-    }, 5000);
-  }
-}
+    function showMainContent() {
+      document.getElementById('loadingState').classList.add('hidden');
+      document.getElementById('mainContent').classList.remove('hidden');
+    }
 
-// Action functions
-function trackOrder() {
- window.location.href="history1.html"
-}
+    function showErrorMessage(msg) {
+      const notif = document.createElement('div');
+      notif.className = 'fixed top-4 right-4 bg-red-500 text-white px-6 py-3 rounded-lg shadow-lg z-50';
+      notif.innerHTML = `<div class="flex items-center"><i class="fas fa-exclamation-circle mr-2"></i><span>${msg}</span></div>`;
+      document.body.appendChild(notif);
+      setTimeout(() => notif.remove(), 5000);
+    }
 
-function printOrderDetails() {
-  window.print();
-}
+    // Confetti effect
+    function createConfetti() {
+      const colors = ['#D4AF37', '#800000', '#10B981', '#3B82F6', '#8B5CF6'];
+      const confettiCount = 50;
 
-// Mobile menu toggle
-function setupEventListeners() {
-  const hamburger = document.querySelector('.hamburger');
-  const navMenu = document.querySelector('nav ul');
-  
-  if (hamburger) {
-    hamburger.addEventListener('click', function() {
-      navMenu.classList.toggle('show');
+      for (let i = 0; i < confettiCount; i++) {
+        const confetti = document.createElement('div');
+        confetti.className = 'confetti';
+        confetti.style.left = Math.random() * 100 + 'vw';
+        confetti.style.background = colors[Math.floor(Math.random() * colors.length)];
+        confetti.style.animationDelay = Math.random() * 5 + 's';
+        confetti.style.width = Math.random() * 10 + 5 + 'px';
+        confetti.style.height = Math.random() * 10 + 5 + 'px';
+
+        document.body.appendChild(confetti);
+
+        setTimeout(() => {
+          confetti.remove();
+        }, 5000);
+      }
+    }
+
+    // Action functions
+    function trackOrder() {
+      window.location.href = "history1.html"
+    }
+
+    function printOrderDetails() {
+      window.print();
+    }
+
+    // Mobile menu toggle
+    function setupEventListeners() {
+      const hamburger = document.querySelector('.hamburger');
+      const navMenu = document.querySelector('nav ul');
+
+      if (hamburger) {
+        hamburger.addEventListener('click', function () {
+          navMenu.classList.toggle('show');
+        });
+      }
+
+      // Reset cart count to 0
+      document.getElementById('headerCartCount').textContent = '0';
+    }
+
+    // Initialize
+    document.addEventListener('DOMContentLoaded', function () {
+      console.log("🚀 Order confirmation page loaded");
+      setupEventListeners();
+      fetchOrderData();
     });
-  }
-  
-  // Reset cart count to 0
-  document.getElementById('headerCartCount').textContent = '0';
-}
-
-// Initialize
-document.addEventListener('DOMContentLoaded', function() {
-  console.log("🚀 Order confirmation page loaded");
-  setupEventListeners();
-  fetchOrderData();
-});
-</script>
+  </script>
 
 </body>
+
 </html>
