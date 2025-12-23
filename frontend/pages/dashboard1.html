@@ -1938,6 +1938,7 @@ nav.scrolled .logo-text-image {
         <li><a href="#categories">Featured</a></li>
         <li><a href="#review">Testimonials</a></li>
         <li><a href="#">Contact</a></li>
+        <li id="logoutNavItem" style="display: none;"><a href="javascript:void(0)" onclick="logout()">Logout</a></li>
       </ul>
       
       <div class="nav-icons">
@@ -5563,11 +5564,20 @@ nav.scrolled .logo-text-image {
       if (authToken) {
         // User is logged in
         console.log('User is logged in');
+        document.getElementById('logoutNavItem').style.display = 'block';
       } else {
         // User is not logged in
         console.log('User is not logged in');
+        document.getElementById('logoutNavItem').style.display = 'none';
       }
     });
+
+    function logout() {
+      localStorage.removeItem("authToken");
+      localStorage.removeItem("token");
+      localStorage.removeItem("user");
+      window.location.href = "signup_login.html";
+    }
 
     // Footer newsletter
     document.querySelector("footer button").addEventListener("click", () => {

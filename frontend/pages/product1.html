@@ -977,6 +977,7 @@
 
       <li><a href="#testimonials">Testimonials</a></li>
       <li><a href="#">Contact</a></li>
+      <li id="logoutNavItem" style="display: none;"><a href="javascript:void(0)" onclick="logout()">Logout</a></li>
     </ul>
     <div class="nav-icons">
       <!-- Search Icon with Search Bar -->
@@ -1771,7 +1772,22 @@
 
       // ✅ Initialize
       fetchProducts();
+
+      // Check login status for logout visibility
+      const authToken = localStorage.getItem('authToken');
+      if (authToken) {
+        document.getElementById('logoutNavItem').style.display = 'block';
+      } else {
+        document.getElementById('logoutNavItem').style.display = 'none';
+      }
     });
+
+    function logout() {
+      localStorage.removeItem("authToken");
+      localStorage.removeItem("token");
+      localStorage.removeItem("user");
+      window.location.href = "signup_login.html";
+    }
   </script>
 </body>
 
