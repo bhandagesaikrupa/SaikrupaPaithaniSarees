@@ -2398,7 +2398,7 @@ nav.scrolled .logo-text-image {
       async function fetchAllReviews() {
         try {
           console.log('🔄 Fetching all reviews for home page...');
-          const res = await fetch("${API_BASE_URL}/api/reviews");
+          const res = await fetch(`${API_BASE_URL}/api/reviews`);
           
           if (res.ok) {
             const result = await res.json();

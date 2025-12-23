@@ -541,7 +541,7 @@
         const token = getAuthToken();
         console.log("Fetching cart...");
 
-        const res = await fetch("${API_BASE_URL}/api/cart", {
+        const res = await fetch(`${API_BASE_URL}/api/cart`, {
           headers: {
             Authorization: `Bearer ${token}`,
             "Content-Type": "application/json",
@@ -845,7 +845,7 @@
 
         const token = getAuthToken();
 
-        const res = await fetch("${API_BASE_URL}/api/cart/clear", {
+        const res = await fetch(`${API_BASE_URL}/api/cart/clear`, {
           method: "DELETE",
           headers: {
             Authorization: `Bearer ${token}`,

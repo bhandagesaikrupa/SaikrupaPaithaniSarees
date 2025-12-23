@@ -1338,7 +1338,7 @@
             return;
           }
 
-          const res = await fetch("${API_BASE_URL}/api/cart", {
+          const res = await fetch(`${API_BASE_URL}/api/cart`, {
             headers: {
               "Authorization": `Bearer ${authToken}`
             }
@@ -1427,7 +1427,7 @@
             quantity: quantity
           };
 
-          const res = await fetch("${API_BASE_URL}/api/cart/add", {
+          const res = await fetch(`${API_BASE_URL}/api/cart/add`, {
             method: "POST",
             headers: {
               "Content-Type": "application/json",
@@ -1487,7 +1487,7 @@
       // ✅ Fetch products from backend
       async function fetchProducts() {
         try {
-          const res = await fetch("${API_BASE_URL}/api/products");
+          const res = await fetch(`${API_BASE_URL}/api/products`);
           if (!res.ok) throw new Error("Failed to fetch products");
           const data = await res.json();
           //products = data;

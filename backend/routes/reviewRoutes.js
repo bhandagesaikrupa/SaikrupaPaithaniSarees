@@ -10,19 +10,19 @@ router.get('/', async (req, res) => {
   try {
     const { status, productId } = req.query;
     let filter = {};
-    
+
     if (status) {
       filter.status = status;
     }
-    
+
     if (productId) {
       filter.productId = productId;
     }
-    
+
     const reviews = await Review.find(filter)
       .populate('productId', 'name images')
       .sort({ createdAt: -1 });
-    
+
     res.json({
       success: true,
       reviews
@@ -36,16 +36,64 @@ router.get('/', async (req, res) => {
   }
 });
 
+// Get review summary (average rating, distribution, total)
+router.get('/product/:productId/summary', async (req, res) => {
+  try {
+    const { productId } = req.params;
+
+    const reviews = await Review.find({
+      productId,
+      status: 'approved'
+    });
+
+    if (reviews.length === 0) {
+      return res.json({
+        success: true,
+        summary: {
+          averageRating: 0,
+          totalReviews: 0,
+          distribution: []
+        }
+      });
+    }
+
+    const totalReviews = reviews.length;
+    const sumRatings = reviews.reduce((sum, review) => sum + review.rating, 0);
+    const averageRating = sumRatings / totalReviews;
+
+    // Calculate distribution (1-5 stars)
+    const distribution = [5, 4, 3, 2, 1].map(star => ({
+      _id: star,
+      count: reviews.filter(r => r.rating === star).length
+    }));
+
+    res.json({
+      success: true,
+      summary: {
+        averageRating,
+        totalReviews,
+        distribution
+      }
+    });
+  } catch (error) {
+    console.error('Get review summary error:', error);
+    res.status(500).json({
+      success: false,
+      message: 'Server error while calculating review summary'
+    });
+  }
+});
+
 // Get reviews for a specific product
 router.get('/product/:productId', async (req, res) => {
   try {
     const { productId } = req.params;
-    
-    const reviews = await Review.find({ 
-      productId, 
-      status: 'approved' 
+
+    const reviews = await Review.find({
+      productId,
+      status: 'approved'
     }).sort({ createdAt: -1 });
-    
+
     res.json({
       success: true,
       reviews
@@ -63,7 +111,7 @@ router.get('/product/:productId', async (req, res) => {
 router.post('/', async (req, res) => {
   try {
     const { productId, reviewerName, rating, reviewText } = req.body;
-    
+
     // Validate required fields
     if (!productId || !reviewerName || !rating || !reviewText) {
       return res.status(400).json({
@@ -71,7 +119,7 @@ router.post('/', async (req, res) => {
         message: 'All fields are required'
       });
     }
-    
+
     // Check if product exists
     const product = await Product.findById(productId);
     if (!product) {
@@ -80,7 +128,7 @@ router.post('/', async (req, res) => {
         message: 'Product not found'
       });
     }
-    
+
     // Validate rating
     if (rating < 1 || rating > 5) {
       return res.status(400).json({
@@ -88,7 +136,7 @@ router.post('/', async (req, res) => {
         message: 'Rating must be between 1 and 5'
       });
     }
-    
+
     // Create new review
     const review = new Review({
       productId,
@@ -97,18 +145,18 @@ router.post('/', async (req, res) => {
       reviewText,
       status: 'pending' // Default status - requires admin approval
     });
-    
+
     await review.save();
-    
+
     // Populate product info for response
     await review.populate('productId', 'name images');
-    
+
     res.status(201).json({
       success: true,
       message: 'Review submitted successfully and awaiting approval',
       review
     });
-    
+
   } catch (error) {
     console.error('Submit review error:', error);
     res.status(500).json({
@@ -123,7 +171,7 @@ router.put('/:id/status', async (req, res) => {
   try {
     const { id } = req.params;
     const { status } = req.body;
-    
+
     // Validate status
     if (!['pending', 'approved', 'rejected'].includes(status)) {
       return res.status(400).json({
@@ -131,26 +179,26 @@ router.put('/:id/status', async (req, res) => {
         message: 'Invalid status. Must be: pending, approved, or rejected'
       });
     }
-    
+
     const review = await Review.findByIdAndUpdate(
       id,
       { status },
       { new: true }
     ).populate('productId', 'name images');
-    
+
     if (!review) {
       return res.status(404).json({
         success: false,
         message: 'Review not found'
       });
     }
-    
+
     res.json({
       success: true,
       message: `Review ${status} successfully`,
       review
     });
-    
+
   } catch (error) {
     console.error('Update review status error:', error);
     res.status(500).json({
@@ -165,7 +213,7 @@ router.put('/:id', async (req, res) => {
   try {
     const { id } = req.params;
     const { reviewerName, rating, reviewText } = req.body;
-    
+
     // Validate required fields
     if (!reviewerName || !rating || !reviewText) {
       return res.status(400).json({
@@ -173,7 +221,7 @@ router.put('/:id', async (req, res) => {
         message: 'All fields are required'
       });
     }
-    
+
     // Validate rating
     if (rating < 1 || rating > 5) {
       return res.status(400).json({
@@ -181,7 +229,7 @@ router.put('/:id', async (req, res) => {
         message: 'Rating must be between 1 and 5'
       });
     }
-    
+
     const review = await Review.findByIdAndUpdate(
       id,
       {
@@ -193,20 +241,20 @@ router.put('/:id', async (req, res) => {
       },
       { new: true }
     ).populate('productId', 'name images');
-    
+
     if (!review) {
       return res.status(404).json({
         success: false,
         message: 'Review not found'
       });
     }
-    
+
     res.json({
       success: true,
       message: 'Review updated successfully',
       review
     });
-    
+
   } catch (error) {
     console.error('Update review error:', error);
     res.status(500).json({
@@ -220,21 +268,21 @@ router.put('/:id', async (req, res) => {
 router.delete('/:id', async (req, res) => {
   try {
     const { id } = req.params;
-    
+
     const review = await Review.findByIdAndDelete(id);
-    
+
     if (!review) {
       return res.status(404).json({
         success: false,
         message: 'Review not found'
       });
     }
-    
+
     res.json({
       success: true,
       message: 'Review deleted successfully'
     });
-    
+
   } catch (error) {
     console.error('Delete review error:', error);
     res.status(500).json({
@@ -249,11 +297,11 @@ router.delete('/:id', async (req, res) => {
 router.get('/product/:productId/all', async (req, res) => {
   try {
     const { productId } = req.params;
-    
+
     const reviews = await Review.find({ productId })
       .populate('productId', 'name images')
       .sort({ createdAt: -1 });
-    
+
     res.json({
       success: true,
       reviews
