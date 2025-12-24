@@ -1,8 +1,8 @@
 import nodemailer from 'nodemailer';
 
-console.log('📧 Email Configuration Check:');
-console.log('EMAIL_USER:', process.env.EMAIL_USER ? 'Loaded' : 'MISSING');
-console.log('EMAIL_PASS:', process.env.EMAIL_PASS ? '***' + process.env.EMAIL_PASS.slice(-4) : 'MISSING');
+//console.log('📧 Email Configuration Check:');
+//console.log('EMAIL_USER:', process.env.EMAIL_USER ? 'Loaded' : 'MISSING');
+//console.log('EMAIL_PASS:', process.env.EMAIL_PASS ? '***' + process.env.EMAIL_PASS.slice(-4) : 'MISSING');
 
 // Create transporter with better error handling
 let transporter = null;
@@ -27,7 +27,7 @@ try {
         console.error('❌ Email configuration error:', error.message);
         transporter = null;
       } else {
-        console.log('✅ Email server is ready to send messages');
+        //console.log('✅ Email server is ready to send messages');
       }
     });
   }
@@ -280,10 +280,10 @@ async function sendEmail(to, subject, htmlContent) {
       html: htmlContent,
     };
 
-    console.log('📤 Attempting to send email to:', to);
+    //console.log('📤 Attempting to send email to:', to);
     const result = await transporter.sendMail(mailOptions);
-    console.log('✅ Email sent successfully to:', to);
-    console.log('📨 Message ID:', result.messageId);
+    //console.log('✅ Email sent successfully to:', to);
+    //console.log('📨 Message ID:', result.messageId);
     return result;
   } catch (error) {
     console.error('❌ Error sending email:', error.message);
@@ -296,7 +296,7 @@ export async function sendOrderConfirmationEmail(emailData) {
   const { to, subject, orderId, orderNumber, customerName, orderData, paymentMethod, totalAmount } = emailData;
 
   try {
-    console.log('🎯 Starting email sending process for order:', orderNumber);
+    //console.log('🎯 Starting email sending process for order:', orderNumber);
     
     if (!transporter) {
       const errorMsg = 'Email service not configured. Transporter is null.';
@@ -310,7 +310,7 @@ export async function sendOrderConfirmationEmail(emailData) {
 
     await sendEmail(to, subject, emailContent);
     
-    console.log('🎉 Email process completed successfully for order:', orderNumber);
+    //console.log('🎉 Email process completed successfully for order:', orderNumber);
     return { success: true, message: 'Email sent successfully' };
   } catch (error) {
     console.error('💥 Email sending process failed:', error.message);

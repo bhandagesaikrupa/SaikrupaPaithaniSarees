@@ -109,10 +109,10 @@ import {
 } from "../controllers/productController.js";
 
 // Configure Cloudinary with better error handling
-console.log("🔧 Configuring Cloudinary...");
-console.log("🌐 Cloud Name:", process.env.CLOUDINARY_CLOUD_NAME ? "Set ✅" : "Missing ❌");
-console.log("🔑 API Key:", process.env.CLOUDINARY_API_KEY ? "Set ✅" : "Missing ❌");
-console.log("🔒 API Secret:", process.env.CLOUDINARY_API_SECRET ? "Set ✅" : "Missing ❌");
+//console.log("🔧 Configuring Cloudinary...");
+//console.log("🌐 Cloud Name:", process.env.CLOUDINARY_CLOUD_NAME ? "Set ✅" : "Missing ❌");
+//console.log("🔑 API Key:", process.env.CLOUDINARY_API_KEY ? "Set ✅" : "Missing ❌");
+//console.log("🔒 API Secret:", process.env.CLOUDINARY_API_SECRET ? "Set ✅" : "Missing ❌");
 
 cloudinary.v2.config({
   cloud_name: process.env.CLOUDINARY_CLOUD_NAME,
@@ -130,11 +130,11 @@ const upload = multer({
 // SIMPLIFIED Cloudinary upload
 const uploadToCloudinary = async (req, res, next) => {
   try {
-    console.log("📤 Starting Cloudinary upload...");
-    console.log("📁 Number of files:", req.files ? req.files.length : 0);
+    //console.log("📤 Starting Cloudinary upload...");
+    //console.log("📁 Number of files:", req.files ? req.files.length : 0);
     
     if (!req.files || req.files.length === 0) {
-      console.log("ℹ️ No files to upload");
+      //console.log("ℹ️ No files to upload");
       req.body.images = [];
       return next();
     }
@@ -146,13 +146,13 @@ const uploadToCloudinary = async (req, res, next) => {
       const file = req.files[i];
       
       try {
-        console.log(`🔄 Uploading ${i + 1}/${req.files.length}: ${file.originalname}`);
+        //console.log(`🔄 Uploading ${i + 1}/${req.files.length}: ${file.originalname}`);
         
         // Convert buffer to base64 (more reliable method)
         const base64Image = file.buffer.toString('base64');
         const dataURI = `data:${file.mimetype};base64,${base64Image}`;
         
-        console.log("📡 Uploading to Cloudinary...");
+        //console.log("📡 Uploading to Cloudinary...");
         
         const result = await cloudinary.v2.uploader.upload(dataURI, {
           folder: "saikrupa-paithani",
@@ -160,7 +160,7 @@ const uploadToCloudinary = async (req, res, next) => {
           timeout: 30000 // 30 second timeout
         });
         
-        console.log(`✅ Upload successful: ${result.secure_url}`);
+        //console.log(`✅ Upload successful: ${result.secure_url}`);
         imageUrls.push(result.secure_url);
         
       } catch (fileError) {
@@ -172,7 +172,7 @@ const uploadToCloudinary = async (req, res, next) => {
     }
     
     req.body.images = imageUrls;
-    console.log("🎯 All uploads completed. URLs:", imageUrls);
+    //console.log("🎯 All uploads completed. URLs:", imageUrls);
     next();
     
   } catch (error) {
@@ -193,7 +193,7 @@ const router = express.Router();
 // Test route to check Cloudinary connection
 router.get("/test-cloudinary", async (req, res) => {
   try {
-    console.log("🧪 Testing Cloudinary connection...");
+    //console.log("🧪 Testing Cloudinary connection...");
     
     const result = await cloudinary.v2.uploader.upload(
       "https://res.cloudinary.com/demo/image/upload/sample.jpg",
@@ -203,7 +203,7 @@ router.get("/test-cloudinary", async (req, res) => {
       }
     );
     
-    console.log("✅ Cloudinary test successful!");
+    //console.log("✅ Cloudinary test successful!");
     res.json({ 
       success: true, 
       message: "Cloudinary is working correctly!",

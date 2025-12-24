@@ -946,11 +946,11 @@
   <script src="config.js"></script>
   <script>
     // ========== CACHE BUSTING - FORCE FRESH LOAD ==========
-    console.log("🔄 Fresh version loaded - Cache busted");
+    //console.log("🔄 Fresh version loaded - Cache busted");
 
     // API Base URL is now handled by config.js
     // const API_BASE_URL = ...;
-    console.log("🚀 API Base URL:", API_BASE_URL);
+    //console.log("🚀 API Base URL:", API_BASE_URL);
 
     // Toggle panels for desktop
     const container = document.getElementById("container");
@@ -1086,7 +1086,7 @@
       showLoading("Sending OTP...");
 
       try {
-        console.log("📧 Sending OTP to:", email);
+        //console.log("📧 Sending OTP to:", email);
 
         const res = await fetch(`${API_BASE_URL}/api/auth/forgot-password`, {
           method: "POST",
@@ -1095,7 +1095,7 @@
         });
 
         const result = await res.json();
-        console.log("OTP Response:", result);
+        //console.log("OTP Response:", result);
 
         if (res.ok) {
           otpSection.style.display = "block";
@@ -1250,7 +1250,7 @@
       showLoading("Creating your account...");
 
       try {
-        console.log("📝 Signup attempt:", data.email);
+        //console.log("📝 Signup attempt:", data.email);
 
         const res = await fetch(`${API_BASE_URL}/api/auth/register`, {
           method: "POST",
@@ -1259,7 +1259,7 @@
         });
 
         const result = await res.json();
-        console.log("Signup response:", result);
+        //console.log("Signup response:", result);
 
         if (res.ok) {
           showMessage("Registration successful! Please login.");
@@ -1291,7 +1291,7 @@
           password: e.target.password.value,
         };
 
-        console.log("🔐 Login attempt:", data.email);
+        //console.log("🔐 Login attempt:", data.email);
 
         const res = await fetch(`${API_BASE_URL}/api/auth/login`, {
           method: "POST",
@@ -1300,7 +1300,7 @@
         });
 
         const result = await res.json();
-        console.log("Login response:", result);
+        //console.log("Login response:", result);
 
         if (res.ok && result.success) {
           localStorage.setItem("authToken", result.token);
@@ -1323,7 +1323,7 @@
       }
     });
 
-    console.log("✅ Authentication system ready - NO LOCALHOST!");
+    //console.log("✅ Authentication system ready - NO LOCALHOST!");
   </script>
 
 </body>

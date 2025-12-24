@@ -812,7 +812,7 @@
         }
 
         const token = getAuthToken();
-        console.log("🔄 Fetching order data for:", orderId);
+        //console.log("🔄 Fetching order data for:", orderId);
 
         const response = await fetch(`${API_BASE_URL}/api/orders/${orderId}`, {
           headers: {
@@ -825,7 +825,7 @@
         }
 
         const result = await response.json();
-        console.log(" Order API response:", result);
+        //console.log(" Order API response:", result);
 
         if (result.success && result.order) {
           orderData = result.order;
@@ -1044,7 +1044,7 @@
 
     // Initialize
     document.addEventListener('DOMContentLoaded', function () {
-      console.log("🚀 Order confirmation page loaded");
+      //console.log("🚀 Order confirmation page loaded");
       setupEventListeners();
       fetchOrderData();
     });

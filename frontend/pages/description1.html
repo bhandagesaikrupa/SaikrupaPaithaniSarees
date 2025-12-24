@@ -724,7 +724,7 @@ function initCharCounter() {
 // API Functions for Reviews
 async function submitReview(reviewData) {
   try {
-    console.log('Submitting review:', reviewData);
+    //console.log('Submitting review:', reviewData);
     const res = await fetch(`${API_BASE_URL}/api/reviews`, {
       method: "POST",
       headers: {
@@ -734,7 +734,7 @@ async function submitReview(reviewData) {
     });
 
     const result = await res.json();
-    console.log('Review submission response:', result);
+    //console.log('Review submission response:', result);
     
     if (res.ok && result.success) {
       return result;
@@ -750,12 +750,12 @@ async function submitReview(reviewData) {
 // Get product reviews
 async function fetchProductReviews(productId) {
   try {
-    console.log('Fetching reviews for product:', productId);
+    //console.log('Fetching reviews for product:', productId);
     const res = await fetch(`${API_BASE_URL}/api/reviews?productId=${productId}`);
     
     if (res.ok) {
       const result = await res.json();
-      console.log('Fetched reviews:', result);
+      //console.log('Fetched reviews:', result);
       return result.reviews || [];
     } else {
       console.error('Failed to fetch reviews, status:', res.status);
@@ -794,14 +794,14 @@ function handleReviewForm() {
   
   form.addEventListener("submit", async function(e){
     e.preventDefault();
-    console.log('Form submitted');
+    //console.log('Form submitted');
     
     const name = document.getElementById("reviewerName").value;
     const rating = parseInt(document.getElementById("ratingValue").value);
     const text = document.getElementById("reviewText").value;
     const productId = getProductId();
     
-    console.log('Form data:', { name, rating, text, productId });
+    //console.log('Form data:', { name, rating, text, productId });
     
     if(rating === 0){ 
       showMessage("Please select a rating!", false); 
@@ -824,7 +824,7 @@ function handleReviewForm() {
         status: 'approved'
       };
 
-      console.log('Sending review data:', reviewData);
+      //console.log('Sending review data:', reviewData);
 
       const result = await submitReview(reviewData);
       
@@ -1166,7 +1166,7 @@ async function addToCartHandler() {
     }
 
     const updateResult = await updateResponse.json();
-    console.log('Stock update result:', updateResult);
+    //console.log('Stock update result:', updateResult);
 
     // Then add to cart
     const requestBody = {
@@ -1249,10 +1249,10 @@ async function renderRelatedProducts(currentId){
 
 // Initialize everything with better error handling
 document.addEventListener("DOMContentLoaded", async () => {
-  console.log('DOM loaded, initializing...');
+  //console.log('DOM loaded, initializing...');
   
   const productId = getProductId();
-  console.log('Product ID:', productId);
+  //console.log('Product ID:', productId);
   
   if (productId) {
     try {
@@ -1293,7 +1293,7 @@ document.addEventListener("DOMContentLoaded", async () => {
   window.addEventListener('resize', updateSlidesPerView);
   updateSlidesPerView(); // Initial call
   
-  console.log('Initialization complete');
+  //console.log('Initialization complete');
 });
 </script>
 
@@ -2143,7 +2143,7 @@ document.addEventListener("DOMContentLoaded", async () => {
     // API Functions for Reviews
     async function submitReview(reviewData) {
       try {
-        console.log('Submitting review:', reviewData);
+        //console.log('Submitting review:', reviewData);
         const res = await fetch(`${API_BASE_URL}/api/reviews`, {
           method: "POST",
           headers: {
@@ -2153,7 +2153,7 @@ document.addEventListener("DOMContentLoaded", async () => {
         });
 
         const result = await res.json();
-        console.log('Review submission response:', result);
+        //console.log('Review submission response:', result);
 
         if (res.ok && result.success) {
           return result;
@@ -2169,12 +2169,12 @@ document.addEventListener("DOMContentLoaded", async () => {
     // Get product reviews
     async function fetchProductReviews(productId) {
       try {
-        console.log('Fetching reviews for product:', productId);
+        //console.log('Fetching reviews for product:', productId);
         const res = await fetch(`${API_BASE_URL}/api/reviews?productId=${productId}`);
 
         if (res.ok) {
           const result = await res.json();
-          console.log('Fetched reviews:', result);
+          //console.log('Fetched reviews:', result);
           return result.reviews || [];
         } else {
           console.error('Failed to fetch reviews, status:', res.status);
@@ -2213,14 +2213,14 @@ document.addEventListener("DOMContentLoaded", async () => {
 
       form.addEventListener("submit", async function (e) {
         e.preventDefault();
-        console.log('Form submitted');
+        //console.log('Form submitted');
 
         const name = document.getElementById("reviewerName").value;
         const rating = parseInt(document.getElementById("ratingValue").value);
         const text = document.getElementById("reviewText").value;
         const productId = getProductId();
 
-        console.log('Form data:', { name, rating, text, productId });
+        //console.log('Form data:', { name, rating, text, productId });
 
         if (rating === 0) {
           showMessage("Please select a rating!", false);
@@ -2243,7 +2243,7 @@ document.addEventListener("DOMContentLoaded", async () => {
             status: 'approved'
           };
 
-          console.log('Sending review data:', reviewData);
+          //console.log('Sending review data:', reviewData);
 
           const result = await submitReview(reviewData);
 
@@ -2590,7 +2590,7 @@ document.addEventListener("DOMContentLoaded", async () => {
         }
 
         const updateResult = await updateResponse.json();
-        console.log('Stock update result:', updateResult);
+        //console.log('Stock update result:', updateResult);
 
         // Then add to cart
         const requestBody = {
@@ -2673,10 +2673,10 @@ document.addEventListener("DOMContentLoaded", async () => {
 
     // Initialize everything with better error handling
     document.addEventListener("DOMContentLoaded", async () => {
-      console.log('DOM loaded, initializing...');
+      //console.log('DOM loaded, initializing...');
 
       const productId = getProductId();
-      console.log('Product ID:', productId);
+      //console.log('Product ID:', productId);
 
       if (productId) {
         try {
@@ -2710,7 +2710,7 @@ document.addEventListener("DOMContentLoaded", async () => {
       window.addEventListener('resize', updateSlidesPerView);
       updateSlidesPerView(); // Initial call
 
-      console.log('Initialization complete');
+      //console.log('Initialization complete');
     });
   </script>
 

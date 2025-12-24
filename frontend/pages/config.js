@@ -46,5 +46,5 @@ if (isLocalhost) {
 // Attach to window to ensure global access across all scripts
 window.API_BASE_URL = API_BASE_URL;
 
-console.log('🚀 Environment:', isLocalhost ? 'Development' : 'Production');
-console.log('📍 API Base URL:', API_BASE_URL || '(Same Origin)');
+//console.log('🚀 Environment:', isLocalhost ? 'Development' : 'Production');
+//console.log('📍 API Base URL:', API_BASE_URL || '(Same Origin)');

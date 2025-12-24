@@ -743,7 +743,7 @@
           totalAmount: orderTotals.total
         };
 
-        console.log("📧 Sending email notification:", {
+        //console.log("📧 Sending email notification:", {
           to: customerEmail,
           orderNumber: orderNumber,
           paymentMethod: paymentMethod
@@ -761,7 +761,7 @@
         const result = await response.json();
 
         if (result.success) {
-          console.log("✅ Email sent successfully");
+          //console.log("✅ Email sent successfully");
         } else {
           console.warn("⚠️ Email sending failed:", result.message);
         }
@@ -775,7 +775,7 @@
 
       try {
         const token = getAuthToken();
-        console.log("🔄 Fetching cart data...");
+        //console.log("🔄 Fetching cart data...");
 
         const res = await fetch(`${API_BASE_URL}/api/cart`, {
           headers: { Authorization: `Bearer ${token}` },
@@ -792,7 +792,7 @@
         }
 
         const result = await res.json();
-        console.log("📦 Cart API response:", result);
+        //console.log("📦 Cart API response:", result);
 
         if (result.success && result.cart) {
           cartItems = result.cart.items.map((item) => {
@@ -806,7 +806,7 @@
             };
           });
 
-          console.log("🛒 Processed cart items:", cartItems);
+          //console.log("🛒 Processed cart items:", cartItems);
 
           if (cartItems.length === 0) {
             showErrorMessage("Your cart is empty");
@@ -1081,7 +1081,7 @@
               isProcessingPayment = false;
               payButton.innerHTML = originalText;
               payButton.disabled = false;
-              console.log("Payment modal closed");
+              //console.log("Payment modal closed");
             }
           }
         };
@@ -1102,7 +1102,7 @@
 
     async function handlePaymentSuccess(paymentResponse) {
       try {
-        console.log("✅ Payment successful:", paymentResponse);
+        //console.log("✅ Payment successful:", paymentResponse);
 
         const token = getAuthToken();
 
@@ -1155,7 +1155,7 @@
       const spinner = document.querySelector(".loading-spinner");
 
       try {
-        console.log("=== STARTING ORDER CREATION WITH PAYMENT ===");
+        //console.log("=== STARTING ORDER CREATION WITH PAYMENT ===");
 
         const token = getAuthToken();
         if (!token) {
@@ -1178,7 +1178,7 @@
           orderTotals: orderTotals
         };
 
-        console.log("📦 Final Order Data:", orderData);
+        //console.log("📦 Final Order Data:", orderData);
 
         const response = await fetch(`${API_BASE_URL}/api/orders/create`, {
           method: "POST",
@@ -1190,7 +1190,7 @@
         });
 
         const responseText = await response.text();
-        console.log("📨 Raw Response:", responseText);
+        //console.log("📨 Raw Response:", responseText);
 
         let result;
         try {
@@ -1201,7 +1201,7 @@
         }
 
         if (result.success) {
-          console.log("✅ ORDER CREATED SUCCESSFULLY! Order ID:", result.order._id);
+          //console.log("✅ ORDER CREATED SUCCESSFULLY! Order ID:", result.order._id);
 
           showSuccessMessage("Order placed successfully!");
 
@@ -1267,10 +1267,10 @@
       const checkoutForm = document.getElementById("checkoutForm");
       checkoutForm.addEventListener("submit", async function (e) {
         e.preventDefault();
-        console.log("🔄 Form submitted");
+        //console.log("🔄 Form submitted");
 
         if (!validateForm()) {
-          console.log("❌ Form validation failed");
+          //console.log("❌ Form validation failed");
           return;
         }
 
@@ -1296,13 +1296,13 @@
           return;
         }
 
-        console.log("✅ Creating order...");
+        //console.log("✅ Creating order...");
         await createOrder(paymentMethod);
       });
     }
 
     document.addEventListener("DOMContentLoaded", () => {
-      console.log("🚀 Checkout page loaded");
+      //console.log("🚀 Checkout page loaded");
       fetchCart();
       setupEventListeners();
 

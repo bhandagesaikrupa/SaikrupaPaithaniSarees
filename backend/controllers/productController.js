@@ -93,7 +93,7 @@ export const getProductById = async (req, res) => {
 // Add new product - FOR MEMORY STORAGE + CLOUDINARY
 export const addProduct = async (req, res) => {
   try {
-    //console.log("➕ Creating product with data:", req.body);
+    ////console.log("➕ Creating product with data:", req.body);
     
     // ✅ Images come from Cloudinary middleware in req.body.images
     const images = req.body.images || [];
@@ -108,7 +108,7 @@ export const addProduct = async (req, res) => {
     });
     
     await product.save();
-    //console.log("✅ Product created successfully:", product._id);
+    ////console.log("✅ Product created successfully:", product._id);
     res.status(201).json(product);
   } catch (err) {
     console.error("❌ Add product error:", err);
@@ -135,7 +135,7 @@ export const updateProduct = async (req, res) => {
     const updated = await Product.findByIdAndUpdate(req.params.id, updateData, { new: true });
     if (!updated) return res.status(404).json({ message: "Product not found" });
 
-    //console.log("✅ Product updated successfully:", updated._id);
+    ////console.log("✅ Product updated successfully:", updated._id);
     res.json(updated);
   } catch (err) {
     console.error("❌ Update product error:", err);

@@ -17,7 +17,7 @@
 //       items
 //     } = req.body;
 
-//     console.log("📦 Received order data:", {
+//     //console.log("📦 Received order data:", {
 //       userId,
 //       shippingAddress,
 //       paymentMethod,
@@ -58,7 +58,7 @@
 //       expectedDelivery.setDate(expectedDelivery.getDate() + 10);
 //     }
 
-//     console.log("💰 Order totals:", { subtotal, shipping, tax, discount, codCharges, total });
+//     //console.log("💰 Order totals:", { subtotal, shipping, tax, discount, codCharges, total });
 
 //     // Create order
 //     const order = new Order({
@@ -78,17 +78,17 @@
 //       expectedDelivery
 //     });
 
-//     console.log("🔢 Order object before save:", order);
+//     //console.log("🔢 Order object before save:", order);
 
 //     await order.save();
-//     console.log("✅ Order saved to database. Order Number:", order.orderNumber);
+//     //console.log("✅ Order saved to database. Order Number:", order.orderNumber);
 
 //     // Clear user's cart after successful order
 //     await Cart.findOneAndUpdate(
 //       { userId },
 //       { items: [] }
 //     );
-//     console.log("🛒 Cart cleared for user:", userId);
+//     //console.log("🛒 Cart cleared for user:", userId);
 
 //     res.status(201).json({
 //       success: true,
@@ -251,7 +251,7 @@
 //     const { orderId } = req.params;
 //     const { deliveryDate } = req.body;
 
-//     console.log("📅 Updating delivery date for order:", orderId, "Date:", deliveryDate);
+//     //console.log("📅 Updating delivery date for order:", orderId, "Date:", deliveryDate);
 
 //     if (!deliveryDate) {
 //       return res.status(400).json({
@@ -285,7 +285,7 @@
 //       });
 //     }
 
-//     console.log("✅ Delivery date updated successfully for order:", orderId);
+//     //console.log("✅ Delivery date updated successfully for order:", orderId);
 
 //     res.json({
 //       success: true,
@@ -313,7 +313,7 @@
 //   try {
 //     const { orderId } = req.params;
 
-//     console.log("🗑️ Attempting to delete order:", orderId);
+//     //console.log("🗑️ Attempting to delete order:", orderId);
 
 //     const order = await Order.findByIdAndDelete(orderId);
 
@@ -324,7 +324,7 @@
 //       });
 //     }
 
-//     console.log("✅ Order deleted successfully:", orderId);
+//     //console.log("✅ Order deleted successfully:", orderId);
 
 //     res.json({
 //       success: true,
@@ -402,7 +402,7 @@ export const createOrder = async (req, res) => {
       items
     } = req.body;
 
-    // console.log("📦 Received order data:", {
+    // //console.log("📦 Received order data:", {
     //   userId,
     //   shippingAddress,
     //   paymentMethod,
@@ -443,7 +443,7 @@ export const createOrder = async (req, res) => {
       expectedDelivery.setDate(expectedDelivery.getDate() + 10);
     }
 
-    console.log("💰 Order totals:", { subtotal, shipping, tax, discount, codCharges, total });
+    //console.log("💰 Order totals:", { subtotal, shipping, tax, discount, codCharges, total });
 
     // Create order
     const order = new Order({
@@ -463,17 +463,17 @@ export const createOrder = async (req, res) => {
       expectedDelivery
     });
 
-    console.log("🔢 Order object before save:", order);
+    //console.log("🔢 Order object before save:", order);
 
     await order.save();
-    console.log("✅ Order saved to database. Order Number:", order.orderNumber);
+    //console.log("✅ Order saved to database. Order Number:", order.orderNumber);
 
     // Clear user's cart after successful order
     await Cart.findOneAndUpdate(
       { userId },
       { items: [] }
     );
-    console.log("🛒 Cart cleared for user:", userId);
+    //console.log("🛒 Cart cleared for user:", userId);
 
     res.status(201).json({
       success: true,
@@ -634,7 +634,7 @@ export const updateDeliveryDate = async (req, res) => {
     const { orderId } = req.params;
     const { deliveryDate } = req.body;
 
-    console.log("📅 Updating delivery date for order:", orderId, "Date:", deliveryDate);
+    //console.log("📅 Updating delivery date for order:", orderId, "Date:", deliveryDate);
 
     if (!deliveryDate) {
       return res.status(400).json({
@@ -668,7 +668,7 @@ export const updateDeliveryDate = async (req, res) => {
       });
     }
 
-    console.log("✅ Delivery date updated successfully for order:", orderId);
+    //console.log("✅ Delivery date updated successfully for order:", orderId);
 
     res.json({
       success: true,
@@ -696,7 +696,7 @@ export const deleteOrder = async (req, res) => {
   try {
     const { orderId } = req.params;
 
-    console.log("🗑️ Attempting to delete order:", orderId);
+    //console.log("🗑️ Attempting to delete order:", orderId);
 
     const order = await Order.findByIdAndDelete(orderId);
 
@@ -707,7 +707,7 @@ export const deleteOrder = async (req, res) => {
       });
     }
 
-    console.log("✅ Order deleted successfully:", orderId);
+    //console.log("✅ Order deleted successfully:", orderId);
 
     res.json({
       success: true,
@@ -771,7 +771,7 @@ export const requestReturn = async (req, res) => {
     const { orderId } = req.params;
     const { reason, description, items } = req.body;
 
-    console.log("🔄 Processing return request for order:", orderId);
+    //console.log("🔄 Processing return request for order:", orderId);
 
     const order = await Order.findById(orderId);
     if (!order) {
@@ -821,7 +821,7 @@ export const requestReturn = async (req, res) => {
 
     await order.save();
 
-    console.log("✅ Return request submitted for order:", orderId);
+    //console.log("✅ Return request submitted for order:", orderId);
 
     res.json({
       success: true,

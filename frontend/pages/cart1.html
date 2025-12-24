@@ -486,7 +486,7 @@
     //     if (!checkAuth()) return;
 
     //     const token = getAuthToken();
-    //     console.log("Fetching cart...");
+    //     //console.log("Fetching cart...");
 
     //     const res = await fetch("${API_BASE_URL}/api/cart", {
     //       headers: {
@@ -506,7 +506,7 @@
     //     }
 
     //     const result = await res.json();
-    //     console.log("Cart API response:", result);
+    //     //console.log("Cart API response:", result);
 
     //     if (result.success && result.cart) {
     //       // Process cart items
@@ -521,7 +521,7 @@
     //         };
     //       });
 
-    //       console.log("Processed cart items:", cartItems);
+    //       //console.log("Processed cart items:", cartItems);
     //       renderCartItems();
     //       updateOrderSummary();
     //       updateCartCount();
@@ -539,7 +539,7 @@
         if (!checkAuth()) return;
 
         const token = getAuthToken();
-        console.log("Fetching cart...");
+        //console.log("Fetching cart...");
 
         const res = await fetch(`${API_BASE_URL}/api/cart`, {
           headers: {
@@ -559,7 +559,7 @@
         }
 
         const result = await res.json();
-        console.log("Cart API response:", result);
+        //console.log("Cart API response:", result);
 
         if (result.success && result.cart) {
           // FIXED: Filter out items with null productId and handle missing products
@@ -576,7 +576,7 @@
               };
             });
 
-          console.log("Processed cart items:", cartItems);
+          //console.log("Processed cart items:", cartItems);
 
           // Show warning if some items were filtered out
           const originalCount = result.cart.items.length;
@@ -716,7 +716,7 @@
     // Update quantity
     async function updateQuantity(productId, change) {
       try {
-        console.log("Update quantity - Product ID:", productId, "Change:", change);
+        //console.log("Update quantity - Product ID:", productId, "Change:", change);
 
         if (!checkAuth()) return;
 
@@ -729,7 +729,7 @@
         }
 
         const newQty = item.quantity + change;
-        console.log("Current quantity:", item.quantity, "New quantity:", newQty);
+        //console.log("Current quantity:", item.quantity, "New quantity:", newQty);
 
         if (newQty < 1) {
           await deleteItem(productId);
@@ -740,7 +740,7 @@
 
         // DEBUG: Log the exact URL being called
         const url = `${API_BASE_URL}/api/cart/update/${productId}`;
-        console.log("Calling URL:", url);
+        //console.log("Calling URL:", url);
 
         const res = await fetch(url, {
           method: "PUT",
@@ -751,7 +751,7 @@
           body: JSON.stringify({ quantity: newQty }),
         });
 
-        console.log("Response status:", res.status);
+        //console.log("Response status:", res.status);
 
         if (!res.ok) {
           const errorText = await res.text();
@@ -760,7 +760,7 @@
         }
 
         const result = await res.json();
-        console.log("Update API response:", result);
+        //console.log("Update API response:", result);
 
         if (result.success) {
           item.quantity = newQty;
@@ -780,7 +780,7 @@
     // Delete item
     async function deleteItem(productId) {
       try {
-        console.log("Delete item - Product ID:", productId);
+        //console.log("Delete item - Product ID:", productId);
 
         if (!checkAuth()) return;
 
@@ -799,7 +799,7 @@
         const token = getAuthToken();
 
         const url = `${API_BASE_URL}/api/cart/remove/${productId}`;
-        console.log("Calling URL:", url);
+        //console.log("Calling URL:", url);
 
         const res = await fetch(url, {
           method: "DELETE",
@@ -809,7 +809,7 @@
           },
         });
 
-        console.log("Response status:", res.status);
+        //console.log("Response status:", res.status);
 
         if (!res.ok) {
           const errorText = await res.text();
@@ -818,7 +818,7 @@
         }
 
         const result = await res.json();
-        console.log("Delete API response:", result);
+        //console.log("Delete API response:", result);
 
         if (result.success) {
           cartItems = cartItems.filter((item) => item.productId !== productId);
@@ -931,7 +931,7 @@
 
     // Initialize on page load
     document.addEventListener("DOMContentLoaded", function () {
-      console.log("Cart page loaded");
+      //console.log("Cart page loaded");
       checkLoginStatus();
       if (checkAuth()) {
         setupEventListeners();

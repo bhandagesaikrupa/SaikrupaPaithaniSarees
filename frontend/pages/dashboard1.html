@@ -2398,18 +2398,18 @@ nav.scrolled .logo-text-image {
     
       async function fetchAllReviews() {
         try {
-          console.log('🔄 Fetching all reviews for home page...');
+          //console.log('🔄 Fetching all reviews for home page...');
           const res = await fetch(`${API_BASE_URL}/api/reviews`);
           
           if (res.ok) {
             const result = await res.json();
-            console.log('✅ All reviews fetched:', result);
+            //console.log('✅ All reviews fetched:', result);
             
          
             const approvedReviews = result.reviews ? 
               result.reviews.filter(review => review.status === 'approved') : [];
             
-            console.log('✅ Approved reviews:', approvedReviews);
+            //console.log('✅ Approved reviews:', approvedReviews);
             
            
             displayReviewsInCarousel(approvedReviews);
@@ -2571,16 +2571,16 @@ nav.scrolled .logo-text-image {
 
      
       document.addEventListener('DOMContentLoaded', function() {
-        console.log('🚀 DOM loaded, initializing reviews...');
+        //console.log('🚀 DOM loaded, initializing reviews...');
         
      
         const reviewsSection = document.getElementById('review');
         if (!reviewsSection) {
-          console.log('ℹ️ No reviews section found on this page, skipping reviews initialization');
+          //console.log('ℹ️ No reviews section found on this page, skipping reviews initialization');
           return;
         }
         
-        console.log('✅ Reviews section found, fetching reviews...');
+        //console.log('✅ Reviews section found, fetching reviews...');
         
 
         setTimeout(() => {
@@ -5430,7 +5430,7 @@ nav.scrolled .logo-text-image {
       //   }).join('');
       // }
       function displayNewArrivals(products) {
-        console.log("🎨 Displaying arrivals:", products);
+        //console.log("🎨 Displaying arrivals:", products);
 
         if (!arrivalContainer) {
           console.error("❌ arrivalContainer not found!");
@@ -5446,7 +5446,7 @@ nav.scrolled .logo-text-image {
           })
 
           .slice(0, 12);
-        console.log("🖼️ Displaying first", newArrivals.length, "products");
+        //console.log("🖼️ Displaying first", newArrivals.length, "products");
 
         if (newArrivals.length === 0) {
           arrivalContainer.innerHTML = `
@@ -5458,7 +5458,7 @@ nav.scrolled .logo-text-image {
         }
 
         arrivalContainer.innerHTML = newArrivals.map(product => {
-          console.log("📝 Processing product:", product.name);
+          //console.log("📝 Processing product:", product.name);
 
           // ✅ FIXED: Use Cloudinary URLs directly
           let imageSrc = 'https://via.placeholder.com/300x400/800000/ffffff?text=No+Image+Available';
@@ -5468,7 +5468,7 @@ nav.scrolled .logo-text-image {
             imageSrc = product.images[0];
           }
 
-          console.log("🖼️ Image source:", imageSrc);
+          //console.log("🖼️ Image source:", imageSrc);
 
           return `
       <div class="arrival-card">
@@ -5484,7 +5484,7 @@ nav.scrolled .logo-text-image {
     `;
         }).join('');
 
-        console.log("✅ Products successfully displayed in HTML");
+        //console.log("✅ Products successfully displayed in HTML");
       }
 
       fetchNewArrivals();
@@ -5563,14 +5563,14 @@ nav.scrolled .logo-text-image {
       const authToken = localStorage.getItem('authToken');
       if (authToken) {
         // User is logged in
-        console.log('User is logged in');
+        //console.log('User is logged in');
           const el = document.getElementById("xyz");
           if (el) {
               el.style.display = "block";
           }
       } else {
         // User is not logged in
-        console.log('User is not logged in');
+        //console.log('User is not logged in');
         const el = document.getElementById("xyz");
           if (el) {
               el.style.display = "none";

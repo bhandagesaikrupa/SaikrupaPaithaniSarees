@@ -8,7 +8,7 @@ router.post('/send-order-confirmation', async (req, res) => {
   try {
     const { to, subject, orderId, orderNumber, customerName, orderData, paymentMethod, totalAmount } = req.body;
     
-    console.log('📧 Received email request for order:', orderNumber);
+    //console.log('📧 Received email request for order:', orderNumber);
     
     // Validate required fields
     if (!to || !customerName || !orderNumber) {

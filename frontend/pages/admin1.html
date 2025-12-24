@@ -727,7 +727,7 @@
   
   // API Base URL - handled by config.js
   // const API_BASE_URL = ...;
-  console.log("🚀 Admin Dashboard using API:", API_BASE_URL);
+  //console.log("🚀 Admin Dashboard using API:", API_BASE_URL);
 
   // DOM Elements
   const imageDropZone = document.getElementById("imageDropZone");
@@ -763,7 +763,7 @@
 
   // Sidebar & dashboard init
   document.addEventListener("DOMContentLoaded", function () {
-    console.log("🏁 Admin Dashboard Initializing...");
+    //console.log("🏁 Admin Dashboard Initializing...");
     initializeSidebar();
     initializeEventListeners();
     loadDashboard();
@@ -885,10 +885,10 @@
   //   try {
   //     showLoadingState();
       
-  //     console.log("📦 Fetching products from:", `${API_BASE_URL}/api/products`);
+  //     //console.log("📦 Fetching products from:", `${API_BASE_URL}/api/products`);
   //     const res = await fetch(`${API_BASE_URL}/api/products`);
       
-  //     console.log("📨 Response status:", res.status);
+  //     //console.log("📨 Response status:", res.status);
       
   //     if (!res.ok) {
   //       throw new Error(`HTTP error! status: ${res.status}`);
@@ -899,7 +899,7 @@
   //     const dateB = new Date(b.createdAt || b.updatedAt || 0);
   //     return dateB - dateA; // Descending order (newest first)
   //   });
-  //     console.log("✅ Products loaded successfully:", allProducts.length);
+  //     //console.log("✅ Products loaded successfully:", allProducts.length);
   //     renderProductsTable(allProducts);
       
   //   } catch (err) {
@@ -913,10 +913,10 @@ async function loadProducts() {
   try {
     showLoadingState();
     
-    console.log("📦 Fetching products from:", `${API_BASE_URL}/api/products`);
+    //console.log("📦 Fetching products from:", `${API_BASE_URL}/api/products`);
     const res = await fetch(`${API_BASE_URL}/api/products`);
     
-    console.log("📨 Response status:", res.status);
+    //console.log("📨 Response status:", res.status);
     
     if (!res.ok) {
       throw new Error(`HTTP error! status: ${res.status}`);
@@ -931,7 +931,7 @@ async function loadProducts() {
       return dateB - dateA; // Descending order (newest first)
     });
     
-    console.log("✅ Products loaded and sorted successfully:", allProducts.length);
+    //console.log("✅ Products loaded and sorted successfully:", allProducts.length);
     renderProductsTable(allProducts);
     
   } catch (err) {
@@ -1119,7 +1119,7 @@ if (product.images && product.images.length > 0 && product.images[0]) {
         
         if (confirm(`Are you sure you want to delete "${productName}"? This action cannot be undone.`)) {
           try {
-            console.log("🗑️ Deleting product:", id);
+            //console.log("🗑️ Deleting product:", id);
             const res = await fetch(`${API_BASE_URL}/api/products/${id}`, { 
               method: "DELETE" 
             });
@@ -1186,7 +1186,7 @@ if (product.images && product.images.length > 0 && product.images[0]) {
         throw new Error("Please fill all required fields with valid values");
       }
 
-      console.log("✏️ Updating product:", id, updateData);
+      //console.log("✏️ Updating product:", id, updateData);
       const res = await fetch(`${API_BASE_URL}/api/products/${id}`, {
         method: "PUT",
         headers: {
@@ -1242,7 +1242,7 @@ if (product.images && product.images.length > 0 && product.images[0]) {
         throw new Error("Please upload at least one product image");
       }
 
-      console.log("➕ Adding new product...");
+      //console.log("➕ Adding new product...");
       const res = await fetch(`${API_BASE_URL}/api/products`, {
         method: "POST",
         body: formData,
@@ -1459,7 +1459,7 @@ if (product.images && product.images.length > 0 && product.images[0]) {
     }, 5000);
   }
 
-  console.log("✅ Admin Dashboard JavaScript loaded successfully");
+  //console.log("✅ Admin Dashboard JavaScript loaded successfully");
 </script>
   </body>
 </html> -->
@@ -2126,7 +2126,7 @@ if (product.images && product.images.length > 0 && product.images[0]) {
     let currentPage = 1;
     const productsPerPage = 10;
 
-    console.log("🚀 Admin Dashboard using API:", API_BASE_URL);
+    //console.log("🚀 Admin Dashboard using API:", API_BASE_URL);
 
     // DOM Elements
     const imageDropZone = document.getElementById("imageDropZone");
@@ -2289,7 +2289,7 @@ if (product.images && product.images.length > 0 && product.images[0]) {
 
     // Sidebar & dashboard init
     document.addEventListener("DOMContentLoaded", function () {
-      console.log("🏁 Admin Dashboard Initializing...");
+      //console.log("🏁 Admin Dashboard Initializing...");
       initializeSidebar();
       initializeEventListeners();
       loadDashboard();
@@ -2413,10 +2413,10 @@ if (product.images && product.images.length > 0 && product.images[0]) {
       try {
         showLoadingState();
 
-        console.log("📦 Fetching products from:", `${API_BASE_URL}/api/products`);
+        //console.log("📦 Fetching products from:", `${API_BASE_URL}/api/products`);
         const res = await fetch(`${API_BASE_URL}/api/products`);
 
-        console.log("📨 Response status:", res.status);
+        //console.log("📨 Response status:", res.status);
 
         if (!res.ok) {
           throw new Error(`HTTP error! status: ${res.status}`);
@@ -2431,7 +2431,7 @@ if (product.images && product.images.length > 0 && product.images[0]) {
           return dateB - dateA; // Descending order (newest first)
         });
 
-        console.log("✅ Products loaded and sorted successfully:", allProducts.length);
+        //console.log("✅ Products loaded and sorted successfully:", allProducts.length);
         renderProductsTable(allProducts);
 
       } catch (err) {
@@ -2597,7 +2597,7 @@ if (product.images && product.images.length > 0 && product.images[0]) {
 
           if (confirm(`Are you sure you want to delete "${productName}"? This action cannot be undone.`)) {
             try {
-              console.log("🗑️ Deleting product:", id);
+              //console.log("🗑️ Deleting product:", id);
               const res = await fetch(`${API_BASE_URL}/api/products/${id}`, {
                 method: "DELETE"
               });
@@ -2664,7 +2664,7 @@ if (product.images && product.images.length > 0 && product.images[0]) {
           throw new Error("Please fill all required fields with valid values");
         }
 
-        console.log("✏️ Updating product:", id, updateData);
+        //console.log("✏️ Updating product:", id, updateData);
         const res = await fetch(`${API_BASE_URL}/api/products/${id}`, {
           method: "PUT",
           headers: {
@@ -2741,8 +2741,8 @@ if (product.images && product.images.length > 0 && product.images[0]) {
           formData.append('images', compressedFile);
         }
 
-        console.log("➕ Adding new product with compressed images...");
-        console.log("📱 Upload details:", {
+        //console.log("➕ Adding new product with compressed images...");
+        //console.log("📱 Upload details:", {
           fileCount: images.length,
           fileSizes: Array.from(images).map(f => `${f.name}: ${(f.size / 1024 / 1024).toFixed(2)}MB`),
           compressedSizes: Array.from(formData.getAll('images')).map(f => `${f.name}: ${(f.size / 1024 / 1024).toFixed(2)}MB`)
@@ -2957,7 +2957,7 @@ if (product.images && product.images.length > 0 && product.images[0]) {
       }, 5000);
     }
 
-    console.log("✅ Admin Dashboard JavaScript loaded successfully");
+    //console.log("✅ Admin Dashboard JavaScript loaded successfully");
   </script>
 </body>
 
