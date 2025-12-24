@@ -18,7 +18,7 @@ const initializeRazorpay = () => {
       key_secret: process.env.RAZORPAY_KEY_SECRET
     });
     
-    console.log('✅ Razorpay initialized successfully');
+    //console.log('✅ Razorpay initialized successfully');
   }
   return razorpayInstance;
 };
@@ -32,7 +32,7 @@ export const createRazorpayOrder = async (req, res) => {
     const userId = req.userId;
     const { amount, currency = 'INR', receipt } = req.body;
 
-    console.log("💰 Creating Razorpay order for amount:", amount);
+    //console.log("💰 Creating Razorpay order for amount:", amount);
 
     if (!amount || amount < 1) {
       return res.status(400).json({
@@ -48,11 +48,11 @@ export const createRazorpayOrder = async (req, res) => {
       payment_capture: 1
     };
 
-    console.log("📦 Razorpay options:", options);
+    //console.log("📦 Razorpay options:", options);
 
     const razorpayOrder = await razorpay.orders.create(options);
     
-    console.log("✅ Razorpay order created:", razorpayOrder.id);
+    //console.log("✅ Razorpay order created:", razorpayOrder.id);
 
     res.json({
       success: true,
@@ -89,7 +89,7 @@ export const verifyPayment = async (req, res) => {
       orderData
     } = req.body;
 
-    console.log("🔍 Verifying payment:", {
+    //console.log("🔍 Verifying payment:", {
       razorpay_order_id,
       razorpay_payment_id,
       orderData: orderData ? "present" : "missing"
@@ -115,7 +115,7 @@ export const verifyPayment = async (req, res) => {
       });
     }
 
-    console.log("✅ Payment signature verified successfully");
+    //console.log("✅ Payment signature verified successfully");
 
     // Create order in database
     if (orderData) {
@@ -168,7 +168,7 @@ export const verifyPayment = async (req, res) => {
       });
 
       await order.save();
-      console.log("✅ Order saved to database:", order.orderNumber);
+      //console.log("✅ Order saved to database:", order.orderNumber);
 
       // Clear user's cart
       await Cart.findOneAndUpdate(
@@ -246,7 +246,7 @@ export const verifyUPIPayment = async (req, res) => {
   try {
     const { transactionId, amount } = req.body;
 
-    console.log("🔍 Verifying UPI payment:", { transactionId, amount });
+    //console.log("🔍 Verifying UPI payment:", { transactionId, amount });
 
     // For direct UPI payments, we'll assume payment is successful for testing
     // In production, you would integrate with bank APIs or manual verification
@@ -260,7 +260,7 @@ export const verifyUPIPayment = async (req, res) => {
       type: 'upi_direct'
     };
 
-    console.log("✅ UPI Payment recorded:", paymentRecord);
+    //console.log("✅ UPI Payment recorded:", paymentRecord);
 
     res.json({
       success: true,

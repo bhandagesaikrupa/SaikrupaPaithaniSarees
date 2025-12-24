@@ -62,7 +62,7 @@
 
 // // Start Server
 // const PORT = process.env.PORT || 5000;
-// app.listen(PORT, () => console.log(`🚀 Server running on port ${PORT}`));
+// app.listen(PORT, () => //console.log(`🚀 Server running on port ${PORT}`));
 
 import express from "express";
 import dotenv from "dotenv";
@@ -97,7 +97,7 @@ const __dirname = path.dirname(__filename);
 const allowedOrigins = [
     "https://saikrupapaithanisarees-mdqk.onrender.com",
     "https://saikrupapaithanisarees-gvpg.onrender.com",
-    "https://saikrupapaithanisarees-h5mr.onrender.com",
+    "https://saikrupapaithanisarees-h5mr.onrender.com/",
     "http://localhost:3000",
     "http://localhost:5000",
     process.env.API_BASE_URL
@@ -217,8 +217,8 @@ app.use((err, req, res, next) => {
 // Start Server
 const PORT = process.env.PORT || 5000;
 app.listen(PORT, () => {
-    console.log(`🚀 Server running on port ${PORT}`);
-    //  console.log(`📍 Health check: http://localhost:${PORT}/health`);
+    //console.log(`🚀 Server running on port ${PORT}`);
+    //  //console.log(`📍 Health check: http://localhost:${PORT}/health`);
 
 });
 

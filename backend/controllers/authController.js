@@ -11,7 +11,7 @@ import { sendEmail } from "../utils/sendEmail.js";
 // Register User
 export const registerUser = async (req, res) => {
   const { name, email, password } = req.body;
-  console.log("Request body:", req.body);
+  //console.log("Request body:", req.body);
   try {
     let user = await User.findOne({ email });
     if (user) return res.status(400).json({ message: "User already exists" });
@@ -19,7 +19,7 @@ export const registerUser = async (req, res) => {
     const hashedPassword = await bcrypt.hash(password, 10);
     user = new User({ name, email, password: hashedPassword });
     const savedUser = await user.save();
-    console.log("Saved user:", savedUser);
+    //console.log("Saved user:", savedUser);
 
     res.json({ message: "User registered successfully" });
   } catch (error) {

@@ -402,13 +402,13 @@ export const createOrder = async (req, res) => {
       items
     } = req.body;
 
-    console.log("📦 Received order data:", {
-      userId,
-      shippingAddress,
-      paymentMethod,
-      shippingMethod,
-      itemsCount: items?.length
-    });
+    // console.log("📦 Received order data:", {
+    //   userId,
+    //   shippingAddress,
+    //   paymentMethod,
+    //   shippingMethod,
+    //   itemsCount: items?.length
+    // });
 
     // Validate required fields
     if (!shippingAddress || !paymentMethod || !shippingMethod || !items || items.length === 0) {
