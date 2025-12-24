@@ -5568,7 +5568,11 @@ nav.scrolled .logo-text-image {
       } else {
         // User is not logged in
         console.log('User is not logged in');
-        document.getElementById('logoutNavItem').style.display = 'none';
+        const el = document.getElementById("xyz");
+          if (el) {
+              el.style.display = "none";
+          }
+
       }
     });
 
