@@ -5564,7 +5564,10 @@ nav.scrolled .logo-text-image {
       if (authToken) {
         // User is logged in
         console.log('User is logged in');
-        document.getElementById('logoutNavItem').style.display = 'block';
+          const el = document.getElementById("xyz");
+          if (el) {
+              el.style.display = "block";
+          }
       } else {
         // User is not logged in
         console.log('User is not logged in');
