@@ -75,44 +75,30 @@ import authRoutes from "./routes/auth.js";
 import productRoutes from "./routes/product.js";
 import cartRoutes from "./routes/cartRoutes.js";
 import { authenticate } from "./middleware/auth.js";
-import orderRoutes from './routes/orderRoutes.js';
-import reviewRoutes from './routes/reviewRoutes.js';
+import orderRoutes from "./routes/orderRoutes.js";
+import reviewRoutes from "./routes/reviewRoutes.js";
 import youtubeVideoRoutes from "./routes/youtubeVideoRoutes.js";
-import paymentRoutes from './routes/paymentRoutes.js';
-import emailRoutes from './routes/emailRoutes.js';
+import paymentRoutes from "./routes/paymentRoutes.js";
+import emailRoutes from "./routes/emailRoutes.js";
 
-// Load environment variables
 dotenv.config();
-
-// Connect to MongoDB
 connectDB();
 
 const app = express();
 
-// Get directory name
+// Needed for ES Modules
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 
-// Middleware - CORS first
-const allowedOrigins = [
-    "https://saikrupapaithanisarees-mdqk.onrender.com",
-    "https://saikrupapaithanisarees-gvpg.onrender.com",
-    "https://saikrupapaithanisarees-h5mr.onrender.com",
-    "http://localhost:3000",
-    "http://localhost:5000",
-    process.env.API_BASE_URL
-].filter(Boolean);
 
+
+// =====================
+// 🌐 Middleware
+// =====================
+
+// ✅ SIMPLE & SAFE CORS — fixes all your CORS issues
 app.use(cors({
-    origin: (origin, callback) => {
-        // Allow requests with no origin (like mobile apps or curl requests)
-        if (!origin) return callback(null, true);
-        if (allowedOrigins.indexOf(origin) !== -1 || allowedOrigins.some(o => origin.startsWith(o))) {
-            callback(null, true);
-        } else {
-            callback(new Error('Not allowed by CORS'));
-        }
-    },
+    origin: true,
     methods: ["GET", "POST", "PUT", "DELETE"],
     credentials: true
 }));
@@ -120,40 +106,64 @@ app.use(cors({
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
-// Static files - multiple possible locations
+
+
+// =====================
+// 📁 Static Files
+// =====================
+
 app.use(express.static(path.join(__dirname, "public")));
 app.use(express.static(path.join(__dirname, "../frontend")));
 app.use(express.static(path.join(__dirname, "../frontend/pages")));
 app.use("/uploads", express.static(path.join(__dirname, "uploads")));
 
-// API Routes
+
+
+// =====================
+// 🔌 API Routes
+// =====================
+
 app.use("/api/auth", authRoutes);
 app.use("/api/products", productRoutes);
 app.use("/api/cart", authenticate, cartRoutes);
-app.use('/api/orders', orderRoutes);
-app.use('/api/reviews', reviewRoutes);
+app.use("/api/orders", orderRoutes);
+app.use("/api/reviews", reviewRoutes);
 app.use("/api/youtube-videos", youtubeVideoRoutes);
-app.use('/api/payments', paymentRoutes);
-app.use('/api/email', emailRoutes);
+app.use("/api/payments", paymentRoutes);
+app.use("/api/email", emailRoutes);
 
-// Test route to verify API is working
-app.get("/api/test", (req, res) => {
-    res.json({
-        message: "API is working!",
-        timestamp: new Date().toISOString()
+
+
+// =====================
+// 🧪 Health Check
+// =====================
+
+app.get("/health", (req, res) => {
+    res.status(200).json({
+        status: "OK",
+        message: "Server is running",
+        time: new Date().toISOString()
     });
 });
 
-// Serve main pages
+
+
+// =====================
+// 🖥️ Frontend Routes
+// =====================
+
 app.get("/", (req, res) => {
     res.sendFile(path.join(__dirname, "../frontend/pages/home1.html"));
 });
+
 app.get("/signup", (req, res) => {
     res.sendFile(path.join(__dirname, "../frontend/pages/signup.html"));
 });
+
 app.get("/dashboard1", (req, res) => {
     res.sendFile(path.join(__dirname, "../frontend/pages/dashboard1.html"));
 });
+
 app.get("/orders1", (req, res) => {
     res.sendFile(path.join(__dirname, "../frontend/pages/orders1.html"));
 });
@@ -165,39 +175,41 @@ app.get("/admin1", (req, res) => {
 app.get("/youtube-admin1", (req, res) => {
     res.sendFile(path.join(__dirname, "../frontend/pages/youtube-admin1.html"));
 });
+
 app.get("/cart1", (req, res) => {
     res.sendFile(path.join(__dirname, "../frontend/pages/cart1.html"));
 });
+
 app.get("/description1", (req, res) => {
     res.sendFile(path.join(__dirname, "../frontend/pages/description1.html"));
 });
+
 app.get("/checkout_page1", (req, res) => {
     res.sendFile(path.join(__dirname, "../frontend/pages/checkout_page1.html"));
 });
+
 app.get("/confirmation1", (req, res) => {
     res.sendFile(path.join(__dirname, "../frontend/pages/confirmation1.html"));
 });
+
 app.get("/history1", (req, res) => {
     res.sendFile(path.join(__dirname, "../frontend/pages/history1.html"));
 });
+
 app.get("/product1", (req, res) => {
     res.sendFile(path.join(__dirname, "../frontend/pages/product1.html"));
 });
+
 app.get("/reviews1", (req, res) => {
     res.sendFile(path.join(__dirname, "../frontend/pages/reviews1.html"));
 });
 
 
-// Health check route for Render
-app.get("/health", (req, res) => {
-    res.status(200).json({
-        status: "OK",
-        message: "Server is running",
-        timestamp: new Date().toISOString()
-    });
-});
 
-// 404 handler - MUST BE LAST
+// =====================
+// ❌ 404 Handler
+// =====================
+
 app.use((req, res) => {
     res.status(404).json({
         error: "Route not found",
@@ -205,20 +217,28 @@ app.use((req, res) => {
     });
 });
 
-// Error handling middleware
+
+
+// =====================
+// 🧯 Error Handler
+// =====================
+
 app.use((err, req, res, next) => {
-    console.error("Server error:", err);
+    console.error("Server Error:", err);
     res.status(500).json({
-        error: "Internal server error",
+        error: "Internal Server Error",
         message: err.message
     });
 });
 
-// Start Server
+
+
+// =====================
+// 🚀 Start Server
+// =====================
+
 const PORT = process.env.PORT || 5000;
+
 app.listen(PORT, () => {
-    ////console.log(`🚀 Server running on port ${PORT}`);
-    //  ////console.log(`📍 Health check: http://localhost:${PORT}/health`);
-
+    console.log(`🚀 Server running on port ${PORT}`);
 });
-
