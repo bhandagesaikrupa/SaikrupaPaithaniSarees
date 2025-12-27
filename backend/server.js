@@ -97,7 +97,7 @@ const __dirname = path.dirname(__filename);
 const allowedOrigins = [
     "https://saikrupapaithanisarees-mdqk.onrender.com",
     "https://saikrupapaithanisarees-gvpg.onrender.com",
-    "https://saikrupapaithanisarees-h5mr.onrender.com/",
+    "https://saikrupapaithanisarees-h5mr.onrender.com",
     "http://localhost:3000",
     "http://localhost:5000",
     process.env.API_BASE_URL
