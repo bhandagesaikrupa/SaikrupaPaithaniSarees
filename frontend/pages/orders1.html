@@ -4101,7 +4101,7 @@
                 showLoadingState();
 
                 const token = getAuthToken();
-                const response = await fetch('${API_BASE_URL}/api/orders/all-orders', {
+                const response = await fetch(`${API_BASE_URL}/api/orders/all-orders`, {
                     headers: {
                         'Authorization': `Bearer ${token}`
                     }
