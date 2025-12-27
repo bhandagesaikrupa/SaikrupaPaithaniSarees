@@ -2741,12 +2741,12 @@ if (product.images && product.images.length > 0 && product.images[0]) {
           formData.append('images', compressedFile);
         }
 
-        //console.log("➕ Adding new product with compressed images...");
-        //console.log("📱 Upload details:", {
-          fileCount: images.length,
-          fileSizes: Array.from(images).map(f => `${f.name}: ${(f.size / 1024 / 1024).toFixed(2)}MB`),
-          compressedSizes: Array.from(formData.getAll('images')).map(f => `${f.name}: ${(f.size / 1024 / 1024).toFixed(2)}MB`)
-        });
+        // console.log("➕ Adding new product with compressed images...");
+        // console.log("📱 Upload details:", {
+        //   fileCount: images.length,
+        //   fileSizes: Array.from(images).map(f => `${f.name}: ${(f.size / 1024 / 1024).toFixed(2)}MB`),
+        //   compressedSizes: Array.from(formData.getAll('images')).map(f => `${f.name}: ${(f.size / 1024 / 1024).toFixed(2)}MB`)
+        // });
 
         const result = await handleMobileUpload(formData);
 
