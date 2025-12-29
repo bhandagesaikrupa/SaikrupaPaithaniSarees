@@ -743,11 +743,11 @@
           totalAmount: orderTotals.total
         };
 
-        //console.log("📧 Sending email notification:", {
-          to: customerEmail,
-          orderNumber: orderNumber,
-          paymentMethod: paymentMethod
-        });
+        // //console.log("📧 Sending email notification:", {
+        //   to: customerEmail,
+        //   orderNumber: orderNumber,
+        //   paymentMethod: paymentMethod
+        // });
 
         const response = await fetch(`${API_BASE_URL}/api/email/send-order-confirmation`, {
           method: 'POST',
