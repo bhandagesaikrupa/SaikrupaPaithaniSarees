@@ -1605,7 +1605,12 @@
 
             // Update cart count
             const cartCount = localStorage.getItem('cartCount') || '0';
-            document.querySelector('.cart-count').textContent = cartCount;
+            const cartCountElement = document.querySelector('.cart-count');
+            if (cartCountElement) {
+                const cartCount = localStorage.getItem('cartCount') || '0';
+                cartCountElement.textContent = cartCount;
+            }
+
 
             // Filter functionality
             document.getElementById('applyFilters').addEventListener('click', filterOrders);
