@@ -1232,13 +1232,13 @@
         async function apiCall(endpoint, method, data) {
             const API_BASE_URL = window.location.origin;
 
-            
             try {
-                const response = await fetch(`${baseUrl}${endpoint}`, {
+                const response = await fetch(`${API_BASE_URL}${endpoint}`, {
                     method: method,
                     headers: { "Content-Type": "application/json" },
                     body: JSON.stringify(data)
                 });
+
 
                 // Get response as text first
                 const responseText = await response.text();
