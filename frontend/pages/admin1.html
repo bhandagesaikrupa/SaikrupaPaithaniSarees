@@ -2215,7 +2215,7 @@ function navigateToOrders() {
     }
     
     // Verify token before navigating
-    fetch('http://localhost:5000/api/admin/verify', {
+    fetch('https://saikrupapaithanisarees-h5mr.onrender.com/api/admin/verify', {
         headers: {
             'Authorization': `Bearer ${adminToken}`
         }
@@ -2293,7 +2293,7 @@ function navigateToOrders() {
         
         try {
             // Verify token with backend
-            const response = await fetch('http://localhost:5000/api/admin/verify', {
+            const response = await fetch('https://saikrupapaithanisarees-h5mr.onrender.com/api/admin/verify', {
                 headers: {
                     'Authorization': `Bearer ${adminToken}`
                 }
