@@ -1,0 +1,1260 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Admin Login – Saikrupa Paithani</title>
+    <meta name="description" content="Admin login for Saikrupa Paithani management system" />
+    <link rel="icon" type="image/png" href="images/logo3.png" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css" />
+    <style>
+        @import url("https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;500;600;700&family=Playfair+Display:wght@400;500;600;700&display=swap");
+
+        :root {
+            --primary-color: #800000;
+            --primary-light: #b30000;
+            --gold: #D4AF37;
+            --light-gold: #F2E8C9;
+            --cream: #F8F4E3;
+            --dark-red: #680000;
+            --gray: #777;
+            --light-gray: #f5f5f5;
+            --white: #ffffff;
+            --black: #333333;
+            --admin-green: #2e7d32;
+            --admin-red: #c62828;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: "Montserrat", sans-serif;
+        }
+
+        body {
+            background: linear-gradient(rgba(0, 0, 0, 0.2), rgba(0, 0, 0, 0.2)),
+                url("images/bg.jpg") center center / cover no-repeat fixed;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            min-height: 100vh;
+            padding: 20px;
+        }
+
+        .container {
+            background-color: var(--white);
+            border-radius: 20px;
+            box-shadow: 0 15px 30px rgba(0, 0, 0, 0.3);
+            position: relative;
+            overflow: hidden;
+            width: 900px;
+            max-width: 100%;
+            min-height: 580px;
+            display: flex;
+        }
+
+        .form-container {
+            position: absolute;
+            top: 0;
+            height: 100%;
+            width: 50%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            transition: all 0.6s ease-in-out;
+            padding: 40px 0;
+        }
+
+        .sign-in {
+            left: 0;
+            z-index: 2;
+        }
+
+        .sign-up {
+            left: 0;
+            opacity: 0;
+            z-index: 1;
+        }
+
+        .container.active .sign-in {
+            transform: translateX(100%);
+        }
+
+        .container.active .sign-up {
+            transform: translateX(100%);
+            opacity: 1;
+            z-index: 5;
+            animation: move 0.6s;
+        }
+
+        @keyframes move {
+            0%, 49.99% { opacity: 0; z-index: 1; }
+            50%, 100% { opacity: 1; z-index: 5; }
+        }
+
+        form {
+            background-color: var(--white);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            padding: 0 50px;
+            width: 100%;
+            height: 100%;
+            justify-content: center;
+            overflow-y: auto;
+        }
+
+        .form-header {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            margin-bottom: 20px;
+        }
+
+        .logo {
+            width: 80px;
+            height: 80px;
+            background: linear-gradient(45deg, var(--primary-color), var(--gold));
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-bottom: 15px;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+        }
+
+        .logo i {
+            font-size: 40px;
+            color: var(--white);
+        }
+
+        form h1 {
+            color: var(--primary-color);
+            font-family: "Playfair Display", serif;
+            font-weight: 600;
+            font-size: 28px;
+            margin-bottom: 10px;
+            text-align: center;
+        }
+
+        .admin-badge {
+            background: linear-gradient(45deg, var(--primary-color), var(--admin-green));
+            color: var(--white);
+            padding: 6px 20px;
+            border-radius: 20px;
+            font-size: 13px;
+            font-weight: 600;
+            margin-bottom: 10px;
+        }
+
+        .form-subtitle {
+            color: var(--gray);
+            font-size: 14px;
+            text-align: center;
+            max-width: 300px;
+            margin-bottom: 10px;
+        }
+
+        .input-group {
+            width: 100%;
+            margin-bottom: 12px;
+            position: relative;
+        }
+
+        form input {
+            margin: 6px 0;
+            padding: 12px 15px;
+            width: 100%;
+            border-radius: 10px;
+            border: 1px solid var(--light-gray);
+            outline: none;
+            font-size: 14px;
+            transition: all 0.3s;
+            background-color: var(--light-gray);
+        }
+
+        form input:focus {
+            border-color: var(--primary-color);
+            box-shadow: 0 0 0 2px rgba(128, 0, 0, 0.1);
+            background-color: var(--white);
+        }
+
+        .input-icon {
+            position: absolute;
+            right: 15px;
+            top: 50%;
+            transform: translateY(-50%);
+            color: var(--gray);
+            font-size: 16px;
+        }
+
+        form button {
+            margin-top: 10px;
+            padding: 14px 45px;
+            border: none;
+            border-radius: 10px;
+            background: linear-gradient(to right, var(--primary-color), var(--dark-red));
+            color: #fff;
+            cursor: pointer;
+            transition: all 0.3s;
+            font-weight: 600;
+            font-size: 15px;
+            width: 100%;
+            box-shadow: 0 5px 15px rgba(128, 0, 0, 0.2);
+            position: relative;
+            overflow: hidden;
+        }
+
+        form button:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 20px rgba(128, 0, 0, 0.3);
+        }
+
+        .toggle-link {
+            text-decoration: none;
+            color: var(--primary-color);
+            margin-top: 15px;
+            font-size: 14px;
+            font-weight: 500;
+            transition: color 0.3s;
+            cursor: pointer;
+            text-align: center;
+            display: block;
+        }
+
+        .toggle-link:hover {
+            color: var(--dark-red);
+            text-decoration: underline;
+        }
+
+        /* Security Notice */
+        .security-notice {
+            margin-top: 15px;
+            padding: 10px;
+            background-color: #fff3cd;
+            border: 1px solid #ffeaa7;
+            border-radius: 8px;
+            color: #856404;
+            font-size: 12px;
+            text-align: center;
+            width: 100%;
+        }
+
+        .security-notice i {
+            margin-right: 5px;
+        }
+
+        /* Toggle Container */
+        .toggle-container {
+            position: absolute;
+            top: 0;
+            left: 50%;
+            width: 50%;
+            height: 100%;
+            overflow: hidden;
+            transition: all 0.6s ease-in-out;
+            z-index: 1000;
+        }
+
+        .container.active .toggle-container {
+            transform: translateX(-100%);
+        }
+
+        .toggle {
+            background: linear-gradient(to right, var(--dark-red), var(--primary-color));
+            height: 100%;
+            width: 200%;
+            position: relative;
+            color: #fff;
+            left: -100%;
+            transition: all 0.6s ease-in-out;
+            display: flex;
+        }
+
+        .container.active .toggle {
+            transform: translateX(50%);
+        }
+
+        .toggle-panel {
+            position: absolute;
+            width: 50%;
+            height: 100%;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            padding: 0 40px;
+            text-align: center;
+            top: 0;
+        }
+
+        .toggle-left {
+            transform: translateX(-200%);
+        }
+
+        .container.active .toggle-left {
+            transform: translateX(0);
+        }
+
+        .toggle-right {
+            right: 0;
+            transform: translateX(0);
+        }
+
+        .container.active .toggle-right {
+            transform: translateX(200%);
+        }
+
+        .toggle-panel h1 {
+            font-family: "Playfair Display", serif;
+            font-size: 28px;
+            margin-bottom: 15px;
+            color: var(--light-gold);
+        }
+
+        .toggle-panel p {
+            font-size: 15px;
+            margin-bottom: 25px;
+            line-height: 1.5;
+            color: var(--light-gold);
+        }
+
+        .toggle-btn {
+            padding: 12px 35px;
+            border: 2px solid var(--light-gold);
+            border-radius: 10px;
+            background: transparent;
+            color: var(--light-gold);
+            cursor: pointer;
+            transition: all 0.3s;
+            font-weight: 600;
+            font-size: 15px;
+        }
+
+        .toggle-btn:hover {
+            background-color: var(--light-gold);
+            color: var(--primary-color);
+        }
+
+        /* Loading Animation */
+        .loading-overlay {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.7);
+            z-index: 3000;
+            align-items: center;
+            justify-content: center;
+            flex-direction: column;
+        }
+
+        .loading-content {
+            background-color: var(--white);
+            border-radius: 15px;
+            padding: 30px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+        }
+
+        .logo-loader {
+            width: 80px;
+            height: 80px;
+            position: relative;
+            margin-bottom: 15px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .logo-loader .logo {
+            width: 60px;
+            height: 60px;
+            background: linear-gradient(45deg, var(--primary-color), var(--gold));
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+            animation: logoPulse 2s infinite ease-in-out;
+        }
+
+        .logo-loader .logo i {
+            font-size: 30px;
+            color: var(--white);
+        }
+
+        .loading-text {
+            color: var(--primary-color);
+            font-family: "Playfair Display", serif;
+            font-size: 18px;
+            margin-top: 10px;
+            text-align: center;
+        }
+
+        @keyframes logoPulse {
+            0%, 100% { transform: scale(1); box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2); }
+            50% { transform: scale(1.1); box-shadow: 0 8px 25px rgba(128, 0, 0, 0.3); }
+        }
+
+        /* Success/Error Messages */
+        .message-overlay {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.7);
+            z-index: 3000;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .message-content {
+            background-color: var(--white);
+            border-radius: 15px;
+            padding: 25px;
+            width: 350px;
+            max-width: 90%;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+            text-align: center;
+            position: relative;
+        }
+
+        .message-icon {
+            font-size: 45px;
+            margin-bottom: 15px;
+        }
+
+        .success-icon {
+            color: var(--admin-green);
+        }
+
+        .error-icon {
+            color: var(--admin-red);
+        }
+
+        .message-text {
+            font-size: 16px;
+            margin-bottom: 20px;
+            color: var(--black);
+            font-family: "Playfair Display", serif;
+        }
+
+        .message-btn {
+            padding: 12px 25px;
+            border: none;
+            border-radius: 10px;
+            background: linear-gradient(to right, var(--primary-color), var(--dark-red));
+            color: #fff;
+            cursor: pointer;
+            transition: all 0.3s;
+            font-weight: 600;
+            font-size: 15px;
+            width: 100%;
+        }
+
+        .message-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(128, 0, 0, 0.3);
+        }
+
+        /* Button Loading State */
+        .button-loading {
+            pointer-events: none;
+            opacity: 0.8;
+        }
+
+        .button-loading::after {
+            content: "";
+            position: absolute;
+            width: 18px;
+            height: 18px;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            margin: auto;
+            border: 2px solid transparent;
+            border-top-color: #ffffff;
+            border-radius: 50%;
+            animation: button-spinner 1s ease infinite;
+        }
+
+        @keyframes button-spinner {
+            from { transform: rotate(0turn); }
+            to { transform: rotate(1turn); }
+        }
+
+        /* Mobile Responsive Design - COMPACT */
+        @media (max-width: 768px) {
+            body {
+                padding: 10px;
+                min-height: 100vh;
+                display: flex;
+                align-items: center;
+                justify-content: center;
+            }
+
+            .container {
+                width: 100%;
+                max-width: 380px;
+                min-height: 500px;
+                max-height: 90vh;
+                overflow: hidden;
+                margin: auto;
+                border-radius: 15px;
+            }
+
+            .form-container {
+                width: 100%;
+                padding: 20px 0;
+                transition: transform 0.6s ease-in-out;
+                position: absolute;
+                height: 100%;
+            }
+
+            .sign-in { 
+                transform: translateX(0); 
+                z-index: 2;
+            }
+            
+            .sign-up { 
+                transform: translateX(100%); 
+                opacity: 1; 
+                z-index: 1; 
+            }
+            
+            .container.active .sign-in { 
+                transform: translateX(-100%); 
+            }
+            
+            .container.active .sign-up { 
+                transform: translateX(0); 
+                z-index: 5; 
+            }
+
+            .toggle-container { 
+                display: none; 
+            }
+            
+            form { 
+                padding: 0 25px;
+                justify-content: flex-start;
+                height: 100%;
+                overflow-y: auto;
+            }
+            
+            .form-header { 
+                margin-bottom: 15px; 
+                margin-top: 10px;
+            }
+            
+            .logo {
+                width: 60px;
+                height: 60px;
+                margin-bottom: 10px;
+            }
+            
+            .logo i {
+                font-size: 28px;
+            }
+            
+            form h1 { 
+                font-size: 22px; 
+                margin-bottom: 8px;
+            }
+            
+            .admin-badge {
+                padding: 4px 12px;
+                font-size: 11px;
+                margin-bottom: 8px;
+            }
+            
+            .form-subtitle {
+                font-size: 12px;
+                max-width: 250px;
+                margin-bottom: 15px;
+            }
+            
+            .input-group { 
+                margin-bottom: 10px; 
+                width: 100%;
+            }
+            
+            form input { 
+                padding: 10px 12px;
+                font-size: 13px;
+                margin: 4px 0;
+            }
+            
+            .input-icon {
+                font-size: 14px;
+                right: 12px;
+            }
+            
+            form button { 
+                padding: 12px;
+                font-size: 14px;
+                margin-top: 8px;
+            }
+            
+            .toggle-link {
+                font-size: 13px;
+                margin-top: 12px;
+                margin-bottom: 10px;
+            }
+            
+            .security-notice {
+                font-size: 10px;
+                padding: 8px;
+                margin-top: 12px;
+                line-height: 1.4;
+            }
+            
+            /* Mobile toggle buttons */
+            .mobile-toggle {
+                display: flex;
+                justify-content: center;
+                margin-top: 15px;
+                gap: 10px;
+                width: 100%;
+                padding-bottom: 15px;
+            }
+            
+            .mobile-toggle-btn {
+                padding: 10px 15px;
+                border: 2px solid var(--primary-color);
+                border-radius: 8px;
+                background: transparent;
+                color: var(--primary-color);
+                cursor: pointer;
+                transition: all 0.3s;
+                font-weight: 600;
+                font-size: 12px;
+                flex: 1;
+                max-width: 160px;
+                text-align: center;
+            }
+            
+            .mobile-toggle-btn.active {
+                background: var(--primary-color);
+                color: var(--white);
+            }
+            
+            .mobile-toggle-btn:hover {
+                background: var(--primary-color);
+                color: var(--white);
+            }
+
+            /* Loading overlay for mobile */
+            .loading-content {
+                width: 85%;
+                max-width: 280px;
+                padding: 25px 20px;
+            }
+            
+            .logo-loader {
+                width: 70px;
+                height: 70px;
+            }
+            
+            .logo-loader .logo {
+                width: 50px;
+                height: 50px;
+            }
+            
+            .logo-loader .logo i {
+                font-size: 25px;
+            }
+            
+            .loading-text {
+                font-size: 16px;
+            }
+            
+            /* Message overlay for mobile */
+            .message-content {
+                width: 85%;
+                max-width: 320px;
+                padding: 20px;
+            }
+            
+            .message-icon {
+                font-size: 40px;
+            }
+            
+            .message-text {
+                font-size: 15px;
+                margin-bottom: 15px;
+            }
+            
+            .message-btn {
+                padding: 12px;
+                font-size: 14px;
+            }
+        }
+
+        /* Extra small devices */
+        @media (max-width: 480px) {
+            body {
+                padding: 5px;
+            }
+            
+            .container {
+                min-height: 480px;
+                max-height: 95vh;
+                margin: 5px auto;
+            }
+            
+            form {
+                padding: 0 20px;
+            }
+            
+            .logo {
+                width: 55px;
+                height: 55px;
+            }
+            
+            .logo i {
+                font-size: 25px;
+            }
+            
+            form h1 {
+                font-size: 20px;
+            }
+            
+            .admin-badge {
+                font-size: 10px;
+                padding: 3px 10px;
+            }
+            
+            .form-subtitle {
+                font-size: 11px;
+                max-width: 220px;
+            }
+            
+            form input {
+                padding: 9px 10px;
+                font-size: 12px;
+            }
+            
+            form button {
+                padding-bottom: 25px;
+                font-size: 13px;
+            }
+            
+            .toggle-link {
+                font-size: 12px;
+            }
+            
+            .security-notice {
+                font-size: 9px;
+                padding: 7px;
+            }
+            
+            .mobile-toggle-btn {
+                padding: 8px 12px;
+                font-size: 11px;
+                max-width: 140px;
+            }
+            
+            /* Adjust scroll for forms */
+            form {
+                overflow-y: auto;
+                scrollbar-width: thin;
+            }
+            
+            form::-webkit-scrollbar {
+                width: 4px;
+            }
+            
+            form::-webkit-scrollbar-track {
+                background: #f1f1f1;
+            }
+            
+            form::-webkit-scrollbar-thumb {
+                background: #888;
+                border-radius: 2px;
+            }
+        }
+
+        /* Tablet adjustments */
+        @media (min-width: 481px) and (max-width: 768px) {
+            .container {
+                max-width: 420px;
+                min-height: 520px;
+            }
+            
+            form {
+                padding: 0 30px;
+            }
+            
+            .logo {
+                width: 65px;
+                height: 65px;
+            }
+            
+            .logo i {
+                font-size: 30px;
+            }
+            
+            form h1 {
+                font-size: 24px;
+            }
+            
+            .mobile-toggle-btn {
+                max-width: 170px;
+                padding: 11px 20px;
+                font-size: 13px;
+            }
+             form button {
+                padding: 20px;
+                font-size: 20px;
+            }
+        }
+
+        @media (min-width: 769px) {
+            .mobile-toggle { display: none; }
+        }
+    </style>
+</head>
+<body>
+    <div class="container" id="container">
+        <!-- Admin Sign Up -->
+        <div class="form-container sign-up">
+            <form id="adminSignupForm">
+                <div class="form-header">
+                    <div class="logo">
+                        <i class="fas fa-user-shield"></i>
+                    </div>
+                    <h1>Create Admin Account</h1>
+                    <div class="admin-badge">ADMIN ACCESS</div>
+                    <p class="form-subtitle">Restricted to authorized personnel only</p>
+                </div>
+
+                <div class="input-group">
+                    <input type="text" name="name" placeholder="Full Name" required />
+                    <i class="fas fa-user input-icon"></i>
+                </div>
+
+                <div class="input-group">
+                    <input type="email" name="email" placeholder="Admin Email" required />
+                    <i class="fas fa-envelope input-icon"></i>
+                </div>
+
+                <div class="input-group">
+                    <input type="password" name="password" placeholder="Password (min. 8)" required minlength="8" />
+                    <i class="fas fa-lock input-icon"></i>
+                </div>
+
+                <div class="input-group">
+                    <input type="password" name="confirmPassword" placeholder="Confirm Password" required minlength="8" />
+                    <i class="fas fa-lock input-icon"></i>
+                </div>
+
+                <div class="input-group">
+                    <input type="text" name="adminKey" placeholder="Admin Registration Key" required />
+                    <i class="fas fa-key input-icon"></i>
+                </div>
+
+                <button type="submit">Create Admin Account</button>
+
+                <div class="toggle-link" id="gotoLoginLink">
+                    Already have an account? <strong>Login Here</strong>
+                </div>
+
+                <div class="security-notice">
+                    <i class="fas fa-exclamation-triangle"></i>
+                    Admin accounts have full access. Keep credentials secure.
+                </div>
+
+                <!-- Mobile Toggle Button -->
+                <div class="mobile-toggle">
+                    <button class="mobile-toggle-btn" id="mobileLoginBtn">
+                        Admin Login
+                    </button>
+                </div>
+            </form>
+        </div>
+
+        <!-- Admin Sign In -->
+        <div class="form-container sign-in">
+            <form id="adminLoginForm">
+                <div class="form-header">
+                    <div class="logo">
+                        <i class="fas fa-user-shield"></i>
+                    </div>
+                    <h1>Admin Login</h1>
+                    <div class="admin-badge">ADMINISTRATOR</div>
+                    <p class="form-subtitle">Access the admin dashboard</p>
+                </div>
+
+                <div class="input-group">
+                    <input type="email" name="email" placeholder="Admin Email" required />
+                    <i class="fas fa-envelope input-icon"></i>
+                </div>
+
+                <div class="input-group">
+                    <input type="password" name="password" placeholder="Admin Password" required />
+                    <i class="fas fa-lock input-icon"></i>
+                </div>
+
+                <button type="submit">Login to Dashboard</button>
+
+                <div class="toggle-link" id="gotoSignupLink">
+                    Don't have an admin account? <strong>Create Account</strong>
+                </div>
+
+                <div class="security-notice">
+                    <i class="fas fa-shield-alt"></i>
+                    Restricted to authorized administrators only.
+                </div>
+
+                <!-- Mobile Toggle Button -->
+                <div class="mobile-toggle">
+                    <button class="mobile-toggle-btn active" id="mobileSignupBtn">
+                        Create Admin Account
+                    </button>
+                </div>
+            </form>
+        </div>
+
+        <!-- Toggle for Desktop -->
+        <div class="toggle-container">
+            <div class="toggle">
+                <div class="toggle-panel toggle-left">
+                    <h1>Welcome Back, Admin!</h1>
+                    <p>Access the admin dashboard to manage products, orders, users, and settings.</p>
+                    <button class="toggle-btn" id="loginBtn">Admin Login</button>
+                </div>
+                <div class="toggle-panel toggle-right">
+                    <h1>New Admin?</h1>
+                    <p>Create a new admin account to manage the Paithani e-commerce platform. Requires registration key.</p>
+                    <button class="toggle-btn" id="registerBtn">Create Account</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Loading Overlay -->
+    <div class="loading-overlay" id="loadingOverlay">
+        <div class="loading-content">
+            <div class="logo-loader">
+                <div class="logo">
+                    <i class="fas fa-user-shield"></i>
+                </div>
+            </div>
+            <div class="loading-text" id="loadingText">Processing...</div>
+        </div>
+    </div>
+
+    <!-- Message Overlay -->
+    <div class="message-overlay" id="messageOverlay">
+        <div class="message-content">
+            <div class="message-icon" id="messageIcon">
+                <i class="fas fa-check-circle success-icon"></i>
+            </div>
+            <div class="message-text" id="messageText">Operation completed successfully!</div>
+            <button class="message-btn" id="messageBtn">OK</button>
+        </div>
+    </div>
+
+    <script>
+        // DOM Elements
+        const container = document.getElementById("container");
+        const registerBtn = document.getElementById("registerBtn");
+        const loginBtn = document.getElementById("loginBtn");
+        const mobileSignupBtn = document.getElementById("mobileSignupBtn");
+        const mobileLoginBtn = document.getElementById("mobileLoginBtn");
+        const gotoSignupLink = document.getElementById("gotoSignupLink");
+        const gotoLoginLink = document.getElementById("gotoLoginLink");
+        const loadingOverlay = document.getElementById("loadingOverlay");
+        const loadingText = document.getElementById("loadingText");
+        const messageOverlay = document.getElementById("messageOverlay");
+        const messageIcon = document.getElementById("messageIcon");
+        const messageText = document.getElementById("messageText");
+        const messageBtn = document.getElementById("messageBtn");
+
+        // Toggle panels for desktop
+        registerBtn.addEventListener("click", () => {
+            container.classList.add("active");
+            updateMobileButtons('signup');
+        });
+        
+        loginBtn.addEventListener("click", () => {
+            container.classList.remove("active");
+            updateMobileButtons('login');
+        });
+
+        // Mobile toggle buttons with sliding effect
+        mobileSignupBtn.addEventListener("click", () => {
+            container.classList.add("active");
+            updateMobileButtons('signup');
+        });
+        
+        mobileLoginBtn.addEventListener("click", () => {
+            container.classList.remove("active");
+            updateMobileButtons('login');
+        });
+
+        // Toggle links for both desktop and mobile
+        gotoSignupLink.addEventListener("click", () => {
+            container.classList.add("active");
+            updateMobileButtons('signup');
+        });
+
+        gotoLoginLink.addEventListener("click", () => {
+            container.classList.remove("active");
+            updateMobileButtons('login');
+        });
+
+        // Update mobile button states
+        function updateMobileButtons(activePanel) {
+            if (activePanel === 'signup') {
+                mobileSignupBtn.classList.add('active');
+                mobileLoginBtn.classList.remove('active');
+            } else {
+                mobileSignupBtn.classList.remove('active');
+                mobileLoginBtn.classList.add('active');
+            }
+        }
+
+        // Show loading overlay
+        function showLoading(text = "Processing...") {
+            loadingText.textContent = text;
+            loadingOverlay.style.display = "flex";
+        }
+
+        // Hide loading overlay
+        function hideLoading() {
+            loadingOverlay.style.display = "none";
+        }
+
+        // Show message overlay
+        function showMessage(text, isSuccess = true) {
+            messageText.textContent = text;
+            if (isSuccess) {
+                messageIcon.innerHTML = '<i class="fas fa-check-circle success-icon"></i>';
+            } else {
+                messageIcon.innerHTML = '<i class="fas fa-exclamation-circle error-icon"></i>';
+            }
+            messageOverlay.style.display = "flex";
+        }
+
+        // Hide message overlay
+        function hideMessage() {
+            messageOverlay.style.display = "none";
+        }
+
+        // Set button loading state
+        function setButtonLoading(button, isLoading) {
+            if (isLoading) {
+                button.classList.add("button-loading");
+                button.disabled = true;
+            } else {
+                button.classList.remove("button-loading");
+                button.disabled = false;
+            }
+        }
+
+        // Message button click
+        messageBtn.addEventListener("click", () => hideMessage());
+
+        // Close message when clicking outside
+        window.addEventListener("click", (e) => {
+            if (e.target === messageOverlay) hideMessage();
+        });
+
+        // Auto-hide keyboard on mobile after form submission
+        function hideKeyboardOnMobile() {
+            if (window.innerWidth <= 768) {
+                document.activeElement.blur();
+            }
+        }
+
+        // Admin Signup form
+        document.getElementById("adminSignupForm").addEventListener("submit", async (e) => {
+            e.preventDefault();
+            const submitBtn = e.target.querySelector('button[type="submit"]');
+            
+            const formData = new FormData(e.target);
+            const data = {
+                name: formData.get('name'),
+                email: formData.get('email'),
+                password: formData.get('password'),
+                adminKey: formData.get('adminKey')
+            };
+            const confirmPassword = formData.get('confirmPassword');
+            
+            // Validation
+            if (data.password !== confirmPassword) {
+                showMessage("Passwords do not match!", false);
+                return;
+            }
+            
+            if (data.password.length < 8) {
+                showMessage("Password must be at least 8 characters long!", false);
+                return;
+            }
+            
+            setButtonLoading(submitBtn, true);
+            showLoading("Creating admin account...");
+            hideKeyboardOnMobile();
+
+            try {
+                const result = await apiCall("/api/admin/register", "POST", data);
+                
+                if (result.ok) {
+                    showMessage("Admin account created successfully!");
+                    e.target.reset();
+                    // Auto switch to login panel
+                    setTimeout(() => {
+                        container.classList.remove("active");
+                        updateMobileButtons('login');
+                    }, 1500);
+                } else {
+                    showMessage(result.data.message || "Admin registration failed", false);
+                }
+            } catch (err) {
+                console.error("Admin signup error:", err);
+                showMessage(`Error: ${err.message}`, false);
+            } finally {
+                hideLoading();
+                setButtonLoading(submitBtn, false);
+            }
+        });
+
+        // Admin Login form
+        document.getElementById("adminLoginForm").addEventListener("submit", async (e) => {
+            e.preventDefault();
+            const submitBtn = e.target.querySelector('button[type="submit"]');
+            
+            setButtonLoading(submitBtn, true);
+            showLoading("Authenticating...");
+            hideKeyboardOnMobile();
+
+            try {
+                const formData = new FormData(e.target);
+                const data = {
+                    email: formData.get('email'),
+                    password: formData.get('password')
+                };
+
+                const result = await apiCall("/api/admin/login", "POST", data);
+
+                if (result.ok) {
+                    // Store admin token and data
+                    localStorage.setItem("adminToken", result.data.token);
+                    localStorage.setItem("admin", JSON.stringify(result.data.admin));
+                    
+                    showMessage("Admin login successful! Redirecting...");
+                    
+                    // Redirect to admin dashboard
+                    setTimeout(() => {
+                        window.location.href = "admin.html";
+                    }, 1500);
+                } else {
+                    showMessage(result.data.message || "Login failed. Please check your credentials.", false);
+                }
+            } catch (err) {
+                console.error("Admin login error:", err);
+                showMessage(`Error: ${err.message}`, false);
+            } finally {
+                hideLoading();
+                setButtonLoading(submitBtn, false);
+            }
+        });
+
+        // Initialize mobile view on load
+        window.addEventListener('load', function() {
+            // Check if mobile and set active class accordingly
+            if (window.innerWidth <= 768) {
+                container.classList.remove("active");
+                updateMobileButtons('login');
+            }
+            
+            // Adjust form height for mobile
+            if (window.innerWidth <= 768) {
+                const formContainers = document.querySelectorAll('.form-container');
+                formContainers.forEach(container => {
+                    container.style.height = '100%';
+                    container.style.minHeight = 'auto';
+                });
+            }
+        });
+
+        // Handle window resize
+        window.addEventListener('resize', function() {
+            if (window.innerWidth <= 768) {
+                container.classList.remove("active");
+                updateMobileButtons('login');
+                const formContainers = document.querySelectorAll('.form-container');
+                formContainers.forEach(container => {
+                    container.style.height = '100%';
+                    container.style.minHeight = 'auto';
+                });
+            } else {
+                const formContainers = document.querySelectorAll('.form-container');
+                formContainers.forEach(container => {
+                    container.style.height = '100%';
+                    container.style.minHeight = 'auto';
+                });
+            }
+        });
+
+        // Add smooth scrolling for better mobile experience
+        document.querySelectorAll('form input').forEach(input => {
+            input.addEventListener('focus', function() {
+                if (window.innerWidth <= 768) {
+                    // Scroll to input position
+                    setTimeout(() => {
+                        this.scrollIntoView({ behavior: 'smooth', block: 'center' });
+                    }, 300);
+                }
+            });
+        });
+
+        // Prevent form zoom on mobile input focus
+        document.addEventListener('touchstart', function(e) {
+            if (e.target.tagName === 'INPUT' || e.target.tagName === 'TEXTAREA') {
+                document.body.style.zoom = "100%";
+            }
+        }, false);
+
+        // API call helper function
+        async function apiCall(endpoint, method, data) {
+            const baseUrl = "http://localhost:5000";
+            
+            try {
+                const response = await fetch(`${baseUrl}${endpoint}`, {
+                    method: method,
+                    headers: { "Content-Type": "application/json" },
+                    body: JSON.stringify(data)
+                });
+
+                // Get response as text first
+                const responseText = await response.text();
+                
+                // Try to parse as JSON
+                try {
+                    const result = JSON.parse(responseText);
+                    return { ok: response.ok, data: result };
+                } catch (parseError) {
+                    console.error("❌ Failed to parse JSON:", parseError);
+                    throw new Error("Server returned invalid response");
+                }
+            } catch (error) {
+                console.error(`API call to ${endpoint} failed:`, error);
+                throw new Error("Network error. Please check your connection.");
+            }
+        }
+    </script>
+</body>
+</html>

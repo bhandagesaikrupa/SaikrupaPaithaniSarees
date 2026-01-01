@@ -80,7 +80,7 @@ import reviewRoutes from "./routes/reviewRoutes.js";
 import youtubeVideoRoutes from "./routes/youtubeVideoRoutes.js";
 import paymentRoutes from "./routes/paymentRoutes.js";
 import emailRoutes from "./routes/emailRoutes.js";
-
+import adminRoutes from "./routes/adminRoutes.js";
 dotenv.config();
 connectDB();
 
@@ -131,6 +131,8 @@ app.use("/api/reviews", reviewRoutes);
 app.use("/api/youtube-videos", youtubeVideoRoutes);
 app.use("/api/payments", paymentRoutes);
 app.use("/api/email", emailRoutes);
+app.use("/api/admin", adminRoutes);
+
 
 
 
