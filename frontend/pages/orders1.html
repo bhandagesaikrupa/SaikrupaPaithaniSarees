@@ -4440,7 +4440,8 @@
                         <div class="flex items-center justify-between p-3 bg-gray-50 rounded-lg">
                             <div class="flex items-center">
                                 <div class="w-12 h-12 bg-gray-200 rounded-lg mr-3 flex items-center justify-center overflow-hidden">
-                                    ${item.image ? `<img src="${item.image}" alt="${item.name}" class="w-full h-full object-cover">` : `<i class="fas fa-tshirt text-primary"></i>`}
+                                    ${item.image ? `<img src="${API_BASE_URL}${item.image}" alt="${item.name}" class="w-full h-full object-cover">` : `<i class="fas fa-tshirt text-primary"></i>`}
+
                                 </div>
                                 <div>
                                     <div class="font-medium">${item.name}</div>
