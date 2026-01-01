@@ -1230,7 +1230,8 @@
 
         // API call helper function
         async function apiCall(endpoint, method, data) {
-            const baseUrl = "http://localhost:5000";
+            const API_BASE_URL = window.location.origin;
+
             
             try {
                 const response = await fetch(`${baseUrl}${endpoint}`, {
