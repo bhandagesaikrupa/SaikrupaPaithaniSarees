@@ -1,69 +1,3 @@
-// import express from "express";
-// import dotenv from "dotenv";
-// import cors from "cors";
-// import path from "path";
-// import { fileURLToPath } from "url";
-
-// import connectDB from "./config/db.js";
-// import authRoutes from "./routes/auth.js";
-// import productRoutes from "./routes/product.js"; // ✅ newly added
-// import cartRoutes from "./routes/cartRoutes.js";
-// import { authenticate } from "./middleware/auth.js";
-// import orderRoutes from './routes/orderRoutes.js';
-// import reviewRoutes from './routes/reviewRoutes.js';
-// import youtubeVideoRoutes from "./routes/youtubeVideoRoutes.js";
-//  import paymentRoutes from './routes/paymentRoutes.js';
-//  import emailRoutes from './routes/emailRoutes.js';
-
-// // Load environment variables
-// dotenv.config();
-
-// // Connect to MongoDB
-// connectDB();
-
-// const app = express();
-
-// // Middleware
-// app.use(cors());
-// app.use(express.json());
-
-// // Serve frontend static files
-// const __filename = fileURLToPath(import.meta.url);
-// const __dirname = path.dirname(__filename);
-// app.use(express.static(path.join(__dirname, "../frontend/pages")));
-// app.use("/uploads", express.static(path.join(path.resolve(), "uploads")));
-
-// // Default route - serve homepage
-// app.get("/", (req, res) => {
-//   res.sendFile(path.join(__dirname, "../frontend/pages/home1.html"));
-// });
-// app.get("/admin", (req, res) => {
-//   res.sendFile(path.join(__dirname, "../frontend/pages/admin.html"));
-// });
-
-// // API Routes
-// app.use("/api/auth", authRoutes);
-// app.use("/api/products", productRoutes); // ✅ added product management routes
-// app.use("/api/cart", authenticate, cartRoutes);
-// app.use('/api/orders', orderRoutes);
-// app.use('/api/reviews', reviewRoutes);
-// app.use("/api/youtube-videos", youtubeVideoRoutes);
-//  app.use('/api/payments', paymentRoutes);
-//  app.use('/api/email', emailRoutes);
-
-// app.use((req, res) => {
-//   res.sendFile(path.join(__dirname, "../frontend/pages/home1.html"));
-// });
-
-// // 404 Fallback for unknown routes
-// // app.use((req, res) => {
-// //   res.status(404).sendFile(path.join(__dirname, "../frontend/pages/404.html"));
-// // });
-
-// // Start Server
-// const PORT = process.env.PORT || 5000;
-// app.listen(PORT, () => ////console.log(`🚀 Server running on port ${PORT}`));
-
 import express from "express";
 import dotenv from "dotenv";
 import cors from "cors";
@@ -81,48 +15,36 @@ import youtubeVideoRoutes from "./routes/youtubeVideoRoutes.js";
 import paymentRoutes from "./routes/paymentRoutes.js";
 import emailRoutes from "./routes/emailRoutes.js";
 import adminRoutes from "./routes/adminRoutes.js";
+
 dotenv.config();
 connectDB();
 
 const app = express();
 
-// Needed for ES Modules
+// ES Modules path fix
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 
-
-
 // =====================
-// 🌐 Middleware
+// 🌐 Middleware (SAFE + STABLE)
 // =====================
-
-// ✅ SIMPLE & SAFE CORS — fixes all your CORS issues
-app.use(cors({
-    origin: true,
-    methods: ["GET", "POST", "PUT", "DELETE"],
-    credentials: true
-}));
-
+app.use(cors({ origin: true, credentials: true }));
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
-
-
 // =====================
-// 📁 Static Files
+// 📁 Static Files (OLD BEHAVIOR RESTORED)
 // =====================
 
-app.use(express.static(path.join(__dirname, "public")));
-app.use(express.static(path.join(__dirname, "../frontend")));
+// Frontend pages
 app.use(express.static(path.join(__dirname, "../frontend/pages")));
-app.use("/uploads", express.static(path.join(__dirname, "uploads")));
 
-
+// Uploads — EXACTLY like your old working setup
+app.use("/uploads", express.static(path.join(path.resolve(), "uploads")));
 
 // =====================
 // 🔌 API Routes
 // =====================
-
 app.use("/api/auth", authRoutes);
 app.use("/api/products", productRoutes);
 app.use("/api/cart", authenticate, cartRoutes);
@@ -133,13 +55,9 @@ app.use("/api/payments", paymentRoutes);
 app.use("/api/email", emailRoutes);
 app.use("/api/admin", adminRoutes);
 
-
-
-
 // =====================
 // 🧪 Health Check
 // =====================
-
 app.get("/health", (req, res) => {
     res.status(200).json({
         status: "OK",
@@ -148,12 +66,9 @@ app.get("/health", (req, res) => {
     });
 });
 
-
-
 // =====================
 // 🖥️ Frontend Routes
 // =====================
-
 app.get("/", (req, res) => {
     res.sendFile(path.join(__dirname, "../frontend/pages/home1.html"));
 });
@@ -206,25 +121,16 @@ app.get("/reviews1", (req, res) => {
     res.sendFile(path.join(__dirname, "../frontend/pages/reviews1.html"));
 });
 
-
-
 // =====================
-// ❌ 404 Handler
+// 🧭 FINAL FALLBACK — FIXES ALL 404 FRONTEND ISSUES
 // =====================
-
 app.use((req, res) => {
-    res.status(404).json({
-        error: "Route not found",
-        path: req.path
-    });
+    res.sendFile(path.join(__dirname, "../frontend/pages/home1.html"));
 });
-
-
 
 // =====================
 // 🧯 Error Handler
 // =====================
-
 app.use((err, req, res, next) => {
     console.error("Server Error:", err);
     res.status(500).json({
@@ -233,12 +139,9 @@ app.use((err, req, res, next) => {
     });
 });
 
-
-
 // =====================
 // 🚀 Start Server
 // =====================
-
 const PORT = process.env.PORT || 5000;
 
 app.listen(PORT, () => {
