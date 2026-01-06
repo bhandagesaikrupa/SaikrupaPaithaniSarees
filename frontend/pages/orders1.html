@@ -4097,38 +4097,30 @@
         }
 
         // Load orders from API
-        async function loadOrders() {
-    try {
-        const token = localStorage.getItem("adminToken");
+async function loadOrders() {
+    const token = localStorage.getItem("adminToken");
 
-        if (!token) {
-            alert("Admin not logged in");
-            return;
-        }
-
-        const response = await fetch(
-            "https://saikrupapaithanisarees-h5mr.onrender.com/api/orders/all-orders",
-            {
-                method: "GET",
-                headers: {
-                    "Content-Type": "application/json",
-                    "Authorization": "Bearer " + token
-                }
+    const response = await fetch(
+        "https://saikrupapaithanisarees-h5mr.onrender.com/api/orders/all-orders",
+        {
+            method: "GET",
+            headers: {
+                "Content-Type": "application/json",
+                "Authorization": `Bearer ${token}`   // 👈 THIS WAS MISSING / WRONG
             }
-        );
-
-        if (!response.ok) {
-            const errText = await response.text();
-            console.error("Server Response:", errText);
-            throw new Error("Failed to fetch orders");
         }
+    );
 
-        const data = await response.json();
-        console.log("Orders:", data);
-    } catch (error) {
-        console.error("Error loading orders:", error);
+    const data = await response.json();
+
+    if (!response.ok) {
+        console.log("Server Response:", data);
+        throw new Error("Failed to fetch orders");
     }
+
+    console.log("Orders:", data);
 }
+
 
 
 
