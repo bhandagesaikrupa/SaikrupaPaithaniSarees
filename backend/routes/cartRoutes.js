@@ -46,13 +46,22 @@ router.post("/add", authenticate, async (req, res) => {
     const qty = parseInt(quantity) || 1;
     if (isNaN(qty) || qty <= 0) return res.status(400).json({ success: false, message: "Quantity must be positive" });
 
+    // Find and update product stock
     const product = await Product.findById(productId);
     if (!product) return res.status(404).json({ success: false, message: "Product not found" });
 
+    if (product.stock < qty) {
+      return res.status(400).json({ success: false, message: `Only ${product.stock} units available in stock` });
+    }
+
+    // Decrement stock
+    product.stock -= qty;
+    await product.save();
+
     let cart = await getOrCreateCart(userId);
 
-    // Check if item already exists
-    const itemIndex = cart.items.findIndex(item => item.productId.equals(productId));
+    // Check if item already exists in cart
+    const itemIndex = cart.items.findIndex(item => item.productId && item.productId._id.toString() === productId);
 
     if (itemIndex > -1) {
       cart.items[itemIndex].quantity += qty;
@@ -69,7 +78,7 @@ router.post("/add", authenticate, async (req, res) => {
     await cart.save();
     await cart.populate("items.productId");
 
-    return res.json({ success: true, message: "Product added to cart", cart });
+    return res.json({ success: true, message: "Product added to cart", cart, newStock: product.stock });
 
   } catch (err) {
     console.error("Add to Cart Error:", err);
@@ -82,21 +91,38 @@ router.put("/update/:productId", authenticate, async (req, res) => {
   try {
     const userId = req.userId;
     const { productId } = req.params;
-    const qty = parseInt(req.body.quantity);
+    const newQty = parseInt(req.body.quantity);
 
-    if (isNaN(qty) || qty <= 0) return res.status(400).json({ success: false, message: "Quantity must be positive" });
+    if (isNaN(newQty) || newQty <= 0) return res.status(400).json({ success: false, message: "Quantity must be positive" });
 
     let cart = await getOrCreateCart(userId);
 
-    const item = cart.items.find(item => item.productId.equals(productId));
+    const item = cart.items.find(item => item.productId && item.productId._id.toString() === productId);
     if (!item) return res.status(404).json({ success: false, message: "Item not found in cart" });
 
-    item.quantity = qty;
+    const product = await Product.findById(productId);
+    if (!product) return res.status(404).json({ success: false, message: "Product not found" });
 
+    const qtyDiff = newQty - item.quantity;
+
+    if (qtyDiff > 0) {
+      // Increasing quantity - Check stock
+      if (product.stock < qtyDiff) {
+        return res.status(400).json({ success: false, message: `Only ${product.stock} more units available` });
+      }
+      product.stock -= qtyDiff;
+    } else if (qtyDiff < 0) {
+      // Decreasing quantity - Return to stock
+      product.stock += Math.abs(qtyDiff);
+    }
+
+    item.quantity = newQty;
+
+    await product.save();
     await cart.save();
     await cart.populate("items.productId");
 
-    return res.json({ success: true, message: "Cart updated", cart });
+    return res.json({ success: true, message: "Cart updated", cart, newStock: product.stock });
 
   } catch (err) {
     console.error("Update Cart Error:", err);
@@ -112,7 +138,17 @@ router.delete("/remove/:productId", authenticate, async (req, res) => {
 
     let cart = await getOrCreateCart(userId);
 
-    cart.items = cart.items.filter(item => !item.productId.equals(productId));
+    const itemIndex = cart.items.findIndex(item => item.productId && item.productId._id.toString() === productId);
+    if (itemIndex === -1) return res.status(404).json({ success: false, message: "Item not found in cart" });
+
+    // Return stock to product
+    const product = await Product.findById(productId);
+    if (product) {
+      product.stock += cart.items[itemIndex].quantity;
+      await product.save();
+    }
+
+    cart.items.splice(itemIndex, 1);
     await cart.save();
     await cart.populate("items.productId");
 
@@ -129,6 +165,15 @@ router.delete("/clear", authenticate, async (req, res) => {
   try {
     const userId = req.userId;
     const cart = await getOrCreateCart(userId);
+
+    // Return all items to stock
+    for (const item of cart.items) {
+      const product = await Product.findById(item.productId);
+      if (product) {
+        product.stock += item.quantity;
+        await product.save();
+      }
+    }
 
     cart.items = [];
     await cart.save();
