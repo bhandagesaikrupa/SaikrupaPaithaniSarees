@@ -1380,49 +1380,7 @@
           // Show loading animation
           showLoading("Adding to Cart...");
 
-          // Get current product details from database to ensure we have latest stock
-          const productResponse = await fetch(`${API_BASE_URL}/api/products/${productId}`);
-          if (!productResponse.ok) {
-            throw new Error("Failed to fetch product details");
-          }
-
-          const productResult = await productResponse.json();
-          const currentProduct = productResult;
-
-          // Validate stock
-          if (currentProduct.stock === 0) {
-            throw new Error("This product is out of stock");
-          }
-
-          if (quantity > currentProduct.stock) {
-            throw new Error(`Only ${currentProduct.stock} units available in stock`);
-          }
-
-          // Calculate new stock and update product in database
-          const newStock = currentProduct.stock - quantity;
-
-          const updateResponse = await fetch(`${API_BASE_URL}/api/products/${productId}`, {
-            method: 'PUT',
-            headers: {
-              'Content-Type': 'application/json',
-              "Authorization": `Bearer ${authToken}`
-            },
-            body: JSON.stringify({
-              name: currentProduct.name,
-              price: currentProduct.price,
-              category: currentProduct.category,
-              stock: newStock,
-              description: currentProduct.description,
-              images: currentProduct.images
-            })
-          });
-
-          if (!updateResponse.ok) {
-            const errorData = await updateResponse.json();
-            throw new Error(errorData.error || 'Failed to update stock');
-          }
-
-          // Add to cart
+          // Add to cart - Backend now handles stock decrement automatically
           const requestBody = {
             productId: productId,
             quantity: quantity
@@ -1452,10 +1410,10 @@
             hideLoading();
             showMessage("Product added to cart successfully!");
 
-            // Update local products array with new stock
+            // Update local products array with new stock from the server response
             const productIndex = products.findIndex(p => p._id === productId);
-            if (productIndex !== -1) {
-              products[productIndex].stock = newStock;
+            if (productIndex !== -1 && result.newStock !== undefined) {
+              products[productIndex].stock = result.newStock;
             }
 
             // Refresh display to show updated stock

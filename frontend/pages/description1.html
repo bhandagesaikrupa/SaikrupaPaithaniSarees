@@ -2565,34 +2565,7 @@ document.addEventListener("DOMContentLoaded", async () => {
           return;
         }
 
-        // Calculate new stock
-        const newStock = currentProduct.stock - quantity;
-
-        // Update product in database using the main update endpoint
-        const updateResponse = await fetch(`${API_BASE_URL}/api/products/${currentProduct._id}`, {
-          method: 'PUT',
-          headers: {
-            'Content-Type': 'application/json',
-            "Authorization": `Bearer ${authToken}`
-          },
-          body: JSON.stringify({
-            name: currentProduct.name,
-            price: currentProduct.price,
-            category: currentProduct.category,
-            stock: newStock,
-            description: currentProduct.description
-          })
-        });
-
-        if (!updateResponse.ok) {
-          const errorData = await updateResponse.json();
-          throw new Error(errorData.error || 'Failed to update stock');
-        }
-
-        const updateResult = await updateResponse.json();
-        //console.log('Stock update result:', updateResult);
-
-        // Then add to cart
+        // Add to cart - Backend now handles stock decrement automatically
         const requestBody = {
           productId: currentProduct._id,
           quantity: quantity
@@ -2627,8 +2600,10 @@ document.addEventListener("DOMContentLoaded", async () => {
           hideLoading();
           showMessage("Product added to cart successfully!");
 
-          // Update product stock locally with the actual updated value
-          currentProduct.stock = newStock;
+          // Update product stock locally with the new stock from the backend
+          if (result.newStock !== undefined) {
+            currentProduct.stock = result.newStock;
+          }
 
           // Re-render product to show updated stock
           renderProduct(currentProduct);
