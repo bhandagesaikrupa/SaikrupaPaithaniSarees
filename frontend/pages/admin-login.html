@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
@@ -89,8 +90,18 @@
         }
 
         @keyframes move {
-            0%, 49.99% { opacity: 0; z-index: 1; }
-            50%, 100% { opacity: 1; z-index: 5; }
+
+            0%,
+            49.99% {
+                opacity: 0;
+                z-index: 1;
+            }
+
+            50%,
+            100% {
+                opacity: 1;
+                z-index: 5;
+            }
         }
 
         form {
@@ -399,8 +410,17 @@
         }
 
         @keyframes logoPulse {
-            0%, 100% { transform: scale(1); box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2); }
-            50% { transform: scale(1.1); box-shadow: 0 8px 25px rgba(128, 0, 0, 0.3); }
+
+            0%,
+            100% {
+                transform: scale(1);
+                box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+            }
+
+            50% {
+                transform: scale(1.1);
+                box-shadow: 0 8px 25px rgba(128, 0, 0, 0.3);
+            }
         }
 
         /* Success/Error Messages */
@@ -489,8 +509,13 @@
         }
 
         @keyframes button-spinner {
-            from { transform: rotate(0turn); }
-            to { transform: rotate(1turn); }
+            from {
+                transform: rotate(0turn);
+            }
+
+            to {
+                transform: rotate(1turn);
+            }
         }
 
         /* Mobile Responsive Design - COMPACT */
@@ -521,104 +546,104 @@
                 height: 100%;
             }
 
-            .sign-in { 
-                transform: translateX(0); 
+            .sign-in {
+                transform: translateX(0);
                 z-index: 2;
             }
-            
-            .sign-up { 
-                transform: translateX(100%); 
-                opacity: 1; 
-                z-index: 1; 
-            }
-            
-            .container.active .sign-in { 
-                transform: translateX(-100%); 
-            }
-            
-            .container.active .sign-up { 
-                transform: translateX(0); 
-                z-index: 5; 
+
+            .sign-up {
+                transform: translateX(100%);
+                opacity: 1;
+                z-index: 1;
             }
 
-            .toggle-container { 
-                display: none; 
+            .container.active .sign-in {
+                transform: translateX(-100%);
             }
-            
-            form { 
+
+            .container.active .sign-up {
+                transform: translateX(0);
+                z-index: 5;
+            }
+
+            .toggle-container {
+                display: none;
+            }
+
+            form {
                 padding: 0 25px;
                 justify-content: flex-start;
                 height: 100%;
                 overflow-y: auto;
             }
-            
-            .form-header { 
-                margin-bottom: 15px; 
+
+            .form-header {
+                margin-bottom: 15px;
                 margin-top: 10px;
             }
-            
+
             .logo {
                 width: 60px;
                 height: 60px;
                 margin-bottom: 10px;
             }
-            
+
             .logo i {
                 font-size: 28px;
             }
-            
-            form h1 { 
-                font-size: 22px; 
+
+            form h1 {
+                font-size: 22px;
                 margin-bottom: 8px;
             }
-            
+
             .admin-badge {
                 padding: 4px 12px;
                 font-size: 11px;
                 margin-bottom: 8px;
             }
-            
+
             .form-subtitle {
                 font-size: 12px;
                 max-width: 250px;
                 margin-bottom: 15px;
             }
-            
-            .input-group { 
-                margin-bottom: 10px; 
+
+            .input-group {
+                margin-bottom: 10px;
                 width: 100%;
             }
-            
-            form input { 
+
+            form input {
                 padding: 10px 12px;
                 font-size: 13px;
                 margin: 4px 0;
             }
-            
+
             .input-icon {
                 font-size: 14px;
                 right: 12px;
             }
-            
-            form button { 
+
+            form button {
                 padding: 12px;
                 font-size: 14px;
                 margin-top: 8px;
             }
-            
+
             .toggle-link {
                 font-size: 13px;
                 margin-top: 12px;
                 margin-bottom: 10px;
             }
-            
+
             .security-notice {
                 font-size: 10px;
                 padding: 8px;
                 margin-top: 12px;
                 line-height: 1.4;
             }
-            
+
             /* Mobile toggle buttons */
             .mobile-toggle {
                 display: flex;
@@ -628,7 +653,7 @@
                 width: 100%;
                 padding-bottom: 15px;
             }
-            
+
             .mobile-toggle-btn {
                 padding: 10px 15px;
                 border: 2px solid var(--primary-color);
@@ -643,12 +668,12 @@
                 max-width: 160px;
                 text-align: center;
             }
-            
+
             .mobile-toggle-btn.active {
                 background: var(--primary-color);
                 color: var(--white);
             }
-            
+
             .mobile-toggle-btn:hover {
                 background: var(--primary-color);
                 color: var(--white);
@@ -660,41 +685,41 @@
                 max-width: 280px;
                 padding: 25px 20px;
             }
-            
+
             .logo-loader {
                 width: 70px;
                 height: 70px;
             }
-            
+
             .logo-loader .logo {
                 width: 50px;
                 height: 50px;
             }
-            
+
             .logo-loader .logo i {
                 font-size: 25px;
             }
-            
+
             .loading-text {
                 font-size: 16px;
             }
-            
+
             /* Message overlay for mobile */
             .message-content {
                 width: 85%;
                 max-width: 320px;
                 padding: 20px;
             }
-            
+
             .message-icon {
                 font-size: 40px;
             }
-            
+
             .message-text {
                 font-size: 15px;
                 margin-bottom: 15px;
             }
-            
+
             .message-btn {
                 padding: 12px;
                 font-size: 14px;
@@ -706,79 +731,79 @@
             body {
                 padding: 5px;
             }
-            
+
             .container {
                 min-height: 480px;
                 max-height: 95vh;
                 margin: 5px auto;
             }
-            
+
             form {
                 padding: 0 20px;
             }
-            
+
             .logo {
                 width: 55px;
                 height: 55px;
             }
-            
+
             .logo i {
                 font-size: 25px;
             }
-            
+
             form h1 {
                 font-size: 20px;
             }
-            
+
             .admin-badge {
                 font-size: 10px;
                 padding: 3px 10px;
             }
-            
+
             .form-subtitle {
                 font-size: 11px;
                 max-width: 220px;
             }
-            
+
             form input {
                 padding: 9px 10px;
                 font-size: 12px;
             }
-            
+
             form button {
                 padding-bottom: 25px;
                 font-size: 13px;
             }
-            
+
             .toggle-link {
                 font-size: 12px;
             }
-            
+
             .security-notice {
                 font-size: 9px;
                 padding: 7px;
             }
-            
+
             .mobile-toggle-btn {
                 padding: 8px 12px;
                 font-size: 11px;
                 max-width: 140px;
             }
-            
+
             /* Adjust scroll for forms */
             form {
                 overflow-y: auto;
                 scrollbar-width: thin;
             }
-            
+
             form::-webkit-scrollbar {
                 width: 4px;
             }
-            
+
             form::-webkit-scrollbar-track {
                 background: #f1f1f1;
             }
-            
+
             form::-webkit-scrollbar-thumb {
                 background: #888;
                 border-radius: 2px;
@@ -791,40 +816,44 @@
                 max-width: 420px;
                 min-height: 520px;
             }
-            
+
             form {
                 padding: 0 30px;
             }
-            
+
             .logo {
                 width: 65px;
                 height: 65px;
             }
-            
+
             .logo i {
                 font-size: 30px;
             }
-            
+
             form h1 {
                 font-size: 24px;
             }
-            
+
             .mobile-toggle-btn {
                 max-width: 170px;
                 padding: 11px 20px;
                 font-size: 13px;
             }
-             form button {
+
+            form button {
                 padding: 20px;
                 font-size: 20px;
             }
         }
 
         @media (min-width: 769px) {
-            .mobile-toggle { display: none; }
+            .mobile-toggle {
+                display: none;
+            }
         }
     </style>
 </head>
+
 <body>
     <div class="container" id="container">
         <!-- Admin Sign Up -->
@@ -855,7 +884,8 @@
                 </div>
 
                 <div class="input-group">
-                    <input type="password" name="confirmPassword" placeholder="Confirm Password" required minlength="8" />
+                    <input type="password" name="confirmPassword" placeholder="Confirm Password" required
+                        minlength="8" />
                     <i class="fas fa-lock input-icon"></i>
                 </div>
 
@@ -936,7 +966,8 @@
                 </div>
                 <div class="toggle-panel toggle-right">
                     <h1>New Admin?</h1>
-                    <p>Create a new admin account to manage the Paithani e-commerce platform. Requires registration key.</p>
+                    <p>Create a new admin account to manage the Paithani e-commerce platform. Requires registration key.
+                    </p>
                     <button class="toggle-btn" id="registerBtn">Create Account</button>
                 </div>
             </div>
@@ -966,6 +997,7 @@
         </div>
     </div>
 
+    <script src="config.js"></script>
     <script>
         // DOM Elements
         const container = document.getElementById("container");
@@ -987,7 +1019,7 @@
             container.classList.add("active");
             updateMobileButtons('signup');
         });
-        
+
         loginBtn.addEventListener("click", () => {
             container.classList.remove("active");
             updateMobileButtons('login');
@@ -998,7 +1030,7 @@
             container.classList.add("active");
             updateMobileButtons('signup');
         });
-        
+
         mobileLoginBtn.addEventListener("click", () => {
             container.classList.remove("active");
             updateMobileButtons('login');
@@ -1083,7 +1115,7 @@
         document.getElementById("adminSignupForm").addEventListener("submit", async (e) => {
             e.preventDefault();
             const submitBtn = e.target.querySelector('button[type="submit"]');
-            
+
             const formData = new FormData(e.target);
             const data = {
                 name: formData.get('name'),
@@ -1092,25 +1124,25 @@
                 adminKey: formData.get('adminKey')
             };
             const confirmPassword = formData.get('confirmPassword');
-            
+
             // Validation
             if (data.password !== confirmPassword) {
                 showMessage("Passwords do not match!", false);
                 return;
             }
-            
+
             if (data.password.length < 8) {
                 showMessage("Password must be at least 8 characters long!", false);
                 return;
             }
-            
+
             setButtonLoading(submitBtn, true);
             showLoading("Creating admin account...");
             hideKeyboardOnMobile();
 
             try {
                 const result = await apiCall("/api/admin/register", "POST", data);
-                
+
                 if (result.ok) {
                     showMessage("Admin account created successfully!");
                     e.target.reset();
@@ -1135,7 +1167,7 @@
         document.getElementById("adminLoginForm").addEventListener("submit", async (e) => {
             e.preventDefault();
             const submitBtn = e.target.querySelector('button[type="submit"]');
-            
+
             setButtonLoading(submitBtn, true);
             showLoading("Authenticating...");
             hideKeyboardOnMobile();
@@ -1153,9 +1185,9 @@
                     // Store admin token and data
                     localStorage.setItem("adminToken", result.data.token);
                     localStorage.setItem("admin", JSON.stringify(result.data.admin));
-                    
+
                     showMessage("Admin login successful! Redirecting...");
-                    
+
                     // Redirect to admin dashboard
                     setTimeout(() => {
                         window.location.href = "admin1.html";
@@ -1173,13 +1205,13 @@
         });
 
         // Initialize mobile view on load
-        window.addEventListener('load', function() {
+        window.addEventListener('load', function () {
             // Check if mobile and set active class accordingly
             if (window.innerWidth <= 768) {
                 container.classList.remove("active");
                 updateMobileButtons('login');
             }
-            
+
             // Adjust form height for mobile
             if (window.innerWidth <= 768) {
                 const formContainers = document.querySelectorAll('.form-container');
@@ -1191,7 +1223,7 @@
         });
 
         // Handle window resize
-        window.addEventListener('resize', function() {
+        window.addEventListener('resize', function () {
             if (window.innerWidth <= 768) {
                 container.classList.remove("active");
                 updateMobileButtons('login');
@@ -1211,7 +1243,7 @@
 
         // Add smooth scrolling for better mobile experience
         document.querySelectorAll('form input').forEach(input => {
-            input.addEventListener('focus', function() {
+            input.addEventListener('focus', function () {
                 if (window.innerWidth <= 768) {
                     // Scroll to input position
                     setTimeout(() => {
@@ -1222,7 +1254,7 @@
         });
 
         // Prevent form zoom on mobile input focus
-        document.addEventListener('touchstart', function(e) {
+        document.addEventListener('touchstart', function (e) {
             if (e.target.tagName === 'INPUT' || e.target.tagName === 'TEXTAREA') {
                 document.body.style.zoom = "100%";
             }
@@ -1230,10 +1262,11 @@
 
         // API call helper function
         async function apiCall(endpoint, method, data) {
-            const API_BASE_URL = window.location.origin;
+            // API_BASE_URL is now provided by config.js
+            const url = `${API_BASE_URL}${endpoint}`;
 
             try {
-                const response = await fetch(`${API_BASE_URL}${endpoint}`, {
+                const response = await fetch(url, {
                     method: method,
                     headers: { "Content-Type": "application/json" },
                     body: JSON.stringify(data)
@@ -1241,7 +1274,7 @@
 
                 // Get response as text first
                 const responseText = await response.text();
-                
+
                 // Try to parse as JSON
                 try {
                     const result = JSON.parse(responseText);
@@ -1257,4 +1290,5 @@
         }
     </script>
 </body>
+
 </html>
