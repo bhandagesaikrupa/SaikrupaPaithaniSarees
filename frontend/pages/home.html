@@ -2068,7 +2068,7 @@
       async function testAPI() {
         try {
           //console.log("🧪 Testing API connection...");
-          const testRes = await fetch('${API_BASE_URL}/api/test');
+          const testRes = await fetch(`${API_BASE_URL}/health`);
           const testData = await testRes.json();
           //console.log("🎉 API test successful:", testData);
           return true;
