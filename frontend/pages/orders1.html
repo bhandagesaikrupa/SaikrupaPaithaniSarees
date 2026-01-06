@@ -4098,33 +4098,31 @@
 
         // Load orders from API
         async function loadOrders() {
-            try {
-                showLoadingState();
+    try {
+        const token = localStorage.getItem("token"); // token saved after login
 
-                const token = getAuthToken();
-                const response = await fetch(`${API_BASE_URL}/api/orders/all-orders`, {
-                    headers: {
-                        'Authorization': `Bearer ${token}`
-                    }
-                });
-
-                if (!response.ok) throw new Error('Failed to fetch orders');
-
-                const result = await response.json();
-
-                if (result.success) {
-                    allOrders = result.orders;
-                    updateOrderStats(allOrders);
-                    filterOrders();
-                } else {
-                    throw new Error(result.message);
+        const response = await fetch(
+            "https://saikrupapaithanisarees-h5mr.onrender.com/api/orders/all-orders",
+            {
+                method: "GET",
+                headers: {
+                    "Content-Type": "application/json",
+                    "Authorization": "Bearer " + token
                 }
-            } catch (error) {
-                console.error('Error loading orders:', error);
-                showNotification('Failed to load orders: ' + error.message, 'error');
-                showEmptyState();
             }
+        );
+
+        if (!response.ok) {
+            throw new Error("Failed to fetch orders");
         }
+
+        const data = await response.json();
+        console.log(data);
+    } catch (error) {
+        console.error("Error loading orders:", error);
+    }
+}
+
 
         // Update order statistics
         function updateOrderStats(orders) {
