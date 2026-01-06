@@ -2246,7 +2246,7 @@ nav.scrolled .logo-text-image {
      
       async function loadYoutubeVideos() {
         try {
-          const response = await fetch('${API_BASE_URL}/api/youtube-videos');
+          const response = await fetch(`${API_BASE_URL}/api/youtube-videos`);
           const data = await response.json();
           
           if (data.success && data.videos.length > 0) {
@@ -5564,17 +5564,17 @@ nav.scrolled .logo-text-image {
       if (authToken) {
         // User is logged in
         //console.log('User is logged in');
-          const el = document.getElementById("xyz");
-          if (el) {
-              el.style.display = "block";
-          }
+        const el = document.getElementById("xyz");
+        if (el) {
+          el.style.display = "block";
+        }
       } else {
         // User is not logged in
         //console.log('User is not logged in');
         const el = document.getElementById("xyz");
-          if (el) {
-              el.style.display = "none";
-          }
+        if (el) {
+          el.style.display = "none";
+        }
 
       }
     });
