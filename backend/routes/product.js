@@ -100,13 +100,14 @@
 import express from "express";
 import multer from "multer";
 import cloudinary from "cloudinary";
-import { 
-  getProducts, 
-  getProductById,   
-  addProduct, 
-  updateProduct, 
-  deleteProduct 
+import {
+  getProducts,
+  getProductById,
+  addProduct,
+  updateProduct,
+  deleteProduct
 } from "../controllers/productController.js";
+import { authenticate, authorizeAdmin } from "../middleware/auth.js";
 
 // Configure Cloudinary with better error handling
 //console.log("🔧 Configuring Cloudinary...");
@@ -122,7 +123,7 @@ cloudinary.v2.config({
 
 // Use memory storage
 const storage = multer.memoryStorage();
-const upload = multer({ 
+const upload = multer({
   storage: storage,
   limits: { fileSize: 5 * 1024 * 1024 }
 });
@@ -132,7 +133,7 @@ const uploadToCloudinary = async (req, res, next) => {
   try {
     //console.log("📤 Starting Cloudinary upload...");
     //console.log("📁 Number of files:", req.files ? req.files.length : 0);
-    
+
     if (!req.files || req.files.length === 0) {
       //console.log("ℹ️ No files to upload");
       req.body.images = [];
@@ -140,46 +141,46 @@ const uploadToCloudinary = async (req, res, next) => {
     }
 
     const imageUrls = [];
-    
+
     // Upload files one by one (more reliable)
     for (let i = 0; i < req.files.length; i++) {
       const file = req.files[i];
-      
+
       try {
         //console.log(`🔄 Uploading ${i + 1}/${req.files.length}: ${file.originalname}`);
-        
+
         // Convert buffer to base64 (more reliable method)
         const base64Image = file.buffer.toString('base64');
         const dataURI = `data:${file.mimetype};base64,${base64Image}`;
-        
+
         //console.log("📡 Uploading to Cloudinary...");
-        
+
         const result = await cloudinary.v2.uploader.upload(dataURI, {
           folder: "saikrupa-paithani",
           resource_type: "image",
           timeout: 30000 // 30 second timeout
         });
-        
+
         //console.log(`✅ Upload successful: ${result.secure_url}`);
         imageUrls.push(result.secure_url);
-        
+
       } catch (fileError) {
         console.error(`❌ Failed to upload ${file.originalname}:`, fileError);
         console.error(`❌ Error message: ${fileError.message}`);
-        
+
         throw new Error(`Failed to upload ${file.originalname}: ${fileError.message}`);
       }
     }
-    
+
     req.body.images = imageUrls;
     //console.log("🎯 All uploads completed. URLs:", imageUrls);
     next();
-    
+
   } catch (error) {
     console.error("❌ Cloudinary upload failed:", error);
     console.error("❌ Error details:", error.message);
-    
-    res.status(500).json({ 
+
+    res.status(500).json({
       error: "Failed to upload images to Cloudinary",
       details: error.message,
       suggestion: "Check Cloudinary credentials and file formats"
@@ -194,39 +195,39 @@ const router = express.Router();
 router.get("/test-cloudinary", async (req, res) => {
   try {
     //console.log("🧪 Testing Cloudinary connection...");
-    
+
     const result = await cloudinary.v2.uploader.upload(
       "https://res.cloudinary.com/demo/image/upload/sample.jpg",
-      { 
+      {
         folder: "saikrupa-paithani-test",
         timeout: 30000
       }
     );
-    
+
     //console.log("✅ Cloudinary test successful!");
-    res.json({ 
-      success: true, 
+    res.json({
+      success: true,
       message: "Cloudinary is working correctly!",
-      url: result.secure_url 
+      url: result.secure_url
     });
-    
+
   } catch (error) {
     console.error("❌ Cloudinary test failed:", error);
-    res.status(500).json({ 
-      success: false, 
+    res.status(500).json({
+      success: false,
       error: "Cloudinary connection failed",
-      details: error.message 
+      details: error.message
     });
   }
 });
 
 // Routes - ORDER MATTERS!
 router.get("/", getProducts);
-router.post("/", upload.array("images", 5), uploadToCloudinary, addProduct);
+router.post("/", authenticate, authorizeAdmin, upload.array("images", 5), uploadToCloudinary, addProduct);
 
 // ✅ Parameter routes must come AFTER specific routes
 router.get("/:id", getProductById);
-router.put("/:id", upload.array("images", 5), uploadToCloudinary, updateProduct);
-router.delete("/:id", deleteProduct);
+router.put("/:id", authenticate, authorizeAdmin, upload.array("images", 5), uploadToCloudinary, updateProduct);
+router.delete("/:id", authenticate, authorizeAdmin, deleteProduct);
 
 export default router;
