@@ -808,8 +808,24 @@
             if (!response || !response.ok) {
                 throw new Error('All endpoints failed. Please check backend.');
             }
+            const contentType = response.headers.get("content-type");
+            if (!contentType || !contentType.includes("application/json")) {
+                const text = await response.text();
+                console.error("Expected JSON but got:", text);
+                throw new Error("Invalid server response. Possibly authentication error.");
+            }
+
             
-            const result = await response.json();
+            const raw = await response.text();
+
+                let result;
+                try {
+                    result = JSON.parse(raw);
+                } catch (e) {
+                    console.error("Non-JSON response received:", raw);
+                    throw new Error("Server returned invalid response. Please check API endpoint or login status.");
+                }
+
             console.log('API Response:', result);
             
             if (result.success) {
