@@ -453,6 +453,7 @@
                 <thead class="bg-gray-50">
                   <tr>
                     <th class="px-6 py-4 text-left text-xs font-semibold text-gray-500 uppercase">Product</th>
+                    <th class="px-6 py-4 text-left text-xs font-semibold text-gray-500 uppercase">Image</th>
                     <th class="px-6 py-4 text-left text-xs font-semibold text-gray-500 uppercase">Category</th>
                     <th class="px-6 py-4 text-left text-xs font-semibold text-gray-500 uppercase">Price</th>
                     <th class="px-6 py-4 text-left text-xs font-semibold text-gray-500 uppercase">Stock</th>
@@ -676,28 +677,53 @@ document.getElementById('editForm').addEventListener('submit', async (e) => {
       }
     }
 
-    function renderProducts() {
-      const tbody = document.getElementById('productsTableBody');
-      const start = (currentPage - 1) * productsPerPage;
-      const end = start + productsPerPage;
-      const paginated = allProducts.slice(start, end);
+    let activeFilter = 'all';
 
-      tbody.innerHTML = paginated.map(p => `
-          <tr class="hover:bg-gray-50">
-            <td class="px-6 py-4">${p.name}</td>
-            <td class="px-6 py-4">${p.category}</td>
-            <td class="px-6 py-4">₹${p.price}</td>
-            <td class="px-6 py-4">${p.stock}</td>
-            <td class="px-6 py-4">
-              <button class="text-blue-600 mr-2" onclick="openEditModal('${p._id}')"><i class="fas fa-edit"></i></button>
-              <button class="text-red-600" onclick="deleteProduct('${p._id}')"><i class="fas fa-trash"></i></button>
-            </td>
-          </tr>
-        `).join('');
-      document.getElementById('productsStart').textContent = allProducts.length ? start + 1 : 0;
-      document.getElementById('productsEnd').textContent = Math.min(end, allProducts.length);
-      document.getElementById('productsTotal').textContent = allProducts.length;
-    }
+function renderProducts() {
+
+  let filteredProducts = allProducts;
+
+  if (activeFilter === 'in-stock') {
+    filteredProducts = allProducts.filter(p => p.stock > 10);
+  }
+
+  if (activeFilter === 'low-stock') {
+    filteredProducts = allProducts.filter(p => p.stock > 0 && p.stock <= 10);
+  }
+
+  if (activeFilter === 'out-of-stock') {
+    filteredProducts = allProducts.filter(p => p.stock === 0);
+  }
+
+  const tbody = document.getElementById('productsTableBody');
+
+  const start = (currentPage - 1) * productsPerPage;
+  const end = start + productsPerPage;
+
+  const paginated = filteredProducts.slice(start, end);
+
+  tbody.innerHTML = paginated.map(p => `
+    <tr class="hover:bg-gray-50">
+      <td class="px-6 py-4">${p.name}</td>
+      <td class="px-6 py-4">
+        <img 
+          src="${p.images?.[0] || 'https://via.placeholder.com/80'}"
+          class="w-16 h-16 rounded-xl object-cover border shadow"
+        />
+      </td>
+      <td class="px-6 py-4">${p.category}</td>
+      <td class="px-6 py-4">₹${p.price}</td>
+      <td class="px-6 py-4">${p.stock}</td>
+      <td class="px-6 py-4">
+        <button class="text-blue-600 mr-2" onclick="openEditModal('${p._id}')"><i class="fas fa-edit"></i></button>
+        <button class="text-red-600" onclick="deleteProduct('${p._id}')"><i class="fas fa-trash"></i></button>
+      </td>
+    </tr>
+  `).join('');
+
+  document.getElementById('productsTotal').textContent = filteredProducts.length;
+}
+
 
     async function fetchRecentOrders() {
       try {
@@ -794,6 +820,21 @@ document.getElementById('editForm').addEventListener('submit', async (e) => {
         }
       });
     }
+   document.querySelectorAll('.filter-btn').forEach(btn => {
+  btn.addEventListener('click', () => {
+
+    document.querySelectorAll('.filter-btn').forEach(b => 
+      b.classList.remove('bg-primary', 'text-white')
+    );
+
+    btn.classList.add('bg-primary', 'text-white');
+
+    activeFilter = btn.dataset.filter;
+    currentPage = 1;
+
+    renderProducts();
+  });
+});
 
     // Start
     checkAuth();
