@@ -169,6 +169,8 @@
 
 <body class="bg-gray-50">
 
+
+
   <!-- AUTHENTICATION CHECK OVERLAY -->
   <div id="authCheck"
     class="fixed inset-0 bg-gradient-to-br from-gray-900 to-gray-800 flex items-center justify-center z-50 hidden">
@@ -564,6 +566,55 @@
     const adminToken = localStorage.getItem('adminToken');
     const adminData = localStorage.getItem('admin');
 
+    // ================= EDIT MODAL FUNCTIONS =================
+
+function openEditModal(id) {
+  const product = allProducts.find(p => p._id === id);
+  if (!product) return;
+
+  document.getElementById('editProductId').value = product._id;
+  document.getElementById('editName').value = product.name;
+  document.getElementById('editPrice').value = product.price;
+  document.getElementById('editStock').value = product.stock;
+
+  document.getElementById('editModal').classList.remove('hidden');
+}
+
+function closeEditModal() {
+  document.getElementById('editModal').classList.add('hidden');
+}
+document.getElementById('editForm').addEventListener('submit', async (e) => {
+  e.preventDefault();
+
+  const id = document.getElementById('editProductId').value;
+
+  const updatedData = {
+    name: document.getElementById('editName').value,
+    price: document.getElementById('editPrice').value,
+    stock: document.getElementById('editStock').value
+  };
+
+  try {
+    const res = await fetch(`${API_BASE_URL}/api/products/${id}`, {
+      method: 'PUT',
+      headers: {
+        'Content-Type': 'application/json',
+        'Authorization': `Bearer ${adminToken}`
+      },
+      body: JSON.stringify(updatedData)
+    });
+
+    if (res.ok) {
+      closeEditModal();
+      loadProducts();
+    } else {
+      alert('Update failed');
+    }
+  } catch (err) {
+    alert('Error updating product');
+  }
+});
+
     // here im doing auth checkk
     async function checkAuth() {
       if (!adminToken || !adminData) {
@@ -643,7 +694,6 @@
             </td>
           </tr>
         `).join('');
-
       document.getElementById('productsStart').textContent = allProducts.length ? start + 1 : 0;
       document.getElementById('productsEnd').textContent = Math.min(end, allProducts.length);
       document.getElementById('productsTotal').textContent = allProducts.length;
